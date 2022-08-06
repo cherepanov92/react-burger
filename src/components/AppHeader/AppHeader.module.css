@@ -1,0 +1,30 @@
+.wrapper {
+    background-color: #1C1C21;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1270px;
+    margin: 0 auto;
+}
+
+.leftBlock {
+    width: 424px;
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+}
+
+.centralBlock {
+    width: 424px;
+    display: flex;
+    justify-content: center;
+}
+
+.rightBlock {
+    width: 424px;
+    display: flex;
+    justify-content: end;
+}

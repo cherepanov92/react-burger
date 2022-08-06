@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from './App.module.css';
+import { AppHeader } from "../AppHeader";
 
 function App() {
     return (
         <div className="App">
+            <AppHeader />
         </div>
     );
 }
