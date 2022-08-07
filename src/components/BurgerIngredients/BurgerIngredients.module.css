@@ -1,0 +1,20 @@
+.wrapper {
+    max-width: 600px;
+}
+
+.ingredientsBlock {
+    overflow-y: auto;
+    max-height: calc(100vh - 300px);
+}
+
+.ingredientsBlock::-webkit-scrollbar {
+    width: 8px;               /* width of the entire scrollbar */
+}
+
+.ingredientsBlock::-webkit-scrollbar-track {
+    background: #2F2F37;        /* color of the tracking area */
+}
+
+.ingredientsBlock::-webkit-scrollbar-thumb {
+    background-color: #8585AD;        /* color of the tracking area */
+}
