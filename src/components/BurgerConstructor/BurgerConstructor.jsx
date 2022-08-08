@@ -6,8 +6,7 @@ import PropTypes from "prop-types";
 import { dataTypes } from "../../utils/data";
 
 export const BurgerConstructor = ({ingredients}) => {
-    const startIndex = 0;
-    const endIndex = ingredients.length -1;
+    const basicBun = ingredients[0];
 
     return (
         <section className={styles.wrapper}>
@@ -16,13 +15,13 @@ export const BurgerConstructor = ({ingredients}) => {
                     <ConstructorElement
                         type={'top'}
                         isLocked={true}
-                        text={ingredients[startIndex].name}
-                        price={ingredients[startIndex].price}
-                        thumbnail={ingredients[startIndex].image}
+                        text={`${basicBun.name} (верх)`}
+                        price={basicBun.price}
+                        thumbnail={basicBun.image}
                     />
                 </div>
                 <div className={styles.selectedBlock}>
-                    {ingredients.slice([startIndex+1], [endIndex-1]).map(item => (
+                    {ingredients.slice(1).map(item => (
                         <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
                             <DragIcon type="primary" />
                             <ConstructorElement
@@ -37,9 +36,9 @@ export const BurgerConstructor = ({ingredients}) => {
                     <ConstructorElement
                         type={'bottom'}
                         isLocked={true}
-                        text={ingredients[endIndex].name}
-                        price={ingredients[endIndex].price}
-                        thumbnail={ingredients[endIndex].image}
+                        text={`${basicBun.name} (низ)`}
+                        price={basicBun.price}
+                        thumbnail={basicBun.image}
                     />
                 </div>
             </section>

@@ -19,7 +19,7 @@ export const dataTypes = PropTypes.shape({
 const apiData = [
     {
         "_id":"60666c42cc7b410027a1a9b1",
-        "name":"Краторная булка N-200i (верх)",
+        "name":"Краторная булка N-200i",
         "type":"bun",
         "proteins":80,
         "fat":24,
@@ -215,7 +215,7 @@ const apiData = [
     },
     {
         "_id":"60666c42cc7b410027a1a9b2",
-        "name":"Флюоресцентная булка R2-D3 (низ)",
+        "name":"Флюоресцентная булка R2-D3",
         "type":"bun",
         "proteins":44,
         "fat":26,
