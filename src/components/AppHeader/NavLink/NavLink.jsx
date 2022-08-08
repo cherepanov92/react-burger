@@ -2,6 +2,7 @@ import React from 'react';
 import style from './NavLink.module.css';
 import { BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 
 export const CONSTRUCTOR = "constructor";
 export const ORDER_QUEUE = "orderQueue";
@@ -29,3 +30,9 @@ export const NavLink = ({type, activeType, text, setActiveType}) => {
     );
 };
 
+NavLink.propTypes = {
+    type: PropTypes.string.isRequired,
+    activeType: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    setActiveType: PropTypes.func.isRequired
+};

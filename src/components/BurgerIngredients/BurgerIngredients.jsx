@@ -3,7 +3,7 @@ import styles from './BurgerIngredients.module.css';
 import {IngredientsTabs} from "./IngredientsTabs";
 import {dataTypes} from "../../utils/data";
 import PropTypes from "prop-types";
-import {IngredientsBlock} from "./IngredientsBlock";
+import { IngredientsBlock } from "./IngredientsBlock";
 
 export const BurgerIngredients = ({ ingredients }) => {
     const { bun, main, sauce } = ingredients.reduce((previousValue, currentValue) => {
@@ -30,5 +30,5 @@ export const BurgerIngredients = ({ ingredients }) => {
 };
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(dataTypes.isRequired)
+    ingredients: PropTypes.arrayOf(dataTypes.isRequired).isRequired
 };

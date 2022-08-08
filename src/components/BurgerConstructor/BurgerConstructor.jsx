@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './BurgerConstructor.module.css';
 import classNames from "classnames";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { dataTypes } from "../../utils/data";
 
 export const BurgerConstructor = ({ingredients}) => {
     const startIndex = 0;
@@ -52,4 +54,8 @@ export const BurgerConstructor = ({ingredients}) => {
             </section>
         </section>
     );
+};
+
+BurgerConstructor.propTypes = {
+    ingredients: PropTypes.arrayOf(dataTypes.isRequired).isRequired
 };
