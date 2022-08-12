@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './IngredientItem.module.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataTypes } from "../../../utils/data";
+import { ingredientType } from "../../../utils/types";
 import classNames from "classnames";
 
 export function IngredientItem({ingredient}) {
@@ -19,5 +19,5 @@ export function IngredientItem({ingredient}) {
 }
 
 IngredientItem.propTypes = {
-    ingredient: dataTypes.isRequired
+    ingredient: ingredientType.isRequired
 };

@@ -3,7 +3,7 @@ import styles from './IngredientsBlock.module.css';
 import { IngredientItem } from "../IngredientItem";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { dataTypes } from "../../../utils/data";
+import { ingredientType } from "../../../utils/types";
 
 
 export const IngredientsBlock = ({title, ingredients}) => {
@@ -21,5 +21,5 @@ export const IngredientsBlock = ({title, ingredients}) => {
 
 IngredientsBlock.propTypes = {
     title: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(dataTypes.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };

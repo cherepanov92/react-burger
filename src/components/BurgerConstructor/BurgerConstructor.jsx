@@ -3,7 +3,7 @@ import styles from './BurgerConstructor.module.css';
 import classNames from "classnames";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { dataTypes } from "../../utils/data";
+import { ingredientType } from "../../utils/types";
 
 export const BurgerConstructor = ({ingredients}) => {
     const basicBun = ingredients[0];
@@ -56,5 +56,5 @@ export const BurgerConstructor = ({ingredients}) => {
 };
 
 BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(dataTypes.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };
