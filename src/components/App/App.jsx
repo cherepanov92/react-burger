@@ -42,7 +42,7 @@ function App() {
                 {!error && !!data.length &&
                     <>
                         <BurgerIngredients ingredients={data} attachModal={setModalComponent}/>
-                        <BurgerConstructor ingredients={data} />
+                        <BurgerConstructor ingredients={data} attachModal={setModalComponent}/>
                     </>
                 }
             </main>

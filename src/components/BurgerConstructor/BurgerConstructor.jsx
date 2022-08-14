@@ -1,11 +1,13 @@
 import React from 'react';
-import styles from './BurgerConstructor.module.css';
 import classNames from "classnames";
-import {Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+
+import styles from './BurgerConstructor.module.css';
+import { OrderDetails } from "./OrderDetails";
 import { ingredientType } from "../../utils/types";
 
-export const BurgerConstructor = ({ingredients}) => {
+export const BurgerConstructor = ({ ingredients, attachModal }) => {
     const basicBun = ingredients[0];
 
     return (
@@ -47,7 +49,7 @@ export const BurgerConstructor = ({ingredients}) => {
                     <span className="text text_type_digits-medium mr-2">610</span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button type="primary" size="large">
+                <Button onClick={() => attachModal(<OrderDetails />)} type="primary" size="large">
                     Оформить заказ
                 </Button>
             </section>
@@ -56,5 +58,6 @@ export const BurgerConstructor = ({ingredients}) => {
 };
 
 BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+    attachModal: PropTypes.func.isRequired
 };
