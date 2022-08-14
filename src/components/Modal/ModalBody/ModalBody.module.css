@@ -1,4 +1,4 @@
-.modalBody {
+.wrapper {
     background: #1c1c21;
     width: 720px;
     height: auto;
@@ -8,6 +8,7 @@
     transform: translate(-50%, -50%);
     border-radius: 40px;
     box-sizing: border-box;
+    z-index: 3;
 }
 
 .button {

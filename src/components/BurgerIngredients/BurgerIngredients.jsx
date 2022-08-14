@@ -5,7 +5,7 @@ import { ingredientType } from "../../utils/types";
 import PropTypes from "prop-types";
 import { IngredientsBlock } from "./IngredientsBlock";
 
-export const BurgerIngredients = ({ ingredients, attachModal }) => {
+export const BurgerIngredients = ({ ingredients, attachModal, onClose }) => {
     const { bun, main, sauce } = ingredients.reduce((previousValue, currentValue) => {
         return {...previousValue, [currentValue.type]: [...previousValue[currentValue.type], currentValue]}
     }, { bun:[], main:[], sauce:[] });
@@ -21,9 +21,9 @@ export const BurgerIngredients = ({ ingredients, attachModal }) => {
                 <IngredientsTabs />
             </div>
             <div className={styles.ingredientsBlock}>
-                <IngredientsBlock title={'Булки'} ingredients={bun} attachModal={attachModal}/>
-                <IngredientsBlock title={'Соусы'} ingredients={sauce} attachModal={attachModal}/>
-                <IngredientsBlock title={'Начинки'} ingredients={main} attachModal={attachModal}/>
+                <IngredientsBlock title={'Булки'} ingredients={bun} attachModal={attachModal} onClose={onClose}/>
+                <IngredientsBlock title={'Соусы'} ingredients={sauce} attachModal={attachModal} onClose={onClose}/>
+                <IngredientsBlock title={'Начинки'} ingredients={main} attachModal={attachModal} onClose={onClose}/>
             </div>
         </div>
     );
@@ -31,5 +31,6 @@ export const BurgerIngredients = ({ ingredients, attachModal }) => {
 
 BurgerIngredients.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    attachModal: PropTypes.func.isRequired
+    attachModal: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
 };

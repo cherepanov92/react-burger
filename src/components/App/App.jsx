@@ -3,14 +3,15 @@ import { AppHeader } from '../AppHeader';
 import { BurgerIngredients } from "../BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor";
 import { API_INGREDIENTS_URL } from "../../utils/constants";
-import ModalOverlay from "../Modal/ModalOverlay/ModalOverlay";
 
 import styles from './App.module.css';
+import Modal from "../Modal/Modal";
 
 function App() {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null)
     const [modalComponent, setModalComponent] = useState(null);
+    const closeModal = () => setModalComponent(null);
 
     useEffect(() => {
         fetch(API_INGREDIENTS_URL)
@@ -41,14 +42,14 @@ function App() {
                 }
                 {!error && !!data.length &&
                     <>
-                        <BurgerIngredients ingredients={data} attachModal={setModalComponent}/>
-                        <BurgerConstructor ingredients={data} attachModal={setModalComponent}/>
+                        <BurgerIngredients ingredients={data} attachModal={setModalComponent} onClose={closeModal}/>
+                        <BurgerConstructor ingredients={data} attachModal={setModalComponent} onClose={closeModal}/>
                     </>
                 }
             </main>
-            {modalComponent && <ModalOverlay title={'title'} onClose={() => setModalComponent(null)}>
+            {modalComponent && <Modal onClose={closeModal}>
                 {modalComponent}
-            </ModalOverlay>}
+            </Modal>}
         </div>
     );
 }

@@ -8,9 +8,9 @@ import { IngredientDetails } from "../IngredientDetails";
 import { ingredientType } from "../../../utils/types";
 
 
-export function IngredientItem({ingredient, attachModal}) {
+export const IngredientItem = ({ingredient, attachModal, onClose}) => {
     return (
-        <div onClick={() => attachModal(<IngredientDetails ingredient={ingredient} />)} className={classNames(styles.wrapper, 'mb-4')}>
+        <div onClick={() => attachModal(<IngredientDetails ingredient={ingredient} onClose={onClose} />)} className={classNames(styles.wrapper, 'mb-4')}>
             <Counter count={1} size="default" />
             <img className={"ml-4 mr-4 mb-1"} src={ingredient.image} alt={`Компонент: ${ingredient.name}`}/>
             <div className={classNames(styles.priceBlock, "pt-1 pb-1")}>
@@ -24,5 +24,6 @@ export function IngredientItem({ingredient, attachModal}) {
 
 IngredientItem.propTypes = {
     ingredient: ingredientType.isRequired,
-    attachModal: PropTypes.func.isRequired
+    attachModal: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
 };

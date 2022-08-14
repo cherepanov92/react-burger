@@ -7,7 +7,7 @@ import styles from './BurgerConstructor.module.css';
 import { OrderDetails } from "./OrderDetails";
 import { ingredientType } from "../../utils/types";
 
-export const BurgerConstructor = ({ ingredients, attachModal }) => {
+export const BurgerConstructor = ({ ingredients, attachModal, onClose }) => {
     const basicBun = ingredients[0];
 
     return (
@@ -49,7 +49,7 @@ export const BurgerConstructor = ({ ingredients, attachModal }) => {
                     <span className="text text_type_digits-medium mr-2">610</span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button onClick={() => attachModal(<OrderDetails />)} type="primary" size="large">
+                <Button onClick={() => attachModal(<OrderDetails onClose={onClose} />)} type="primary" size="large">
                     Оформить заказ
                 </Button>
             </section>
@@ -59,5 +59,6 @@ export const BurgerConstructor = ({ ingredients, attachModal }) => {
 
 BurgerConstructor.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    attachModal: PropTypes.func.isRequired
+    attachModal: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
 };
