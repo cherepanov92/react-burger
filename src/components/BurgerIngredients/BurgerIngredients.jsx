@@ -5,7 +5,7 @@ import { ingredientType } from "../../utils/types";
 import PropTypes from "prop-types";
 import { IngredientsBlock } from "./IngredientsBlock";
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = ({ ingredients, attachModal }) => {
     const { bun, main, sauce } = ingredients.reduce((previousValue, currentValue) => {
         return {...previousValue, [currentValue.type]: [...previousValue[currentValue.type], currentValue]}
     }, { bun:[], main:[], sauce:[] });
@@ -21,14 +21,15 @@ export const BurgerIngredients = ({ ingredients }) => {
                 <IngredientsTabs />
             </div>
             <div className={styles.ingredientsBlock}>
-                <IngredientsBlock title={'Булки'} ingredients={bun} />
-                <IngredientsBlock title={'Соусы'} ingredients={sauce} />
-                <IngredientsBlock title={'Начинки'} ingredients={main} />
+                <IngredientsBlock title={'Булки'} ingredients={bun} attachModal={attachModal}/>
+                <IngredientsBlock title={'Соусы'} ingredients={sauce} attachModal={attachModal}/>
+                <IngredientsBlock title={'Начинки'} ingredients={main} attachModal={attachModal}/>
             </div>
         </div>
     );
 };
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+    attachModal: PropTypes.func.isRequired
 };

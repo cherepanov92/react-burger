@@ -1,15 +1,19 @@
 import React from 'react';
-import styles from './IngredientItem.module.css';
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../../utils/types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function IngredientItem({ingredient}) {
+import styles from './IngredientItem.module.css';
+import { IngredientDetails } from "../IngredientDetails";
+import { ingredientType } from "../../../utils/types";
+
+
+export function IngredientItem({ingredient, attachModal}) {
     return (
-        <div className={classNames(styles.wrapper, 'mb-4')}>
+        <div onClick={() => attachModal(<IngredientDetails ingredient={ingredient} />)} className={classNames(styles.wrapper, 'mb-4')}>
             <Counter count={1} size="default" />
             <img className={"ml-4 mr-4 mb-1"} src={ingredient.image} alt={`Компонент: ${ingredient.name}`}/>
-            <div className={styles.priceBlock + " pt-1 pb-1"}>
+            <div className={classNames(styles.priceBlock, "pt-1 pb-1")}>
                 <span className="text text_type_digits-default mr-2">{ingredient.price}</span>
                 <CurrencyIcon type="primary" />
             </div>
@@ -19,5 +23,6 @@ export function IngredientItem({ingredient}) {
 }
 
 IngredientItem.propTypes = {
-    ingredient: ingredientType.isRequired
+    ingredient: ingredientType.isRequired,
+    attachModal: PropTypes.func.isRequired
 };
