@@ -10,14 +10,14 @@ const modalRoot = document.getElementById("modal");
 
 const Modal  = ({ title, onClose, children }) => {
     useEffect(() => {
-        const close = (event) => {
+        const handleEscape = (event) => {
             if (event.key === 'Escape') {
                 onClose(event);
             }
         };
 
-        window.addEventListener('keydown', close);
-        return () => window.removeEventListener('keydown', close);
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
     }, [onClose]);
 
     const stopPropagation = (e) => {e.stopPropagation()}
