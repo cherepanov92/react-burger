@@ -13,7 +13,7 @@
 .leftBlock {
     width: 424px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     gap: 8px;
 }
 
@@ -26,5 +26,5 @@
 .rightBlock {
     width: 424px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
