@@ -1,16 +1,16 @@
 import React from 'react';
+import classNames from "classnames";
+import PropTypes from "prop-types";
 
 import styles from './OrderDetails.module.css';
 import doneIcon from './icon/done.svg';
-import { ModalBody } from "../../Modal";
-import classNames from "classnames";
-import PropTypes from "prop-types";
+import Modal from "../../Modal/Modal";
 
 const orderNumber = 123456
 
 export const OrderDetails = ({onClose}) => {
     return (
-        <ModalBody onClose={onClose}>
+        <Modal onClose={onClose}>
             <div className={styles.wrapper}>
                 <span className={classNames("text text_type_digits-large mt-3 mb-3", styles.orderNumber)}>{orderNumber}</span>
                 <p className={"text text_type_main-medium mb-15"}>идентификатор заказа</p>
@@ -20,7 +20,7 @@ export const OrderDetails = ({onClose}) => {
                     Дождитесь готовности на орбитальной станции
                 </p>
             </div>
-        </ModalBody>
+        </Modal>
     );
 }
 

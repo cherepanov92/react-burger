@@ -5,7 +5,6 @@ import { BurgerConstructor } from "../BurgerConstructor";
 import { API_INGREDIENTS_URL } from "../../utils/constants";
 
 import styles from './App.module.css';
-import Modal from "../Modal/Modal";
 
 function App() {
     const [data, setData] = useState([]);
@@ -47,9 +46,7 @@ function App() {
                     </>
                 }
             </main>
-            {modalComponent && <Modal onClose={closeModal}>
-                {modalComponent}
-            </Modal>}
+            {modalComponent}
         </div>
     );
 }

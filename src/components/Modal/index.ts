@@ -1,2 +1,1 @@
-export * from './ModalOverlay';
-export * from './ModalBody';
+export * from './Modal';

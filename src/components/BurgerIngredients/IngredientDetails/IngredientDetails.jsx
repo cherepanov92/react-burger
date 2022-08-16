@@ -3,12 +3,12 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 import styles from './IngredientDetails.module.css';
-import { ModalBody } from "../../Modal";
+import Modal from "../../Modal/Modal";
 import { ingredientType } from "../../../utils/types";
 
 export const IngredientDetails = ({ingredient, onClose}) => {
     return (
-        <ModalBody title={'Детали ингредиента'} onClose={onClose} >
+        <Modal title={'Детали ингредиента'} onClose={onClose} >
             <div className={styles.wrapper}>
                 <img src={ingredient.image_large} alt={ingredient.name} />
                 <p className={"text text_type_main-medium pt-3 pb-3"}>{ingredient.name}</p>
@@ -31,7 +31,7 @@ export const IngredientDetails = ({ingredient, onClose}) => {
                     </div>
                 </div>
             </div>
-        </ModalBody>
+        </Modal>
     );
 }
 
