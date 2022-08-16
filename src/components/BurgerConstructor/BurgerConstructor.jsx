@@ -6,9 +6,11 @@ import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css';
 import { OrderDetails } from "./OrderDetails";
 import { ingredientType } from "../../utils/types";
+import { getIngredientsGroups } from "../../utils/getIngredientsGroups";
 
 export const BurgerConstructor = ({ ingredients, attachModal, onClose }) => {
-    const basicBun = ingredients[0];
+    const { bun, main, sauce } = getIngredientsGroups(ingredients)
+    const basicBun = bun[0];
 
     return (
         <section className={styles.wrapper}>
@@ -23,7 +25,7 @@ export const BurgerConstructor = ({ ingredients, attachModal, onClose }) => {
                     />
                 </div>
                 <div className={styles.selectedBlock}>
-                    {ingredients.slice(1).map(item => (
+                    {[...sauce, ...main].map(item => (
                         <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
                             <DragIcon type="primary" />
                             <ConstructorElement
