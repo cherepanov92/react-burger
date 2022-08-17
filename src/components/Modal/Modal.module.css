@@ -1,0 +1,35 @@
+.wrapper {
+    background: #1c1c21;
+    width: 720px;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+.button {
+    background: none;
+    cursor: pointer;
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.button:hover {
+    opacity: 0.6;
+}
+
+.title {
+}
+
+.header {
+    height: 64px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+

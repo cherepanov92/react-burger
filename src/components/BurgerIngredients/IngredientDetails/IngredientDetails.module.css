@@ -1,0 +1,14 @@
+.wrapper {
+    text-align: center;
+}
+
+.propertyList {
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    list-style: none;
+}
+
+.propertyItem {
+    width: 115px;
+}
