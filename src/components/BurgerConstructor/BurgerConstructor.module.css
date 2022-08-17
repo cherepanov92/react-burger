@@ -1,0 +1,45 @@
+.wrapper {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredientsBlock {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    row-gap: 15px;
+}
+
+.selectedBlock {
+    max-height: calc(100vh - 530px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.selectedBlock::-webkit-scrollbar {
+    width: 8px;                     /* width of the entire scrollbar */
+}
+
+.selectedBlock::-webkit-scrollbar-track {
+    background: #2F2F37;            /* color of the tracking area */
+}
+
+.selectedBlock::-webkit-scrollbar-thumb {
+    background-color: #8585AD;      /* color of the tracking area */
+}
+
+.priceBlock {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+}
