@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,12 +6,21 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from './IngredientItem.module.css';
 import { IngredientDetails } from "../IngredientDetails";
 import { ingredientType } from "../../../utils/types";
+import {BurgerContext} from "../../../context/BurgerContextProvider";
 
 
 export const IngredientItem = ({ingredient, attachModal, onClose}) => {
+    const { orderIngredients, setOrderIngredients } = useContext(BurgerContext);
+
+    const appendIngredient = () => {
+        setOrderIngredients({ type: "append", ingredient: ingredient })
+        attachModal(<IngredientDetails ingredient={ingredient} onClose={onClose} />)
+    }
+
+    const count = orderIngredients[ingredient.type].filter(item => item._id === ingredient._id ).length
     return (
-        <div onClick={() => attachModal(<IngredientDetails ingredient={ingredient} onClose={onClose} />)} className={classNames(styles.wrapper, 'mb-4')}>
-            <Counter count={1} size="default" />
+        <div onClick={appendIngredient} className={classNames(styles.wrapper, 'mb-4')}>
+            { !!count && <Counter count={ count } size="default" />}
             <img className={"ml-4 mr-4 mb-1"} src={ingredient.image} alt={`Компонент: ${ingredient.name}`}/>
             <div className={classNames(styles.priceBlock, "pt-1 pb-1")}>
                 <span className="text text_type_digits-default mr-2">{ingredient.price}</span>
