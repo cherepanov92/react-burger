@@ -1,4 +1,4 @@
-import {API_ORDERS_URL} from "./constants";
+import {API_INGREDIENTS_URL, API_ORDERS_URL} from "./constants";
 
 const checkResponse = (response) => {
     return response.ok ? response.json() : response.json().then((error) => Promise.reject(error));
@@ -13,4 +13,8 @@ export const sendOrder = (orderList) => {
         }
     })
     .then(checkResponse)
+}
+
+export const getIngredients = () => {
+    return fetch(API_INGREDIENTS_URL).then(checkResponse)
 }
