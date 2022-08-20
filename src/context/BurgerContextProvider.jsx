@@ -1,10 +1,9 @@
 import React, { createContext, useState, useEffect, useReducer } from 'react';
 import { API_INGREDIENTS_URL } from "../utils/constants";
 import { getIngredientsGroups } from "../utils/getIngredientsGroups";
+import { orderIngredientsInitState } from "../utils/mock";
 
 export const BurgerContext = createContext({});
-
-const orderIngredientsInitState = { bun: [], main: [], sauce: [], totalPrice: 0 };
 
 function reducer(state, action) {
     switch (action.type) {
