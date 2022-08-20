@@ -1,30 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useState} from 'react';
+
 import { AppHeader } from '../AppHeader';
 import { BurgerIngredients } from "../BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor";
-import { API_INGREDIENTS_URL } from "../../utils/constants";
+import { BurgerContext } from "../../context/BurgerContextProvider";
 
 import styles from './App.module.css';
 
 function App() {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null)
+    const { error, fetching } = useContext(BurgerContext);
     const [modalComponent, setModalComponent] = useState(null);
     const closeModal = () => setModalComponent(null);
-
-    useEffect(() => {
-        fetch(API_INGREDIENTS_URL)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                return Promise.reject(`Статус ${response.status}`);
-            })
-            .then(responseData => setData(responseData.data))
-            .catch((err) => {
-                setError(err)
-            });
-    }, [])
 
     return (
         <div className="App">
@@ -34,15 +20,15 @@ function App() {
                     <p className="text text_type_main-large">
                         Error: {error}
                     </p>}
-                {!data.length &&
+                {fetching &&
                     <p className="text text_type_main-large">
                         Loading ...
                     </p>
                 }
-                {!error && !!data.length &&
+                {!error && !fetching &&
                     <>
-                        <BurgerIngredients ingredients={data} attachModal={setModalComponent} onClose={closeModal}/>
-                        <BurgerConstructor ingredients={data} attachModal={setModalComponent} onClose={closeModal}/>
+                        <BurgerIngredients attachModal={setModalComponent} onClose={closeModal}/>
+                        <BurgerConstructor attachModal={setModalComponent} onClose={closeModal}/>
                     </>
                 }
             </main>
