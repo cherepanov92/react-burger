@@ -15,3 +15,10 @@ export const ingredientType = PropTypes.shape({
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
 });
+
+export const orderIngredientsType = PropTypes.shape({
+    bun: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+    main: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+    sauce: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+    totalPrice: PropTypes.number.isRequired
+});

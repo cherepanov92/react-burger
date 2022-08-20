@@ -24,6 +24,7 @@ function reducer(state, action) {
 
 export const BurgerContextProvider = ({ children }) => {
     const [orderIngredients, setOrderIngredients] = useReducer(reducer, orderIngredientsInitState, undefined);
+    const [orderData, setOrderData] = useState(null);
     const [ingredients, setIngredients] = useState(null);
     const [fetching, setFetching] = useState(true);
     const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ export const BurgerContextProvider = ({ children }) => {
     }, [])
 
     return (
-        <BurgerContext.Provider value={{ error, fetching, ingredients, orderIngredients, setOrderIngredients }}>
+        <BurgerContext.Provider value={{ error, fetching, ingredients, orderIngredients, setOrderIngredients, orderData, setOrderData }}>
             {children}
         </BurgerContext.Provider>
     );

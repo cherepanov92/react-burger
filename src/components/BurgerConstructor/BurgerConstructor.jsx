@@ -4,13 +4,21 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 import PropTypes from "prop-types";
 
 import styles from './BurgerConstructor.module.css';
-import { OrderDetails } from "./OrderDetails";
 import { BurgerContext } from "../../context/BurgerContextProvider";
+import { getOrderIngredients } from "../../utils/getIngredientsGroups";
+import { sendOrder } from "../../utils/api";
+import {OrderDetails} from "./OrderDetails";
 
 export const BurgerConstructor = ({ attachModal, onClose }) => {
-    const { orderIngredients } = useContext(BurgerContext);
+    const { orderIngredients, setOrderData } = useContext(BurgerContext);
     const basicBun = orderIngredients.bun[0];
-    const totalPrice = orderIngredients.totalPrice
+    const totalPrice = orderIngredients.totalPrice;
+
+    const sendOrderAction = () => {
+        sendOrder(getOrderIngredients(orderIngredients))
+            .then(respData => setOrderData({ name:respData?.name, number:respData?.order.number }))
+            .then(attachModal(<OrderDetails onClose={onClose} />))
+    }
 
     return (
         <section className={styles.wrapper}>
@@ -58,7 +66,7 @@ export const BurgerConstructor = ({ attachModal, onClose }) => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button
-                    onClick={() => attachModal(<OrderDetails onClose={onClose} />)}
+                    onClick={ sendOrderAction }
                     type={totalPrice ? "primary" : "disable"}
                     size="large"
                 >
