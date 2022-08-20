@@ -1,4 +1,4 @@
-import {API_INGREDIENTS_URL, API_ORDERS_URL} from "./constants";
+import { API_INGREDIENTS_URL, API_ORDERS_URL } from "./constants";
 
 const checkResponse = (response) => {
     return response.ok ? response.json() : response.json().then((error) => Promise.reject(error));
