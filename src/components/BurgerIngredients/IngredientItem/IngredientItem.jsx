@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './IngredientItem.module.css';
@@ -9,12 +8,12 @@ import { ingredientType } from "../../../utils/types";
 import {BurgerContext} from "../../../context/BurgerContextProvider";
 
 
-export const IngredientItem = ({ingredient, attachModal, onClose}) => {
-    const { orderIngredients, setOrderIngredients } = useContext(BurgerContext);
+export const IngredientItem = ({ingredient}) => {
+    const { orderIngredients, setOrderIngredients, setModalComponent } = useContext(BurgerContext);
 
     const appendIngredient = () => {
         setOrderIngredients({ type: "append", ingredient: ingredient })
-        attachModal(<IngredientDetails ingredient={ingredient} onClose={onClose} />)
+        setModalComponent(<IngredientDetails ingredient={ingredient} />)
     }
 
     const count = orderIngredients[ingredient.type].filter(item => item._id === ingredient._id ).length
@@ -32,7 +31,5 @@ export const IngredientItem = ({ingredient, attachModal, onClose}) => {
 }
 
 IngredientItem.propTypes = {
-    ingredient: ingredientType.isRequired,
-    attachModal: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    ingredient: ingredientType.isRequired
 };

@@ -7,13 +7,13 @@ import { IngredientItem } from "../IngredientItem";
 import { ingredientType } from "../../../utils/types";
 
 
-export const IngredientsBlock = ({title, ingredients, attachModal, onClose}) => {
+export const IngredientsBlock = ({title, ingredients}) => {
     return (
         <>
             <p className="text text_type_main-medium">{title}</p>
             <div className={classNames(styles.ingredientsBlock ,"pt-6 pr-2 pb-7 pl-2")}>
                 {ingredients.map(ingredient => (
-                    <IngredientItem key={ingredient._id} ingredient={ingredient} attachModal={attachModal} onClose={onClose} />
+                    <IngredientItem key={ingredient._id} ingredient={ingredient} />
                 ))}
             </div>
         </>
@@ -22,7 +22,5 @@ export const IngredientsBlock = ({title, ingredients, attachModal, onClose}) => 
 
 IngredientsBlock.propTypes = {
     title: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    attachModal: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };

@@ -29,6 +29,9 @@ export const BurgerContextProvider = ({ children }) => {
     const [fetching, setFetching] = useState(true);
     const [error, setError] = useState(null);
 
+    const [modalComponent, setModalComponent] = useState(null);
+    const closeModal = () => setModalComponent(null);
+
     useEffect(() => {
         getIngredients()
             .then(responseData => responseData.data)
@@ -42,7 +45,18 @@ export const BurgerContextProvider = ({ children }) => {
     }, [])
 
     return (
-        <BurgerContext.Provider value={{ error, fetching, ingredients, orderIngredients, setOrderIngredients, orderData, setOrderData }}>
+        <BurgerContext.Provider value={{
+            error,
+            fetching,
+            ingredients,
+            orderIngredients,
+            setOrderIngredients,
+            orderData,
+            setOrderData,
+            modalComponent,
+            setModalComponent,
+            closeModal
+        }}>
             {children}
         </BurgerContext.Provider>
     );

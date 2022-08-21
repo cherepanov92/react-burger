@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import classNames from "classnames";
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 
 import styles from './BurgerConstructor.module.css';
 import { BurgerContext } from "../../context/BurgerContextProvider";
@@ -9,15 +8,15 @@ import { getOrderIngredients } from "../../utils/getIngredientsGroups";
 import { sendOrder } from "../../utils/api";
 import {OrderDetails} from "./OrderDetails";
 
-export const BurgerConstructor = ({ attachModal, onClose }) => {
-    const { orderIngredients, setOrderData } = useContext(BurgerContext);
+export const BurgerConstructor = () => {
+    const { orderIngredients, setOrderData, setModalComponent } = useContext(BurgerContext);
     const basicBun = orderIngredients.bun[0];
     const totalPrice = orderIngredients.totalPrice;
 
     const sendOrderAction = () => {
         sendOrder(getOrderIngredients(orderIngredients))
             .then(respData => setOrderData({ name:respData?.name, number:respData?.order.number }))
-            .then(attachModal(<OrderDetails onClose={onClose} />))
+            .then(() => setModalComponent(<OrderDetails />))
     }
 
     return (
@@ -77,7 +76,4 @@ export const BurgerConstructor = ({ attachModal, onClose }) => {
     );
 };
 
-BurgerConstructor.propTypes = {
-    attachModal: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
-};
+BurgerConstructor.propTypes = {};

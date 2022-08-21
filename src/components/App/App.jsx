@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext } from 'react';
 
 import { AppHeader } from '../AppHeader';
 import { BurgerIngredients } from "../BurgerIngredients";
@@ -8,9 +8,7 @@ import { BurgerContext } from "../../context/BurgerContextProvider";
 import styles from './App.module.css';
 
 function App() {
-    const { error, fetching } = useContext(BurgerContext);
-    const [modalComponent, setModalComponent] = useState(null);
-    const closeModal = () => setModalComponent(null);
+    const { error, fetching, modalComponent } = useContext(BurgerContext);
 
     return (
         <div className="App">
@@ -27,8 +25,8 @@ function App() {
                 }
                 {!error && !fetching &&
                     <>
-                        <BurgerIngredients attachModal={setModalComponent} onClose={closeModal}/>
-                        <BurgerConstructor attachModal={setModalComponent} onClose={closeModal}/>
+                        <BurgerIngredients />
+                        <BurgerConstructor />
                     </>
                 }
             </main>

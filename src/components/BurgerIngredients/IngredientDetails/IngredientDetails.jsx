@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 import styles from './IngredientDetails.module.css';
 import Modal from "../../Modal/Modal";
 import { ingredientType } from "../../../utils/types";
+import { BurgerContext } from "../../../context/BurgerContextProvider";
 
-export const IngredientDetails = ({ingredient, onClose}) => {
+export const IngredientDetails = ({ingredient}) => {
+    const { closeModal } = useContext(BurgerContext);
+
     return (
-        <Modal title={'Детали ингредиента'} onClose={onClose} >
+        <Modal title={'Детали ингредиента'} onClose={closeModal} >
             <div className={styles.wrapper}>
                 <img src={ingredient.image_large} alt={ingredient.name} />
                 <p className={"text text_type_main-medium pt-3 pb-3"}>{ingredient.name}</p>
@@ -36,6 +38,5 @@ export const IngredientDetails = ({ingredient, onClose}) => {
 }
 
 IngredientDetails.propTypes = {
-    ingredient: ingredientType.isRequired,
-    onClose: PropTypes.func.isRequired
+    ingredient: ingredientType.isRequired
 };

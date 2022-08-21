@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 import styles from './OrderDetails.module.css';
 import doneIcon from './icon/done.svg';
 import Modal from "../../Modal/Modal";
 import { BurgerContext } from "../../../context/BurgerContextProvider";
 
-export const OrderDetails = ({onClose}) => {
-    const { orderData } = useContext(BurgerContext);
+export const OrderDetails = () => {
+    const { orderData, closeModal } = useContext(BurgerContext);
 
     return (
-        <Modal onClose={onClose}>
+        <Modal onClose={closeModal}>
             <div className={styles.wrapper}>
                 <span className={classNames("text text_type_digits-large mt-3 mb-3", styles.orderNumber)}>
                     {orderData ? orderData.number : 'Loading...'}
@@ -27,6 +26,4 @@ export const OrderDetails = ({onClose}) => {
     );
 }
 
-OrderDetails.propTypes = {
-    onClose: PropTypes.func.isRequired
-};
+OrderDetails.propTypes = {};
