@@ -1,7 +1,7 @@
 import { API_INGREDIENTS_URL, API_ORDERS_URL } from "./constants";
 
 const checkResponse = (response) => {
-    return response.ok ? response.json() : response.json().then((error) => Promise.reject(error));
+    return response.ok ? response.json() : Promise.reject(response);
 };
 
 export const sendOrder = (orderList) => {

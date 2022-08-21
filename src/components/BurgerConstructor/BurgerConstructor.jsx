@@ -7,6 +7,7 @@ import { BurgerContext } from "../../context/BurgerContextProvider";
 import { getOrderIngredients } from "../../utils/getIngredientsGroups";
 import { sendOrder } from "../../utils/api";
 import {OrderDetails} from "./OrderDetails";
+import {ErrorModal} from "../Modal/ErrorModal/ErrorModal";
 
 export const BurgerConstructor = () => {
     const { orderIngredients, setOrderData, setModalComponent } = useContext(BurgerContext);
@@ -17,6 +18,9 @@ export const BurgerConstructor = () => {
         sendOrder(getOrderIngredients(orderIngredients))
             .then(respData => setOrderData({ name:respData?.name, number:respData?.order.number }))
             .then(() => setModalComponent(<OrderDetails />))
+            .catch((err) => {
+                return setModalComponent(() => <ErrorModal errorStatus={err.status} />)
+            });
     }
 
     return (
