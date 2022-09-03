@@ -1,8 +1,5 @@
-import React, { createContext, useState, useEffect, useReducer } from 'react';
-import { getIngredientsGroups } from "../utils/getIngredientsGroups";
+import React, { createContext, useState, useReducer } from 'react';
 import { orderIngredientsInitState } from "../utils/mock";
-import { getIngredients } from "../utils/api";
-import {ErrorModal} from "../components/Modal/ErrorModal/ErrorModal";
 
 export const BurgerContext = createContext({});
 
@@ -26,28 +23,12 @@ function reducer(state, action) {
 export const BurgerContextProvider = ({ children }) => {
     const [orderIngredients, setOrderIngredients] = useReducer(reducer, orderIngredientsInitState, undefined);
     const [orderData, setOrderData] = useState(null);
-    const [ingredients, setIngredients] = useState(null);
-    const [fetching, setFetching] = useState(true);
 
     const [modalComponent, setModalComponent] = useState(null);
     const closeModal = () => setModalComponent(null);
 
-    useEffect(() => {
-        getIngredients()
-            .then(responseData => responseData.data)
-            .then(data => {
-                setIngredients(getIngredientsGroups(data))
-                setFetching(false);
-            })
-            .catch((err) => {
-                return setModalComponent(() => <ErrorModal errorStatus={err.status} />)
-            });
-    }, [])
-
     return (
         <BurgerContext.Provider value={{
-            fetching,
-            ingredients,
             orderIngredients,
             setOrderIngredients,
             orderData,

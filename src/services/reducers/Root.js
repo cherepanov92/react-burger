@@ -1,7 +1,12 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import ReduxThunk from 'redux-thunk';
 
-const rootReducer = combineReducers({})
+import ingredients from './Ingredients';
+
+
+const rootReducer = combineReducers({
+    ingredients
+})
 
 let composeEnhancers = compose;
 
