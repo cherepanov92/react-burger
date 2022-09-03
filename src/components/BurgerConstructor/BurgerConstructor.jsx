@@ -1,61 +1,59 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './BurgerConstructor.module.css';
-import { BurgerContext } from "../../context/BurgerContextProvider";
-import { getOrderIngredients } from "../../utils/getIngredientsGroups";
-import { sendOrder } from "../../utils/api";
-import {OrderDetails} from "./OrderDetails";
-import {ErrorModal} from "../Modal/ErrorModal/ErrorModal";
+import { REMOVE_INGREDIENT } from "../../services/actions/Constructor";
 
 export const BurgerConstructor = () => {
-    const { orderIngredients, setOrderData, setModalComponent } = useContext(BurgerContext);
-    const basicBun = orderIngredients.bun[0];
-    const totalPrice = orderIngredients.totalPrice;
+    const dispatch = useDispatch();
+    const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
 
-    const sendOrderAction = () => {
-        sendOrder(getOrderIngredients(orderIngredients))
-            .then(respData => setOrderData({ name:respData?.name, number:respData?.order.number }))
-            .then(() => setModalComponent(<OrderDetails />))
-            .catch((err) => {
-                return setModalComponent(() => <ErrorModal errorStatus={err.status} />)
-            });
+
+    const onDeleteIngredient = ingredient => {
+        dispatch({
+            type: REMOVE_INGREDIENT,
+            ingredient: ingredient
+        });
     }
+
 
     return (
         <section className={styles.wrapper}>
             <section className={classNames(styles.ingredientsBlock, "pt-25")}>
                 {totalPrice ? (
                     <>
-                        {basicBun && <div className={'mr-4'}>
+                        {!!bun && <div className={'mr-4'}>
                             <ConstructorElement
                                 type={'top'}
                                 isLocked={true}
-                                text={`${basicBun.name} (верх)`}
-                                price={basicBun.price}
-                                thumbnail={basicBun.image}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
                             />
                         </div>}
-                        <div className={styles.selectedBlock}>
-                            {[...orderIngredients.sauce, ...orderIngredients.main].map(item => (
+                        {!!ingredients.length && <div className={styles.selectedBlock}>
+                            {ingredients.map(item => (
                                 <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
-                                    <DragIcon type="primary" />
+                                    <DragIcon type="primary"/>
                                     <ConstructorElement
                                         text={item.name}
                                         price={item.price}
                                         thumbnail={item.image}
+                                        handleClose={() => onDeleteIngredient(item)}
                                     />
                                 </div>
                             ))}
                         </div>
-                        { basicBun && <div className={'mr-4'}>
+                        }
+                        {!!bun && <div className={'mr-4'}>
                             <ConstructorElement
                                 type={'bottom'}
                                 isLocked={true}
-                                text={`${basicBun.name} (низ)`}
-                                price={basicBun.price}
-                                thumbnail={basicBun.image}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
                             />
                         </div>}
                     </>

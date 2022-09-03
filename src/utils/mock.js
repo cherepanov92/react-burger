@@ -1,5 +1,5 @@
 export const orderIngredientsInitState = {
-    bun: [{calories: 420,
+    bun: {calories: 420,
         carbohydrates: 53,
         fat: 24,
         image: "https://code.s3.yandex.net/react/code/bun-02.png",
@@ -10,8 +10,8 @@ export const orderIngredientsInitState = {
         proteins: 80,
         type: "bun",
         __v: 0,
-        _id: "60d3b41abdacab0026a733c6"}],
-    main: [
+        _id: "60d3b41abdacab0026a733c6"},
+    ingredients: [
         {calories: 3377,
             carbohydrates: 420,
             fat: 48,
@@ -35,19 +35,20 @@ export const orderIngredientsInitState = {
             proteins: 433,
             type: "main",
             __v: 0,
-            _id: "60d3b41abdacab0026a733c9"}
+            _id: "60d3b41abdacab0026a733c9"},
+        {calories: 30,
+            carbohydrates: 40,
+            fat: 20,
+            image: "https://code.s3.yandex.net/react/code/sauce-02.png",
+            image_large: "https://code.s3.yandex.net/react/code/sauce-02-large.png",
+            image_mobile: "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
+            name: "Соус Spicy-X",
+            price: 90,
+            proteins: 30,
+            type: "sauce",
+            __v: 0,
+            _id: "60d3b41abdacab0026a733cc"
+        }
     ],
-    sauce: [{calories: 30,
-        carbohydrates: 40,
-        fat: 20,
-        image: "https://code.s3.yandex.net/react/code/sauce-02.png",
-        image_large: "https://code.s3.yandex.net/react/code/sauce-02-large.png",
-        image_mobile: "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
-        name: "Соус Spicy-X",
-        price: 90,
-        proteins: 30,
-        type: "sauce",
-        __v: 0,
-        _id: "60d3b41abdacab0026a733cc"}],
     totalPrice: 8079
 };

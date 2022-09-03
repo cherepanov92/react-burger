@@ -1,11 +1,13 @@
-import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
 import ingredients from './Ingredients';
+import constructor from './Constructor';
 
 
 const rootReducer = combineReducers({
-    ingredients
+    ingredients,
+    constructor,
 })
 
 let composeEnhancers = compose;
