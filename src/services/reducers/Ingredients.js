@@ -20,8 +20,7 @@ const IngredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: getIngredientsGroups(action.items),
-                ingredientsRequest: false,
-
+                ingredientsRequest: false
             };
         }
         case GET_INGREDIENTS_FAILED: {
