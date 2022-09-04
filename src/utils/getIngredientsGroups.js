@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {ingredientType, orderIngredientsType} from "./types";
+import { ingredientType, orderIngredientsType } from "./types";
 
 export const getIngredientsGroups = (ingredients) => {
     return ingredients.reduce((previousValue, currentValue) => {
@@ -12,14 +12,13 @@ getIngredientsGroups.propTypes = {
 };
 
 export const getOrderIngredients = (orderIngredients) => {
-    const { bun, main, sauce } = orderIngredients;
-    const orderList = [...main, ...sauce];
-    orderList.unshift(bun[0]);
-    orderList.push(bun[0]);
-
+    const [bun, ingredients] = orderIngredients;
+    const orderList = [...ingredients];
+    orderList.unshift(bun);
+    orderList.push(bun);
     return orderList.map(item => item._id);
 }
 
 getOrderIngredients.propTypes = {
-    ingredients: orderIngredientsType
+    orderIngredients: orderIngredientsType
 };

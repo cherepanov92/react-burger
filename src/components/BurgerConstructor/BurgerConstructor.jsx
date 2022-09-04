@@ -5,6 +5,8 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 
 import styles from './BurgerConstructor.module.css';
 import { REMOVE_INGREDIENT } from "../../services/actions/Constructor";
+import { sendOrderRequest } from "../../services/actions/Order";
+import { getOrderIngredients } from "../../utils/getIngredientsGroups";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -16,6 +18,10 @@ export const BurgerConstructor = () => {
             type: REMOVE_INGREDIENT,
             ingredient: ingredient
         });
+    }
+
+    const onSendOrderRequest = () => {
+        dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])))
     }
 
 
@@ -67,7 +73,7 @@ export const BurgerConstructor = () => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button
-                    onClick={ sendOrderAction }
+                    onClick={ onSendOrderRequest }
                     type={totalPrice ? "primary" : "disable"}
                     size="large"
                 >

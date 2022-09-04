@@ -4,6 +4,7 @@ import ReduxThunk from 'redux-thunk';
 import ingredients from './Ingredients';
 import constructor from './Constructor';
 import ingredientDetails from './IngredientDetails';
+import order from './Order';
 import modal from './Modal';
 
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     ingredients,
     constructor,
     ingredientDetails,
+    order,
     modal
 })
 
