@@ -1,21 +1,29 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import styles from './App.module.css';
 import { AppHeader } from '../AppHeader';
 import { BurgerIngredients } from "../BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor";
-import { REMOVE_INGREDIENT_DETAILS } from "../../services/actions/IngredientDetails";
-import {IngredientDetails} from "../BurgerIngredients/IngredientDetails";
+import { IngredientDetails } from "../BurgerIngredients/IngredientDetails";
+import { OrderDetails } from "../BurgerConstructor/OrderDetails";
+import { ErrorModal } from "../Modal/ErrorModal/ErrorModal";
+
+const getModal = (modalType) => {
+    switch (modalType) {
+        case 'ingredientDetails':
+            return <IngredientDetails />
+        case 'order':
+            return <OrderDetails />
+        case 'error':
+            return <ErrorModal />
+        default:
+            return null;
+    }
+}
 
 function App() {
-    const dispatch = useDispatch();
-    const ingredientDetails = useSelector(state => state.ingredientDetails);
-
-    const closeIngredientModal = () => {
-        dispatch({ type: REMOVE_INGREDIENT_DETAILS, ingredient: ingredientDetails })
-    }
-
+    const { modalType } = useSelector(state => state.modal);
 
     return (
         <div className="App">
@@ -26,8 +34,7 @@ function App() {
                         <BurgerConstructor />
                     </>
             </main>
-            {/*todo: реализовать подобное для ошибок*/}
-            {ingredientDetails && <IngredientDetails onClose={closeIngredientModal} ingredient={ingredientDetails} />}
+            { modalType && getModal(modalType) }
         </div>
     );
 }

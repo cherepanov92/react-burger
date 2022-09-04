@@ -1,14 +1,23 @@
 import React from 'react';
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from './IngredientDetails.module.css';
 import Modal from "../../Modal/Modal";
-import { ingredientType } from "../../../utils/types";
+import { REMOVE_INGREDIENT_DETAILS } from "../../../services/actions/IngredientDetails";
+import { REMOVE_MODAL_TYPE } from "../../../services/actions/Modal";
 
-export const IngredientDetails = ({ingredient, onClose}) => {
+export const IngredientDetails = () => {
+    const dispatch = useDispatch();
+    const ingredient = useSelector(state => state.ingredientDetails);
+
+    const closeIngredientModal = () => {
+        dispatch({ type: REMOVE_INGREDIENT_DETAILS, ingredient });
+        dispatch({ type: REMOVE_MODAL_TYPE });
+    }
+
     return (
-        <Modal title={'Детали ингредиента'} onClose={onClose} >
+        <Modal title={'Детали ингредиента'} onClose={closeIngredientModal} >
             <div className={styles.wrapper}>
                 <img src={ingredient.image_large} alt={ingredient.name} />
                 <p className={"text text_type_main-medium pt-3 pb-3"}>{ingredient.name}</p>
@@ -35,7 +44,4 @@ export const IngredientDetails = ({ingredient, onClose}) => {
     );
 }
 
-IngredientDetails.propTypes = {
-    ingredient: ingredientType.isRequired,
-    onClose: PropTypes.func.isRequired
-};
+IngredientDetails.propTypes = {};

@@ -6,6 +6,7 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from './IngredientItem.module.css';
 import { ingredientType } from "../../../utils/types";
 import { ADD_INGREDIENT_DETAILS } from "../../../services/actions/IngredientDetails";
+import { APPEND_MODAL_TYPE } from "../../../services/actions/Modal";
 
 
 export const IngredientItem = ({ingredient}) => {
@@ -15,6 +16,7 @@ export const IngredientItem = ({ingredient}) => {
 
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient })
+        dispatch({ type: APPEND_MODAL_TYPE, modalType: 'ingredientDetails' })
     }
 
     useEffect(() => {

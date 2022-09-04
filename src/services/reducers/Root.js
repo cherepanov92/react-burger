@@ -4,12 +4,14 @@ import ReduxThunk from 'redux-thunk';
 import ingredients from './Ingredients';
 import constructor from './Constructor';
 import ingredientDetails from './IngredientDetails';
+import modal from './Modal';
 
 
 const rootReducer = combineReducers({
     ingredients,
     constructor,
-    ingredientDetails
+    ingredientDetails,
+    modal
 })
 
 let composeEnhancers = compose;
