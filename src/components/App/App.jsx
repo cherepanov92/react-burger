@@ -1,32 +1,33 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 
+import styles from './App.module.css';
 import { AppHeader } from '../AppHeader';
 import { BurgerIngredients } from "../BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor";
-import { BurgerContext } from "../../context/BurgerContextProvider";
-
-import styles from './App.module.css';
+import { REMOVE_INGREDIENT_DETAILS } from "../../services/actions/IngredientDetails";
+import {IngredientDetails} from "../BurgerIngredients/IngredientDetails";
 
 function App() {
-    const { fetching, modalComponent } = useContext(BurgerContext);
+    const dispatch = useDispatch();
+    const ingredientDetails = useSelector(state => state.ingredientDetails);
+
+    const closeIngredientModal = () => {
+        dispatch({ type: REMOVE_INGREDIENT_DETAILS, ingredient: ingredientDetails })
+    }
+
 
     return (
         <div className="App">
             <AppHeader />
             <main className={styles.content}>
-                {fetching &&
-                    <p className="text text_type_main-large mt-5">
-                        Loading ...
-                    </p>
-                }
-                {!fetching &&
                     <>
                         <BurgerIngredients />
                         <BurgerConstructor />
                     </>
-                }
             </main>
-            {modalComponent}
+            {/*todo: реализовать подобное для ошибок*/}
+            {ingredientDetails && <IngredientDetails onClose={closeIngredientModal} ingredient={ingredientDetails} />}
         </div>
     );
 }

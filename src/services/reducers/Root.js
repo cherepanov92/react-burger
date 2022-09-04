@@ -3,11 +3,13 @@ import ReduxThunk from 'redux-thunk';
 
 import ingredients from './Ingredients';
 import constructor from './Constructor';
+import ingredientDetails from './IngredientDetails';
 
 
 const rootReducer = combineReducers({
     ingredients,
     constructor,
+    ingredientDetails
 })
 
 let composeEnhancers = compose;

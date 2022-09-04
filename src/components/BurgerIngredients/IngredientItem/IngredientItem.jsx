@@ -1,25 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './IngredientItem.module.css';
-import { IngredientDetails } from "../IngredientDetails";
 import { ingredientType } from "../../../utils/types";
-import {BurgerContext} from "../../../context/BurgerContextProvider";
+import { ADD_INGREDIENT_DETAILS } from "../../../services/actions/IngredientDetails";
 
 
 export const IngredientItem = ({ingredient}) => {
-    const { orderIngredients, setOrderIngredients, setModalComponent } = useContext(BurgerContext);
+    const dispatch = useDispatch();
+    const { bun, ingredients } = useSelector(state => state.constructor);
 
-    const appendIngredient = () => {
-        setOrderIngredients({ type: "append", ingredient: ingredient })
-        setModalComponent(<IngredientDetails ingredient={ingredient} />)
+    const showIngredientDetails = () => {
+        dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient })
     }
 
     const count = orderIngredients[ingredient.type].filter(item => item._id === ingredient._id ).length
     return (
-        <div onClick={appendIngredient} className={classNames(styles.wrapper, 'mb-4')}>
-            { !!count && <Counter count={ count } size="default" />}
+        <div
+            onClick={() => showIngredientDetails()}
+            className={classNames(styles.wrapper, 'mb-4')}>
             <img className={"ml-4 mr-4 mb-1"} src={ingredient.image} alt={`Компонент: ${ingredient.name}`}/>
             <div className={classNames(styles.priceBlock, "pt-1 pb-1")}>
                 <span className="text text_type_digits-default mr-2">{ingredient.price}</span>
