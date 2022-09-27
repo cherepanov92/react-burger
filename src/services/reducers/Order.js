@@ -1,12 +1,6 @@
 import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS } from "../actions/Order";
 
-const initialState = {
-    orderRequest: false,
-    orderFailed: false,
-    orderData: { name: null, number: null }
-}
-
-export default function OrderReducer(state = initialState, action) {
+export default function OrderReducer(state = {}, action) {
     switch (action.type) {
         case SENT_ORDER_REQUEST: {
             return {

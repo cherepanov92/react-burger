@@ -1,11 +1,6 @@
 import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE } from "../actions/Modal";
 
-const initialState = {
-    modalType: null,
-    errorStatus: null
-}
-
-export default function ModalReducer(state = initialState, action) {
+export default function ModalReducer(state = {}, action) {
     switch (action.type) {
         case APPEND_MODAL_TYPE: {
             return {

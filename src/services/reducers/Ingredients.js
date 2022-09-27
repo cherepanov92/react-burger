@@ -1,13 +1,7 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../actions/Ingredients";
 import { getIngredientsGroups } from "../../utils/getIngredientsGroups";
 
-const initialState = {
-    ingredientsRequest: false,
-    ingredientsFailed: false,
-    ingredients: { bun: [], main: [], sauce: [] }
-}
-
-const IngredientsReducer = (state = initialState, action) => {
+const IngredientsReducer = (state = {}, action) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

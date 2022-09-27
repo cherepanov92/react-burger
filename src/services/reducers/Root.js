@@ -24,6 +24,34 @@ if (process.env.NODE_ENV !== 'production') {
 
 const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
 
-const init = (initialState = {}) => createStore(rootReducer, initialState, enhancer);
+const init = (initialState = {
+    ingredients: {
+        ingredientsRequest: false,
+        ingredientsFailed: false,
+        ingredients: {
+            bun: [],
+            main: [],
+            sauce: []
+        },
+    },
+    constructor: {
+        bun: null,
+        ingredients: [],
+        totalPrice: 0
+    },
+    ingredientDetails: null,
+    order: {
+        orderRequest: false,
+        orderFailed: false,
+        orderData: {
+            name: null,
+            number: null
+        }
+    },
+    modal: {
+        modalType: null,
+        errorStatus: null
+    }
+}) => createStore(rootReducer, initialState, enhancer);
 
 export default init;

@@ -1,14 +1,6 @@
 import { ADD_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT } from "../actions/Constructor";
-import { orderIngredientsInitState } from "../../utils/mock";
 
-const initialState = {
-    bun: null,
-    ingredients: [],
-    totalPrice: 0
-};
-
-// todo: убрать мок с initState на шаге с dnd
-const ConstructorReducer = (state = orderIngredientsInitState, action) => {
+export default function ConstructorReducer(state = {}, action) {
 
     switch (action.type) {
         case ADD_INGREDIENT:
@@ -31,9 +23,6 @@ const ConstructorReducer = (state = orderIngredientsInitState, action) => {
             // todo: обмозговать при работе с dnd
             return {...state}
         default:
-            // todo: убрать мок с initState на шаге с dnd
-            return {...orderIngredientsInitState}
+            return state
     }
 }
-
-export default ConstructorReducer;
