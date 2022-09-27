@@ -4,6 +4,15 @@ export default function ConstructorReducer(state = {}, action) {
 
     switch (action.type) {
         case ADD_INGREDIENT:
+            if (action.ingredient.type === 'bun') {
+                const totalPriceWithoutBun = state.bun ? state.totalPrice - (state.bun.price * 2) : state.totalPrice;
+
+                return {
+                    ...state,
+                    bun: action.ingredient,
+                    totalPrice: totalPriceWithoutBun + (action.ingredient.price * 2)
+                }
+            }
             return {
                 ...state,
                 ingredients: [...state.ingredients, action.ingredient],
