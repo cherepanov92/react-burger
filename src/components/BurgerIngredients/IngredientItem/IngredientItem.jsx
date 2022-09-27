@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,27 +7,18 @@ import styles from './IngredientItem.module.css';
 import { ingredientType } from "../../../utils/types";
 import { ADD_INGREDIENT_DETAILS } from "../../../services/actions/IngredientDetails";
 import { APPEND_MODAL_TYPE } from "../../../services/actions/Modal";
+import { getOrderIngredients } from "../../../utils/getIngredientsGroups";
 
 
 export const IngredientItem = ({ingredient}) => {
     const dispatch = useDispatch();
-    const { bun, ingredients } = useSelector(state => state.constructor);
-    const [ count, setCount ] = useState(0);
+    const { ingredients } = useSelector(state => state.constructor);
+    const count = getOrderIngredients([null, ingredients]).filter(id => id === ingredient._id).length;
 
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient })
         dispatch({ type: APPEND_MODAL_TYPE, modalType: 'ingredientDetails' })
     }
-
-    useEffect(() => {
-        setCount(
-            ingredient.type === 'bun' ? (
-                bun._id === ingredient._id && 2
-            ) : (
-                ingredients.filter(item => item._id === ingredient._id ).length
-            )
-        )
-    }, [ ingredient, bun, ingredients ])
 
     return (
         <div

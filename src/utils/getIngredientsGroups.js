@@ -14,8 +14,12 @@ getIngredientsGroups.propTypes = {
 export const getOrderIngredients = (orderIngredients) => {
     const [bun, ingredients] = orderIngredients;
     const orderList = [...ingredients];
-    orderList.unshift(bun);
-    orderList.push(bun);
+
+    if (bun) {
+        orderList.unshift(bun);
+        orderList.push(bun);
+    }
+
     return orderList.map(item => item._id);
 }
 
