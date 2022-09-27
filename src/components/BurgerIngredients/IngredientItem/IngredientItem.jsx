@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
 import classNames from "classnames";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -20,8 +21,18 @@ export const IngredientItem = ({ingredient}) => {
         dispatch({ type: APPEND_MODAL_TYPE, modalType: 'ingredientDetails' })
     }
 
+    const [{isDrag}, dragRef] = useDrag({
+        type: "ingredient",
+        item: ingredient,
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
+
+    // todo: Убирать кол-во элементов взаказе у переносимого отпечатка
     return (
         <div
+            ref={dragRef}
             onClick={() => showIngredientDetails()}
             className={classNames(styles.wrapper, 'mb-4')}>
             { !!count && <Counter count={ count } size="default" />}

@@ -1,17 +1,18 @@
 import React from 'react';
+import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './BurgerConstructor.module.css';
-import { REMOVE_INGREDIENT } from "../../services/actions/Constructor";
+import { ADD_INGREDIENT, REMOVE_INGREDIENT } from "../../services/actions/Constructor";
 import { sendOrderRequest } from "../../services/actions/Order";
 import { getOrderIngredients } from "../../utils/getIngredientsGroups";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
-
+    const hasBun = !!bun;
 
     const onDeleteIngredient = ingredient => {
         dispatch({
@@ -24,13 +25,24 @@ export const BurgerConstructor = () => {
         dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])))
     }
 
+    const onDropHandler = (ingredient) => {
+        dispatch({ type: ADD_INGREDIENT, ingredient: ingredient })
+    }
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(ingredient) {
+            onDropHandler(ingredient);
+        }
+    })
+
 
     return (
-        <section className={styles.wrapper}>
+        <section className={styles.wrapper} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, "pt-25")}>
                 {totalPrice ? (
                     <>
-                        {!!bun && <div className={'mr-4'}>
+                        {hasBun && <div className={'mr-4'}>
                             <ConstructorElement
                                 type={'top'}
                                 isLocked={true}
@@ -53,7 +65,7 @@ export const BurgerConstructor = () => {
                             ))}
                         </div>
                         }
-                        {!!bun && <div className={'mr-4'}>
+                        {hasBun && <div className={'mr-4'}>
                             <ConstructorElement
                                 type={'bottom'}
                                 isLocked={true}
