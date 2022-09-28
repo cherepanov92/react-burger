@@ -2,24 +2,18 @@ import React from 'react';
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './BurgerConstructor.module.css';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from "../../services/actions/Constructor";
+import { ADD_INGREDIENT } from "../../services/actions/Constructor";
 import { sendOrderRequest } from "../../services/actions/Order";
 import { getOrderIngredients } from "../../utils/getIngredientsGroups";
+import {ConstructorIngredient} from "./ConstructotIngredient/ConstructotIngredient";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
     const hasBun = !!bun;
-
-    const onDeleteIngredient = ingredient => {
-        dispatch({
-            type: REMOVE_INGREDIENT,
-            ingredient: ingredient
-        });
-    }
 
     const onSendOrderRequest = () => {
         dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])))
@@ -36,7 +30,6 @@ export const BurgerConstructor = () => {
         }
     })
 
-
     return (
         <section className={styles.wrapper} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, "pt-25")}>
@@ -52,17 +45,7 @@ export const BurgerConstructor = () => {
                             />}
                         </div>
                         {!!ingredients.length && <div className={styles.selectedBlock}>
-                            {ingredients.map(item => (
-                                <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
-                                    <DragIcon type="primary"/>
-                                    <ConstructorElement
-                                        text={item.name}
-                                        price={item.price}
-                                        thumbnail={item.image}
-                                        handleClose={() => onDeleteIngredient(item)}
-                                    />
-                                </div>
-                            ))}
+                            {ingredients.map(ingredient => <ConstructorIngredient key={ingredient._id} ingredient={ingredient} />)}
                         </div>
                         }
                         <div className={'mr-4'}>
