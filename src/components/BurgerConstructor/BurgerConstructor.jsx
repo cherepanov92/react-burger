@@ -42,15 +42,15 @@ export const BurgerConstructor = () => {
             <section className={classNames(styles.ingredientsBlock, "pt-25")}>
                 {totalPrice ? (
                     <>
-                        {hasBun && <div className={'mr-4'}>
-                            <ConstructorElement
+                        <div className={'mr-4'}>
+                            {hasBun && <ConstructorElement
                                 type={'top'}
                                 isLocked={true}
                                 text={`${bun.name} (верх)`}
                                 price={bun.price}
                                 thumbnail={bun.image}
-                            />
-                        </div>}
+                            />}
+                        </div>
                         {!!ingredients.length && <div className={styles.selectedBlock}>
                             {ingredients.map(item => (
                                 <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
@@ -65,15 +65,15 @@ export const BurgerConstructor = () => {
                             ))}
                         </div>
                         }
-                        {hasBun && <div className={'mr-4'}>
-                            <ConstructorElement
+                        <div className={'mr-4'}>
+                            {hasBun && <ConstructorElement
                                 type={'bottom'}
                                 isLocked={true}
                                 text={`${bun.name} (низ)`}
                                 price={bun.price}
                                 thumbnail={bun.image}
-                            />
-                        </div>}
+                            />}
+                        </div>
                     </>
                 ) : (
                     <p>Пусто</p>

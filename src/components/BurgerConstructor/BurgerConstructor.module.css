@@ -12,6 +12,7 @@
 }
 
 .selectedBlock {
+    width: 583px;
     max-height: calc(100vh - 530px);
     overflow-y: auto;
     display: flex;
@@ -38,6 +39,7 @@
 }
 
 .ingredient {
+    width: 570px;
     display: flex;
     align-items: center;
     justify-content: center;
