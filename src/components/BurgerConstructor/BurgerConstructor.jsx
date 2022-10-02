@@ -44,10 +44,11 @@ export const BurgerConstructor = () => {
                                 thumbnail={bun.image}
                             />}
                         </div>
-                        {!!ingredients.length && <div className={styles.selectedBlock}>
-                            {ingredients.map(ingredient => <ConstructorIngredient key={ingredient._id} ingredient={ingredient} />)}
+                        <div className={styles.selectedBlock}>
+                            {!!ingredients.length && ingredients
+                                .sort((a,b) => a.orderIndex - b.orderIndex)
+                                .map((ingredient, index) => <ConstructorIngredient key={index} ingredient={ingredient} />)}
                         </div>
-                        }
                         <div className={'mr-4'}>
                             {hasBun && <ConstructorElement
                                 type={'bottom'}

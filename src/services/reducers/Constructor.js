@@ -36,9 +36,25 @@ export default function ConstructorReducer(state = {}, action) {
                 totalPrice: state.totalPrice - action.ingredient.price
             }
         case MOVE_INGREDIENT:
-            // todo: обмозговать при работе с dnd
-            return {...state}
+            if (state.ingredients[action.newIndex].orderId === action.ingredient?.orderId) {
+                return state;
+            }
+
+            const OrderListWithoutMovedItem = [...state.ingredients]
+                .filter(item => item.orderId !== action.ingredient?.orderId)
+
+            const newIngredientsOrderList = [
+                ...OrderListWithoutMovedItem.slice(0, action.newIndex),
+                getIngredientWithOrderHash(action.ingredient),
+                ...OrderListWithoutMovedItem.slice(action.newIndex, state.ingredients.length + 1),
+            ]
+
+            return {
+                ...state,
+                ingredients: newIngredientsOrderList.map((item, index) => ({...item, orderIndex: index}))
+            }
+
         default:
-            return state
+            return state;
     }
 }
