@@ -7,7 +7,6 @@ import ingredientDetails from './IngredientDetails';
 import order from './Order';
 import modal from './Modal';
 
-
 const rootReducer = combineReducers({
     ingredients,
     constructor,
@@ -15,6 +14,20 @@ const rootReducer = combineReducers({
     order,
     modal
 })
+
+const BASIC_BUN = {calories: 420,
+    carbohydrates: 53,
+    fat: 24,
+    image: "https://code.s3.yandex.net/react/code/bun-02.png",
+    image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
+    image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+    name: "Краторная булка N-200i",
+    price: 1255,
+    proteins: 80,
+    type: "bun",
+    __v: 0,
+    _id: "60d3b41abdacab0026a733c6"
+}
 
 let composeEnhancers = compose;
 
@@ -35,9 +48,9 @@ const init = (initialState = {
         },
     },
     constructor: {
-        bun: null,
+        bun: BASIC_BUN,
         ingredients: [],
-        totalPrice: 0
+        totalPrice: BASIC_BUN.price * 2
     },
     ingredientDetails: null,
     order: {
