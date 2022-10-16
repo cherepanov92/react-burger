@@ -8,13 +8,13 @@
 }
 
 .ingredientsBlock::-webkit-scrollbar {
-    width: 8px;               /* width of the entire scrollbar */
+    width: 8px; /* width of the entire scrollbar */
 }
 
 .ingredientsBlock::-webkit-scrollbar-track {
-    background: #2F2F37;        /* color of the tracking area */
+    background: #2f2f37; /* color of the tracking area */
 }
 
 .ingredientsBlock::-webkit-scrollbar-thumb {
-    background-color: #8585AD;        /* color of the tracking area */
+    background-color: #8585ad; /* color of the tracking area */
 }

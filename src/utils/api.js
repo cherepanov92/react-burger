@@ -1,20 +1,19 @@
-import { API_INGREDIENTS_URL, API_ORDERS_URL } from "./constants";
+import { API_INGREDIENTS_URL, API_ORDERS_URL } from './constants';
 
-const checkResponse = (response) => {
+const checkResponse = response => {
     return response.ok ? response.json() : Promise.reject(response);
 };
 
-export const sendOrder = (orderList) => {
+export const sendOrder = orderList => {
     return fetch(API_ORDERS_URL, {
-        method: "POST",
-        body: JSON.stringify({"ingredients": [...orderList]}),
+        method: 'POST',
+        body: JSON.stringify({ ingredients: [...orderList] }),
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-    .then(checkResponse)
-}
+    }).then(checkResponse);
+};
 
 export const getIngredients = () => {
-    return fetch(API_INGREDIENTS_URL).then(checkResponse)
-}
+    return fetch(API_INGREDIENTS_URL).then(checkResponse);
+};

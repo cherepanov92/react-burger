@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
-import classNames from "classnames";
-import { useDispatch } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import classNames from 'classnames';
+import { useDispatch } from 'react-redux';
+import { useDrag, useDrop } from 'react-dnd';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './ConstructorIngredient.module.css';
-import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from "../../../services/actions/Constructor";
+import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../../../services/actions/Constructor';
 
-export const ConstructorIngredient = ({ingredient}) => {
+export const ConstructorIngredient = ({ ingredient }) => {
     const dispatch = useDispatch();
     const ref = useRef(null);
     const onDeleteIngredient = ingredient => {
@@ -15,7 +15,7 @@ export const ConstructorIngredient = ({ingredient}) => {
             type: REMOVE_INGREDIENT,
             ingredient: ingredient
         });
-    }
+    };
 
     const moveCard = (ingredient, oldIndex, newIndex) => {
         dispatch({
@@ -24,58 +24,59 @@ export const ConstructorIngredient = ({ingredient}) => {
             oldIndex,
             newIndex
         });
-    }
+    };
 
     const [, drop] = useDrop({
-        accept: "movedIngredient",
+        accept: 'movedIngredient',
         hover(item, monitor) {
             if (!ref.current) {
-                return
+                return;
             }
-            const dragIndex = item.orderIndex
-            const hoverIndex = ingredient.orderIndex
+            const dragIndex = item.orderIndex;
+            const hoverIndex = ingredient.orderIndex;
 
             // Determine rectangle on screen
-            const hoverBoundingRect = ref.current?.getBoundingClientRect()
+            const hoverBoundingRect = ref.current?.getBoundingClientRect();
             // Get vertical middle
-            const hoverMiddleY =
-                (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position
-            const clientOffset = monitor.getClientOffset()
+            const clientOffset = monitor.getClientOffset();
             // Get pixels to the top
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                return
+                return;
             }
             // Dragging upwards
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                return
+                return;
             }
             // Time to actually perform the action
-            moveCard(item, dragIndex, hoverIndex)
+            moveCard(item, dragIndex, hoverIndex);
             // Note: we're mutating the monitor item here!
             // Generally it's better to avoid mutations,
             // but it's good here for the sake of performance
             // to avoid expensive index searches.
-            item.index = hoverIndex
-        },
-    })
+            item.index = hoverIndex;
+        }
+    });
 
     const [, drag] = useDrag({
-        type: "movedIngredient",
+        type: 'movedIngredient',
         item: () => {
-            return ingredient
+            return ingredient;
         },
         collect: monitor => ({
             isDrag: monitor.isDragging()
         })
     });
 
-    drag(drop(ref))
+    drag(drop(ref));
 
     return (
-        <div ref={ref} className={classNames(styles.ingredient, 'mr-2')} >
-            <div><DragIcon type="primary"/></div>
+        <div ref={ref} className={classNames(styles.ingredient, 'mr-2')}>
+            <div>
+                <DragIcon type="primary" />
+            </div>
             <ConstructorElement
                 text={ingredient.name}
                 price={ingredient.price}
@@ -83,5 +84,5 @@ export const ConstructorIngredient = ({ingredient}) => {
                 handleClose={() => onDeleteIngredient(ingredient)}
             />
         </div>
-    )
-}
+    );
+};

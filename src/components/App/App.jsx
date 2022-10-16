@@ -1,28 +1,28 @@
 import React from 'react';
-import { useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useSelector } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import styles from './App.module.css';
 import { AppHeader } from '../AppHeader';
-import { BurgerIngredients } from "../BurgerIngredients";
-import { BurgerConstructor } from "../BurgerConstructor";
-import { IngredientDetails } from "../BurgerIngredients/IngredientDetails";
-import { OrderDetails } from "../BurgerConstructor/OrderDetails";
-import { ErrorModal } from "../Modal/ErrorModal/ErrorModal";
+import { BurgerIngredients } from '../BurgerIngredients';
+import { BurgerConstructor } from '../BurgerConstructor';
+import { IngredientDetails } from '../BurgerIngredients/IngredientDetails';
+import { OrderDetails } from '../BurgerConstructor/OrderDetails';
+import { ErrorModal } from '../Modal/ErrorModal/ErrorModal';
 
-const getModal = (modalType) => {
+const getModal = modalType => {
     switch (modalType) {
         case 'ingredientDetails':
-            return <IngredientDetails />
+            return <IngredientDetails />;
         case 'order':
-            return <OrderDetails />
+            return <OrderDetails />;
         case 'error':
-            return <ErrorModal />
+            return <ErrorModal />;
         default:
             return null;
     }
-}
+};
 
 function App() {
     const { modalType } = useSelector(state => state.modal);
@@ -38,7 +38,7 @@ function App() {
                     </>
                 </DndProvider>
             </main>
-            { modalType && getModal(modalType) }
+            {modalType && getModal(modalType)}
         </div>
     );
 }

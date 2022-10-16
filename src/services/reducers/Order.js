@@ -1,4 +1,4 @@
-import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS } from "../actions/Order";
+import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS } from '../actions/Order';
 
 export default function OrderReducer(state = {}, action) {
     switch (action.type) {
@@ -26,7 +26,7 @@ export default function OrderReducer(state = {}, action) {
             };
         }
         default: {
-            return state
+            return state;
         }
     }
 }
