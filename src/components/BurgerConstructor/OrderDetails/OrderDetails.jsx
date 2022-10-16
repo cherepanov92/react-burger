@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 import styles from './OrderDetails.module.css';
 import doneIcon from './icon/done.svg';
 import Modal from "../../Modal/Modal";
+import { BurgerContext } from "../../../context/BurgerContextProvider";
 
-const orderNumber = 123456
+export const OrderDetails = () => {
+    const { orderData, closeModal } = useContext(BurgerContext);
 
-export const OrderDetails = ({onClose}) => {
     return (
-        <Modal onClose={onClose}>
+        <Modal onClose={closeModal}>
             <div className={styles.wrapper}>
-                <span className={classNames("text text_type_digits-large mt-3 mb-3", styles.orderNumber)}>{orderNumber}</span>
+                <span className={classNames("text text_type_digits-large mt-3 mb-3", styles.orderNumber)}>
+                    {orderData ? orderData.number : 'Loading...'}
+                </span>
                 <p className={"text text_type_main-medium mb-15"}>идентификатор заказа</p>
                 <img src={doneIcon} alt="Принято" />
                 <p className={"text text_type_main-default pt-15 pb-2"}>Ваш заказ начали готовить</p>
@@ -24,6 +26,4 @@ export const OrderDetails = ({onClose}) => {
     );
 }
 
-OrderDetails.propTypes = {
-    onClose: PropTypes.func.isRequired
-};
+OrderDetails.propTypes = {};

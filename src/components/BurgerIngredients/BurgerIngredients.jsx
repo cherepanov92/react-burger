@@ -1,14 +1,12 @@
-import React from 'react';
-import PropTypes from "prop-types";
+import React, { useContext } from 'react';
 
 import styles from './BurgerIngredients.module.css';
 import { IngredientsTabs } from "./IngredientsTabs";
 import { IngredientsBlock } from "./IngredientsBlock";
-import { ingredientType } from "../../utils/types";
-import { getIngredientsGroups } from "../../utils/getIngredientsGroups";
+import { BurgerContext } from "../../context/BurgerContextProvider";
 
-export const BurgerIngredients = ({ ingredients, attachModal, onClose }) => {
-    const { bun, main, sauce } = getIngredientsGroups(ingredients);
+export const BurgerIngredients = () => {
+    const { ingredients } = useContext(BurgerContext);
 
     return (
         <div className={styles.wrapper}>
@@ -21,16 +19,12 @@ export const BurgerIngredients = ({ ingredients, attachModal, onClose }) => {
                 <IngredientsTabs />
             </div>
             <div className={styles.ingredientsBlock}>
-                <IngredientsBlock title={'Булки'} ingredients={bun} attachModal={attachModal} onClose={onClose}/>
-                <IngredientsBlock title={'Соусы'} ingredients={sauce} attachModal={attachModal} onClose={onClose}/>
-                <IngredientsBlock title={'Начинки'} ingredients={main} attachModal={attachModal} onClose={onClose}/>
+                <IngredientsBlock title={'Булки'} ingredients={ingredients.bun} />
+                <IngredientsBlock title={'Соусы'} ingredients={ingredients.sauce} />
+                <IngredientsBlock title={'Начинки'} ingredients={ingredients.main} />
             </div>
         </div>
     );
 };
 
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    attachModal: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
-};
+BurgerIngredients.propTypes = {};
