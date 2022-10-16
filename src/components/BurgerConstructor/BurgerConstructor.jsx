@@ -1,63 +1,63 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './BurgerConstructor.module.css';
-import { BurgerContext } from "../../context/BurgerContextProvider";
+import { ADD_INGREDIENT } from "../../services/actions/Constructor";
+import { sendOrderRequest } from "../../services/actions/Order";
 import { getOrderIngredients } from "../../utils/getIngredientsGroups";
-import { sendOrder } from "../../utils/api";
-import {OrderDetails} from "./OrderDetails";
-import {ErrorModal} from "../Modal/ErrorModal/ErrorModal";
+import {ConstructorIngredient} from "./ConstructotIngredient/ConstructotIngredient";
 
 export const BurgerConstructor = () => {
-    const { orderIngredients, setOrderData, setModalComponent } = useContext(BurgerContext);
-    const basicBun = orderIngredients.bun[0];
-    const totalPrice = orderIngredients.totalPrice;
+    const dispatch = useDispatch();
+    const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
+    const hasBun = !!bun;
 
-    const sendOrderAction = () => {
-        sendOrder(getOrderIngredients(orderIngredients))
-            .then(respData => setOrderData({ name:respData?.name, number:respData?.order.number }))
-            .then(() => setModalComponent(<OrderDetails />))
-            .catch((err) => {
-                return setModalComponent(() => <ErrorModal errorStatus={err.status} />)
-            });
+    const onSendOrderRequest = () => {
+        dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])))
     }
 
+    const onDropHandler = (ingredient) => {
+        dispatch({ type: ADD_INGREDIENT, ingredient: ingredient })
+    }
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(ingredient) {
+            onDropHandler(ingredient);
+        }
+    })
+
     return (
-        <section className={styles.wrapper}>
+        <section className={styles.wrapper} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, "pt-25")}>
                 {totalPrice ? (
                     <>
-                        {basicBun && <div className={'mr-4'}>
-                            <ConstructorElement
+                        <div className={'mr-4'}>
+                            {hasBun && <ConstructorElement
                                 type={'top'}
                                 isLocked={true}
-                                text={`${basicBun.name} (верх)`}
-                                price={basicBun.price}
-                                thumbnail={basicBun.image}
-                            />
-                        </div>}
-                        <div className={styles.selectedBlock}>
-                            {[...orderIngredients.sauce, ...orderIngredients.main].map(item => (
-                                <div key={item._id} className={classNames(styles.ingredient, 'mr-2')}>
-                                    <DragIcon type="primary" />
-                                    <ConstructorElement
-                                        text={item.name}
-                                        price={item.price}
-                                        thumbnail={item.image}
-                                    />
-                                </div>
-                            ))}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />}
                         </div>
-                        { basicBun && <div className={'mr-4'}>
-                            <ConstructorElement
+                        <div className={styles.selectedBlock}>
+                            {!!ingredients.length && ingredients
+                                .sort((a,b) => a.orderIndex - b.orderIndex)
+                                .map((ingredient, index) => <ConstructorIngredient key={index} ingredient={ingredient} />)}
+                        </div>
+                        <div className={'mr-4'}>
+                            {hasBun && <ConstructorElement
                                 type={'bottom'}
                                 isLocked={true}
-                                text={`${basicBun.name} (низ)`}
-                                price={basicBun.price}
-                                thumbnail={basicBun.image}
-                            />
-                        </div>}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />}
+                        </div>
                     </>
                 ) : (
                     <p>Пусто</p>
@@ -69,7 +69,7 @@ export const BurgerConstructor = () => {
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button
-                    onClick={ sendOrderAction }
+                    onClick={ onSendOrderRequest }
                     type={totalPrice ? "primary" : "disable"}
                     size="large"
                 >

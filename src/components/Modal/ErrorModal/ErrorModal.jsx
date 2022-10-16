@@ -1,14 +1,19 @@
-import React, { useContext } from "react";
-import { BurgerContext } from "../../../context/BurgerContextProvider";
-import Modal from "../Modal";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 
+import Modal from "../Modal";
 import styles from "./ErrorModal.module.css";
-import PropTypes from "prop-types";
+import { REMOVE_MODAL_TYPE } from "../../../services/actions/Modal";
 
 
-export const ErrorModal = ({ errorStatus }) => {
-    const { closeModal } = useContext(BurgerContext);
+export const ErrorModal = () => {
+    const dispatch = useDispatch();
+    const { errorStatus } = useSelector(state => state.modal);
+
+    const closeModal = () => {
+        dispatch({ type: REMOVE_MODAL_TYPE });
+    }
 
     return (
         <Modal onClose={closeModal} title={"Ошибка"}>
@@ -21,6 +26,4 @@ export const ErrorModal = ({ errorStatus }) => {
     );
 }
 
-ErrorModal.propTypes = {
-    errorStatus: PropTypes.string.isRequired
-};
+ErrorModal.propTypes = {};

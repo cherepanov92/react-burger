@@ -1,0 +1,7 @@
+.ingredient {
+    width: 565px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    grid-column-gap: 8px;
+}

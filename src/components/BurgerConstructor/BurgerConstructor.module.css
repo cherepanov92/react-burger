@@ -2,6 +2,7 @@
     max-width: 600px;
     display: flex;
     flex-direction: column;
+    padding-left: 40px;
 }
 
 .ingredientsBlock {
@@ -12,6 +13,7 @@
 }
 
 .selectedBlock {
+    width: 583px;
     max-height: calc(100vh - 530px);
     overflow-y: auto;
     display: flex;
@@ -35,11 +37,4 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-}
-
-.ingredient {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 8px;
 }
