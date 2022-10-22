@@ -1,44 +1,32 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import styles from './App.module.css';
 import { AppHeader } from '../AppHeader';
-import { BurgerIngredients } from '../BurgerIngredients';
-import { BurgerConstructor } from '../BurgerConstructor';
-import { IngredientDetails } from '../BurgerIngredients/IngredientDetails';
-import { OrderDetails } from '../BurgerConstructor/OrderDetails';
-import { ErrorModal } from '../Modal/ErrorModal/ErrorModal';
-
-const getModal = modalType => {
-    switch (modalType) {
-        case 'ingredientDetails':
-            return <IngredientDetails />;
-        case 'order':
-            return <OrderDetails />;
-        case 'error':
-            return <ErrorModal />;
-        default:
-            return null;
-    }
-};
+import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
+import LoginPage from '../../pages/LoginPage/LoginPage';
+import RegistrationPage from '../../pages/RegistrationPage/RegistrationPage';
+import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 
 function App() {
-    const { modalType } = useSelector(state => state.modal);
-
     return (
         <div className="App">
-            <AppHeader />
-            <main className={styles.content}>
-                <DndProvider backend={HTML5Backend}>
-                    <>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </>
-                </DndProvider>
-            </main>
-            {modalType && getModal(modalType)}
+            <Router>
+                <AppHeader />
+                <Switch>
+                    <Route path="/login" exact>
+                        <LoginPage />
+                    </Route>
+                    <Route path="/register" exact>
+                        <RegistrationPage />
+                    </Route>
+                    <Route path="/forgot-password" exact>
+                        <ResetPasswordPage />
+                    </Route>
+                    <Route path="/" exact>
+                        <ConstructorPage />
+                    </Route>
+                </Switch>
+            </Router>
         </div>
     );
 }
