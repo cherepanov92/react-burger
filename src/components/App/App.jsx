@@ -20,7 +20,10 @@ function App() {
                         <RegistrationPage />
                     </Route>
                     <Route path="/forgot-password" exact>
-                        <ResetPasswordPage />
+                        <ResetPasswordPage step={'email'} />
+                    </Route>
+                    <Route path="/reset-password" exact>
+                        <ResetPasswordPage step={'password'} />
                     </Route>
                     <Route path="/" exact>
                         <ConstructorPage />
