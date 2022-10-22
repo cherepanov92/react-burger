@@ -2,16 +2,17 @@ import React from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
+import { userRegister } from '../../utils/api';
 
 const RegistrationPage = () => {
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const onEmailChange = e => {
-        setEmail(e.target.value);
-    };
-    const onPasswordChange = e => {
-        setPassword(e.target.value);
+
+    const registrationHandler = () => {
+        userRegister(email, password, name).then(r => {
+            r?.success === true && console.log('NISE');
+        });
     };
 
     return (
@@ -24,19 +25,17 @@ const RegistrationPage = () => {
                     onChange={e => setName(e.target.value)}
                     value={name}
                     name={'Имя'}
-                    error={false}
-                    errorText={'Ошибка'}
                     size={'default'}
                 />
             </section>
             <section className="mt-6">
-                <EmailInput onChange={onEmailChange} value={email} name={'email'} />
+                <EmailInput onChange={e => setEmail(e.target.value)} value={email} name={'email'} />
             </section>
             <section className="mt-6">
-                <PasswordInput onChange={onPasswordChange} value={password} name={'password'} />
+                <PasswordInput onChange={e => setPassword(e.target.value)} value={password} name={'password'} />
             </section>
             <section className="mt-6">
-                <Button type="primary" size="large" htmlType="button">
+                <Button type="primary" size="large" htmlType="button" onClick={registrationHandler}>
                     Зарегистрироваться
                 </Button>
             </section>
