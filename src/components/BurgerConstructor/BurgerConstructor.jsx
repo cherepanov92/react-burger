@@ -75,7 +75,7 @@ export const BurgerConstructor = () => {
                     <span className="text text_type_digits-medium mr-2">{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button onClick={onSendOrderRequest} type={totalPrice ? 'primary' : 'disable'} size="large">
+                <Button onClick={onSendOrderRequest} type={totalPrice ? 'primary' : 'disable'} size="large" htmlType="button">
                     Оформить заказ
                 </Button>
             </section>
