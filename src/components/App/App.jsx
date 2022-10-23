@@ -6,6 +6,7 @@ import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage/RegistrationPage';
 import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
+import ProfilePage from "../../pages/ProfilePage/ProfilePage";
 
 function App() {
     return (
@@ -24,6 +25,12 @@ function App() {
                     </Route>
                     <Route path="/reset-password" exact>
                         <ResetPasswordPage step={'password'} />
+                    </Route>
+                    <Route path="profile/orders" exact>
+                        <ProfilePage />
+                    </Route>
+                    <Route path="/profile" exact>
+                        <ProfilePage />
                     </Route>
                     <Route path="/" exact>
                         <ConstructorPage />
