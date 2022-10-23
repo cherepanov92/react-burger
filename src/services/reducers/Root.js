@@ -65,7 +65,8 @@ const init = (
         },
         modal: {
             modalType: null,
-            errorStatus: null
+            status: null,
+            message: null
         }
     }
 ) => createStore(rootReducer, initialState, enhancer);

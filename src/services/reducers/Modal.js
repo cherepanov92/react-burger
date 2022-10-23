@@ -12,14 +12,14 @@ export default function ModalReducer(state = {}, action) {
             return {
                 ...state,
                 modalType: 'error',
-                errorStatus: action.errorStatus
+                status: action.status
             };
         }
         case REMOVE_MODAL_TYPE: {
             return {
                 ...state,
                 modalType: null,
-                errorStatus: null
+                status: null
             };
         }
         default: {

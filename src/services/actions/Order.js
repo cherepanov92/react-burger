@@ -28,7 +28,7 @@ export const sendOrderRequest = orderList => {
             .catch(err => {
                 dispatch({
                     type: APPEND_ERROR_MODAL_TYPE,
-                    errorStatus: err.status
+                    status: err.status
                 });
             });
     };
