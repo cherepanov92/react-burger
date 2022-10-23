@@ -1,5 +1,6 @@
 import {
     API_INGREDIENTS_URL,
+    API_LOGIN_URL,
     API_ORDERS_URL,
     API_PASSWORD_RESET_CONFIRMATION_URL,
     API_PASSWORD_RESET_URL,
@@ -22,6 +23,19 @@ export const sendOrder = orderList => {
 
 export const getIngredients = () => {
     return fetch(API_INGREDIENTS_URL).then(checkResponse);
+};
+
+export const login = (email, password) => {
+    return fetch(API_LOGIN_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(checkResponse);
 };
 
 export const userRegister = (email, password, name) => {

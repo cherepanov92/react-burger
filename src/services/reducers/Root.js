@@ -6,14 +6,7 @@ import constructor from './Constructor';
 import ingredientDetails from './IngredientDetails';
 import order from './Order';
 import modal from './Modal';
-
-const rootReducer = combineReducers({
-    ingredients,
-    constructor,
-    ingredientDetails,
-    order,
-    modal
-});
+import user from './User';
 
 const BASIC_BUN = {
     calories: 420,
@@ -31,12 +24,19 @@ const BASIC_BUN = {
 };
 
 let composeEnhancers = compose;
-
 if (process.env.NODE_ENV !== 'production') {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
-
 const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
+
+const rootReducer = combineReducers({
+    ingredients,
+    constructor,
+    ingredientDetails,
+    order,
+    modal,
+    user
+});
 
 const init = (
     initialState = {
@@ -67,6 +67,14 @@ const init = (
             modalType: null,
             status: null,
             message: null
+        },
+        user: {
+            name: null,
+            email: null,
+            password: null,
+            accessToken: null,
+            refreshToken: null,
+
         }
     }
 ) => createStore(rootReducer, initialState, enhancer);
