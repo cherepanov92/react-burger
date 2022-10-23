@@ -12,7 +12,8 @@ export default function ModalReducer(state = {}, action) {
             return {
                 ...state,
                 modalType: 'error',
-                status: action.status
+                status: action.status,
+                message: action.message
             };
         }
         case REMOVE_MODAL_TYPE: {

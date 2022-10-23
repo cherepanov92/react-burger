@@ -8,7 +8,7 @@ import { REMOVE_MODAL_TYPE } from '../../../services/actions/Modal';
 
 export const ErrorModal = () => {
     const dispatch = useDispatch();
-    const { errorStatus } = useSelector(state => state.modal);
+    const { status, message } = useSelector(state => state.modal);
 
     const closeModal = () => {
         dispatch({ type: REMOVE_MODAL_TYPE });
@@ -17,7 +17,8 @@ export const ErrorModal = () => {
     return (
         <Modal onClose={closeModal} title={'Ошибка'}>
             <div className={styles.wrapper}>
-                <span className={classNames('text text_type_main-medium mt-3 mb-3 pb-10')}>Статус:{errorStatus}</span>
+                {status && <span className={classNames('text text_type_main-medium mt-3 mb-3 pb-10')}>Статус:{status}</span>}
+                {message && <span className={classNames('text text_type_main-medium mt-3 mb-3 pb-10')}>Сообщение:{message}</span>}
             </div>
         </Modal>
     );
