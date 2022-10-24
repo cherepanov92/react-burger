@@ -31,3 +31,11 @@ export const setCookie = (name, value, options = {}) => {
 
     document.cookie = updatedCookie;
 };
+
+export function getCookie(name) {
+    const matches = document.cookie.match(
+        /* eslint-disable */
+        new RegExp('(?:^|; )' + name.replace(/([.\\+\-*:\/?!|^${}()\[\]])/g, '\\$1') + '=([^;]*)')
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}

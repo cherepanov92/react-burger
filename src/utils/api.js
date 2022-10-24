@@ -4,9 +4,9 @@ import {
     API_ORDERS_URL,
     API_PASSWORD_RESET_CONFIRMATION_URL,
     API_PASSWORD_RESET_URL,
-    API_REGISTER_URL
+    API_REGISTER_URL, API_TOKEN_URL
 } from './constants';
-import { setCookie } from './helpers';
+import {getCookie, setCookie} from './helpers';
 
 const checkResponse = response => {
     return response.ok ? response.json() : Promise.reject(response);
@@ -68,6 +68,20 @@ export const userRegister = (email, password, name) => {
             email: email,
             password: password,
             name: name
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(checkResponse)
+        .then(completeAccessToken);
+};
+
+export const refreshToken = () => {
+    return fetch(API_TOKEN_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            token: getCookie('refreshToken')
         }),
         headers: {
             'Content-Type': 'application/json'
