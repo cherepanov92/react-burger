@@ -4,9 +4,10 @@ import {
     API_ORDERS_URL,
     API_PASSWORD_RESET_CONFIRMATION_URL,
     API_PASSWORD_RESET_URL,
-    API_REGISTER_URL, API_TOKEN_URL
+    API_REGISTER_URL,
+    API_TOKEN_URL
 } from './constants';
-import {getCookie, setCookie} from './helpers';
+import { deleteCookie, getCookie, setCookie } from './helpers';
 
 const checkResponse = response => {
     return response.ok ? response.json() : Promise.reject(response);
@@ -114,4 +115,21 @@ export const passwordResetConfirmation = (password, token) => {
             'Content-Type': 'application/json'
         }
     }).then(checkResponse);
+};
+
+export const logout = () => {
+    return fetch(API_TOKEN_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            token: getCookie('refreshToken')
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(checkResponse)
+        .then(() => {
+            deleteCookie('refreshToken');
+            deleteCookie('accessToken');
+        });
 };
