@@ -70,11 +70,7 @@ const init = (
         },
         user: {
             name: null,
-            email: null,
-            password: null,
-            accessToken: null,
-            refreshToken: null,
-
+            email: null
         }
     }
 ) => createStore(rootReducer, initialState, enhancer);

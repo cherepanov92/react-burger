@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import SinglePageWrapper from '../SinglePageWrapper';
@@ -8,12 +9,18 @@ import { loginUser } from '../../services/actions/User';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const onAuth = useCallback(() => {
+        history.replace({ pathname: '/' });
+    }, [history]);
 
-    const enterHandler = e => {
+    const enterHandler = async e => {
         e.preventDefault();
-        dispatch(loginUser(email, password));
+        await dispatch(loginUser(email, password));
+        await onAuth();
     };
 
     return (

@@ -12,7 +12,8 @@ export const loginUser = (email, password) => {
                 if (res && res.success) {
                     dispatch({
                         type: GET_LOGIN_SUCCESS,
-                        userData: res
+                        name: res.user.name,
+                        email: res.user.email
                     });
                 } else {
                     dispatch({

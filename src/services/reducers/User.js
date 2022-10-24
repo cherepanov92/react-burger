@@ -14,10 +14,8 @@ const UserReducer = (state = {}, action) => {
         case GET_LOGIN_SUCCESS: {
             return {
                 ...state,
-                name: action.userData.user.name,
-                email: action.userData.user.email,
-                accessToken: action.userData.accessToken,
-                refreshToken: action.userData.refreshToken,
+                name: action.name,
+                email: action.email,
                 userRequest: false
             };
         }

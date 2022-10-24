@@ -6,9 +6,30 @@ import {
     API_PASSWORD_RESET_URL,
     API_REGISTER_URL
 } from './constants';
+import { setCookie } from './helpers';
 
 const checkResponse = response => {
     return response.ok ? response.json() : Promise.reject(response);
+};
+
+const completeAccessToken = response => {
+    let authToken;
+    let refreshToken;
+
+    const accessToken = response?.accessToken;
+
+    if (response?.accessToken.indexOf('Bearer') === 0) {
+        authToken = accessToken.split('Bearer ')[1];
+    }
+
+    if (response?.refreshToken) {
+        refreshToken = response.refreshToken;
+    }
+
+    authToken && setCookie('accessToken', authToken);
+    refreshToken && setCookie('refreshToken', refreshToken);
+
+    return response;
 };
 
 export const sendOrder = orderList => {
@@ -35,7 +56,9 @@ export const login = (email, password) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    })
+        .then(checkResponse)
+        .then(completeAccessToken);
 };
 
 export const userRegister = (email, password, name) => {
@@ -49,7 +72,9 @@ export const userRegister = (email, password, name) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    })
+        .then(checkResponse)
+        .then(completeAccessToken);
 };
 
 export const passwordReset = email => {
