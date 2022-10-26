@@ -5,7 +5,8 @@ import {
     API_PASSWORD_RESET_CONFIRMATION_URL,
     API_PASSWORD_RESET_URL,
     API_REGISTER_URL,
-    API_TOKEN_URL
+    API_TOKEN_URL,
+    API_USER_URL
 } from './constants';
 import { deleteCookie, getCookie, setCookie } from './helpers';
 
@@ -132,4 +133,29 @@ export const logout = () => {
             deleteCookie('refreshToken');
             deleteCookie('accessToken');
         });
+};
+
+export const getUserApiData = () => {
+    return fetch(API_USER_URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${getCookie('accessToken')}`
+        }
+    }).then(checkResponse);
+};
+
+export const setUserData = (email, password, name) => {
+    const options = {
+        method: 'PATCH',
+        body: JSON.stringify({
+            email: email,
+            password: password,
+            name: name
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${getCookie('accessToken')}`
+        }
+    }).then(checkResponse);
 };

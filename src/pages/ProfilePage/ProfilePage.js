@@ -1,9 +1,11 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import classNames from 'classnames';
 
 import styles from './ProfilePage.module.css';
+import { getUserData } from '../../services/actions/User';
 
 const ProfileNavLink = ({ to, text }) => {
     return (
@@ -30,14 +32,14 @@ const ProfileInput = ({ placeholder, onChange, value, type }) => {
     );
 };
 
-const ProfilePage = () => {
-    const [name, setName] = React.useState('');
-    const [login, setLogin] = React.useState('');
-    const [password, setPassword] = React.useState('');
+const ProfilePage = ({ name, email }) => {
+    const [newName, setNewName] = useState(name);
+    const [newEmail, setNewEmail] = useState(email);
+    const [newPassword, setNewPassword] = useState('');
 
     return (
         <div className={styles.wrapper}>
-            <section className={classNames('mr-15', 'mt-30')}>
+            <section className="mr-15 mt-30">
                 <ProfileNavLink to={'/profile'} text={'Профиль'} />
                 <ProfileNavLink to={'/profile/orders'} text={'История заказов'} />
                 <ProfileNavLink to={'/'} text={'Выход'} />
@@ -47,13 +49,38 @@ const ProfilePage = () => {
                     </p>
                 </div>
             </section>
-            <section className={classNames('mt-25')}>
-                <ProfileInput type={'text'} placeholder={'Имя'} onChange={setName} value={name} />
-                <ProfileInput type={'text'} placeholder={'Логин'} onChange={setLogin} value={login} />
-                <ProfileInput type={'password'} placeholder={'Пароль'} onChange={setPassword} value={password} />
+            <section className="mt-25">
+                <ProfileInput type={'text'} placeholder={'Имя'} onChange={setNewName} value={newName} />
+                <ProfileInput type={'text'} placeholder={'Логин'} onChange={setNewEmail} value={newEmail} />
+                <ProfileInput type={'password'} placeholder={'Пароль'} onChange={setNewPassword} value={newPassword} />
             </section>
         </div>
     );
 };
 
-export default ProfilePage;
+const ProfilePageContainer = () => {
+    const dispatch = useDispatch();
+    const { name, email, userRequest } = useSelector(state => state.user);
+
+    const init = () => {
+        dispatch(getUserData());
+    };
+
+    useEffect(init, [dispatch]);
+
+    if (userRequest === false) {
+        return <ProfilePage name={name} email={email} />;
+    }
+
+    return (
+        <div className={styles.wrapper}>
+            {userRequest !== false ? (
+                <p className="text text_type_main-large m-10">Загрузка...</p>
+            ) : (
+                <ProfilePage name={name} email={email} />
+            )}
+        </div>
+    );
+};
+
+export default ProfilePageContainer;

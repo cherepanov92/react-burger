@@ -1,17 +1,17 @@
-export const GET_LOGIN_REQUEST = 'GET_LOGIN_REQUEST';
-export const GET_LOGIN_SUCCESS = 'GET_LOGIN_SUCCESS';
-export const GET_LOGIN_FAILED = 'GET_LOGIN_FAILED';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
 
 const UserReducer = (state = {}, action) => {
     switch (action.type) {
-        case GET_LOGIN_REQUEST: {
+        case GET_USER_REQUEST: {
             return {
                 ...state,
                 userRequest: true,
                 userFailed: false
             };
         }
-        case GET_LOGIN_SUCCESS: {
+        case GET_USER_SUCCESS: {
             return {
                 ...state,
                 name: action.name,
@@ -19,7 +19,7 @@ const UserReducer = (state = {}, action) => {
                 userRequest: false
             };
         }
-        case GET_LOGIN_FAILED: {
+        case GET_USER_FAILED: {
             return {
                 ...state,
                 userFailed: true,
