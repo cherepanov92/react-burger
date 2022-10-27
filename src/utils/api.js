@@ -1,6 +1,7 @@
 import {
     API_INGREDIENTS_URL,
     API_LOGIN_URL,
+    API_LOGOUT_URL,
     API_ORDERS_URL,
     API_PASSWORD_RESET_CONFIRMATION_URL,
     API_PASSWORD_RESET_URL,
@@ -14,24 +15,39 @@ const checkResponse = response => {
     return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
 };
 
-const completeAccessToken = response => {
-    let authToken;
-    let refreshToken;
+const saveTokens = (refreshToken, accessToken) => {
+    setCookie('accessToken', accessToken);
+    setCookie('refreshToken', refreshToken);
+};
 
-    const accessToken = response?.accessToken;
+export const refreshTokenRequest = () => {
+    return fetch(API_TOKEN_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            token: getCookie('refreshToken')
+        })
+    }).then(checkResponse);
+};
 
-    if (response?.accessToken.indexOf('Bearer') === 0) {
-        authToken = accessToken.split('Bearer ')[1];
+export const fetchWithRefresh = async (url, options) => {
+    try {
+        const res = await fetch(url, options);
+        return await checkResponse(res);
+    } catch (err) {
+        if (err.message === 'jwt expired') {
+            const { refreshToken, accessToken } = await refreshTokenRequest();
+            saveTokens(refreshToken, accessToken);
+            options.headers.authorization = accessToken;
+
+            const res = await fetch(url, options);
+            return await checkResponse(res);
+        } else {
+            return Promise.reject(err);
+        }
     }
-
-    if (response?.refreshToken) {
-        refreshToken = response.refreshToken;
-    }
-
-    authToken && setCookie('accessToken', authToken);
-    refreshToken && setCookie('refreshToken', refreshToken);
-
-    return response;
 };
 
 export const sendOrder = orderList => {
@@ -59,8 +75,11 @@ export const login = (email, password) => {
             'Content-Type': 'application/json'
         }
     })
-        .then(checkResponse)
-        .then(completeAccessToken);
+    .then(checkResponse)
+    .then(resp => {
+        saveTokens(resp.refreshToken, resp.accessToken)
+        return resp;
+    });
 };
 
 export const userRegister = (email, password, name) => {
@@ -76,21 +95,7 @@ export const userRegister = (email, password, name) => {
         }
     })
         .then(checkResponse)
-        .then(completeAccessToken);
-};
-
-export const refreshToken = () => {
-    return fetch(API_TOKEN_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-            token: getCookie('refreshToken')
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(checkResponse)
-        .then(completeAccessToken);
+        .then(fetchWithRefresh);
 };
 
 export const passwordReset = email => {
@@ -119,7 +124,7 @@ export const passwordResetConfirmation = (password, token) => {
 };
 
 export const logout = () => {
-    return fetch(API_TOKEN_URL, {
+    return fetch(API_LOGOUT_URL, {
         method: 'POST',
         body: JSON.stringify({
             token: getCookie('refreshToken')
@@ -136,13 +141,14 @@ export const logout = () => {
 };
 
 export const getUserApiData = () => {
-    return fetch(API_USER_URL, {
+    const options = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            authorization: `Bearer ${getCookie('accessToken')}`
+            authorization: getCookie('accessToken')
         }
-    }).then(checkResponse);
+    };
+    return fetchWithRefresh(API_USER_URL, options);
 };
 
 export const setUserData = (email, password, name) => {
@@ -155,7 +161,9 @@ export const setUserData = (email, password, name) => {
         }),
         headers: {
             'Content-Type': 'application/json',
-            authorization: `Bearer ${getCookie('accessToken')}`
+            authorization: getCookie('accessToken')
         }
-    }).then(checkResponse);
+    };
+
+    return fetchWithRefresh(API_USER_URL, options);
 };
