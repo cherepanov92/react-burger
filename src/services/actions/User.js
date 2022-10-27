@@ -24,36 +24,36 @@ export const loginUser = (email, password) => {
             .catch(err =>
                 dispatch({
                     type: APPEND_ERROR_MODAL_TYPE,
-                    code: err.code
+                    message: err.message
                 })
             );
     };
 };
 
 export const getUserData = () => {
-        return function (dispatch) {
-            dispatch({
-                type: GET_USER_REQUEST
-            });
-            getUserApiData()
-                .then(res => {
-                    if (res && res.success) {
-                        dispatch({
-                            type: GET_USER_SUCCESS,
-                            name: res.user.name,
-                            email: res.user.email
-                        });
-                    } else {
-                        dispatch({
-                            type: GET_USER_FAILED
-                        });
-                    }
-                })
-                .catch(err =>
+    return function (dispatch) {
+        dispatch({
+            type: GET_USER_REQUEST
+        });
+        getUserApiData()
+            .then(res => {
+                if (res && res.success) {
                     dispatch({
-                        type: APPEND_ERROR_MODAL_TYPE,
-                        code: err.code
-                    })
-                );
-        };
+                        type: GET_USER_SUCCESS,
+                        name: res.user.name,
+                        email: res.user.email
+                    });
+                } else {
+                    dispatch({
+                        type: GET_USER_FAILED
+                    });
+                }
+            })
+            .catch(err =>
+                dispatch({
+                    type: APPEND_ERROR_MODAL_TYPE,
+                    message: err.message
+                })
+            );
     };
+};

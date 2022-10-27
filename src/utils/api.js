@@ -11,7 +11,7 @@ import {
 import { deleteCookie, getCookie, setCookie } from './helpers';
 
 const checkResponse = response => {
-    return response.ok ? response.json() : Promise.reject(response);
+    return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
 };
 
 const completeAccessToken = response => {
