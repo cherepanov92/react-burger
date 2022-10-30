@@ -12,8 +12,8 @@ export const loginUser = (email, password) => {
                 if (res && res.success) {
                     dispatch({
                         type: GET_USER_SUCCESS,
-                        name: res.user.name,
-                        email: res.user.email
+                        data: res.user,
+                        accessToken: res.accessToken
                     });
                 } else {
                     dispatch({
@@ -21,12 +21,12 @@ export const loginUser = (email, password) => {
                     });
                 }
             })
-            .catch(err =>
+            .catch(err => {
                 dispatch({
                     type: APPEND_ERROR_MODAL_TYPE,
                     message: err.message
-                })
-            );
+                });
+            });
     };
 };
 
@@ -35,25 +35,17 @@ export const getUserData = () => {
         dispatch({
             type: GET_USER_REQUEST
         });
-        getUserApiData()
-            .then(res => {
-                if (res && res.success) {
-                    dispatch({
-                        type: GET_USER_SUCCESS,
-                        name: res.user.name,
-                        email: res.user.email
-                    });
-                } else {
-                    dispatch({
-                        type: GET_USER_FAILED
-                    });
-                }
-            })
-            .catch(err =>
+        getUserApiData().then(res => {
+            if (res && res.success) {
                 dispatch({
-                    type: APPEND_ERROR_MODAL_TYPE,
-                    message: err.message
-                })
-            );
+                    type: GET_USER_SUCCESS,
+                    data: res.user
+                });
+            } else {
+                dispatch({
+                    type: GET_USER_FAILED
+                });
+            }
+        });
     };
 };

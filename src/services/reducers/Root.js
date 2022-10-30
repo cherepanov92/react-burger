@@ -69,8 +69,8 @@ const init = (
             message: null
         },
         user: {
-            name: null,
-            email: null
+            data: null,
+            accessToken: null
         }
     }
 ) => createStore(rootReducer, initialState, enhancer);

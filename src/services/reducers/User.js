@@ -12,12 +12,17 @@ const UserReducer = (state = {}, action) => {
             };
         }
         case GET_USER_SUCCESS: {
-            return {
+            const newState = {
                 ...state,
-                name: action.name,
-                email: action.email,
+                data: action.data,
                 userRequest: false
             };
+
+            if (action.accessToken) {
+                newState.accessToken = action.accessToken;
+            }
+
+            return newState;
         }
         case GET_USER_FAILED: {
             return {
