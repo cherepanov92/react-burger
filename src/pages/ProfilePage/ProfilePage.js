@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
 
 import styles from './ProfilePage.module.css';
-import { getUserData } from '../../services/actions/User';
 
 const ProfileNavLink = ({ to, text }) => {
     return (
@@ -59,26 +58,11 @@ const ProfilePage = ({ name, email }) => {
 };
 
 const ProfilePageContainer = () => {
-    const dispatch = useDispatch();
-    const { name, email, userRequest } = useSelector(state => state.user);
-
-    const init = () => {
-        dispatch(getUserData());
-    };
-
-    useEffect(init, [dispatch]);
-
-    if (userRequest === false) {
-        return <ProfilePage name={name} email={email} />;
-    }
+    const { data } = useSelector(state => state.user);
 
     return (
         <div className={styles.wrapper}>
-            {userRequest !== false ? (
-                <p className="text text_type_main-large m-10">Загрузка...</p>
-            ) : (
-                <ProfilePage name={name} email={email} />
-            )}
+            <ProfilePage name={data.name} email={data.email} />
         </div>
     );
 };

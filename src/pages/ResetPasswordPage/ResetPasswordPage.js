@@ -4,6 +4,8 @@ import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-de
 import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 import { passwordReset, passwordResetConfirmation } from '../../utils/api';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const getStepContent = step => {
     switch (step) {
@@ -19,12 +21,7 @@ const getStepContent = step => {
 const PasswordConformation = () => {
     const [token, setToken] = React.useState('');
     const [password, setPassword] = React.useState('');
-
-    const passwordConformationHandler = () => {
-        passwordResetConfirmation(password, token).then(r => {
-            r?.success === true && console.log('NISE');
-        });
-    };
+    const passwordConformationHandler = () => passwordResetConfirmation(password, token);
 
     return (
         <>
@@ -58,11 +55,7 @@ const PasswordConformation = () => {
 
 const EmailConformation = () => {
     const [email, setEmail] = React.useState('');
-    const emailConformationHandler = () => {
-        passwordReset(email).then(r => {
-            r?.success === true && console.log('NISE');
-        });
-    };
+    const emailConformationHandler = () => passwordReset(email);
 
     return (
         <>
@@ -78,14 +71,29 @@ const EmailConformation = () => {
     );
 };
 
-const ResetPasswordPage = ({ step }) => {
-    return (
-        <SinglePageWrapper>
-            <p className="text text_type_main-medium">Восстановление пароля</p>
-            {getStepContent(step)}
-            <AdditionalLink className={'mt-20'} label="Вспомнили пароль?" to="/login" lintText="Войти" replace />
-        </SinglePageWrapper>
-    );
+const ResetPasswordPage = ({ step, isAuth }) => {
+    if (isAuth) {
+        return (
+            <Redirect
+                to={{
+                    pathname: '/'
+                }}
+            />
+        );
+    } else {
+        return (
+            <SinglePageWrapper>
+                <p className="text text_type_main-medium">Восстановление пароля</p>
+                {getStepContent(step)}
+                <AdditionalLink className={'mt-20'} label="Вспомнили пароль?" to="/login" lintText="Войти" replace />
+            </SinglePageWrapper>
+        );
+    }
 };
 
-export default ResetPasswordPage;
+const ResetPasswordPageContainer = ({ step }) => {
+    const user = useSelector(state => state.user);
+    return user ? <ResetPasswordPage isAuth={!!user.data} step={step} /> : null;
+};
+
+export default ResetPasswordPageContainer;
