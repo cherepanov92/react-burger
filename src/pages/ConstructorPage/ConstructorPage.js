@@ -4,7 +4,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import styles from './ConstructorPage.module.css';
 import { BurgerConstructor } from '../../components/BurgerConstructor';
-import { BurgerIngredients } from '../../components/BurgerIngredients';
+import BurgerIngredients from "../../components/BurgerIngredients/BurgerIngredients";
+
 
 const ConstructorPage = () => {
     return (

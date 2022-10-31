@@ -5,19 +5,15 @@ import styles from './BurgerIngredients.module.css';
 import { IngredientsTabs } from './IngredientsTabs';
 import { IngredientsBlock } from './IngredientsBlock';
 import { getIngredientsData } from '../../services/actions/Ingredients';
+import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
 
-export const BurgerIngredients = () => {
-    const dispatch = useDispatch();
-    const { ingredients, ingredientsRequest } = useSelector(state => state.ingredients);
+const BurgerIngredients = ({ ingredients }) => {
     const [currentZone, setCurrentZone] = useState('bun');
-
     const bunRef = useRef(null);
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
 
-    useEffect(() => {
-        dispatch(getIngredientsData());
-    }, [dispatch]);
+    const ingredientsByTypeList = getIngredientsGroups(ingredients);
 
     const handleScroll = e => {
         e.stopPropagation();
@@ -61,24 +57,36 @@ export const BurgerIngredients = () => {
                 <IngredientsTabs current={currentZone} changeCurrentZone={changeCurrentZone} />
             </div>
             <div className={styles.ingredientsBlock} onScroll={handleScroll}>
-                {ingredientsRequest ? (
-                    <p className="text text_type_main-large mt-5">Loading ...</p>
-                ) : (
-                    <>
-                        <div ref={bunRef}>
-                            <IngredientsBlock title={'Булки'} ingredients={ingredients.bun} />
-                        </div>
-                        <div ref={sauceRef}>
-                            <IngredientsBlock title={'Соусы'} ingredients={ingredients.sauce} />
-                        </div>
-                        <div ref={mainRef}>
-                            <IngredientsBlock title={'Начинки'} ingredients={ingredients.main} />
-                        </div>
-                    </>
-                )}
+                <>
+                    <div ref={bunRef}>
+                        <IngredientsBlock title={'Булки'} ingredients={ingredientsByTypeList.bun} />
+                    </div>
+                    <div ref={sauceRef}>
+                        <IngredientsBlock title={'Соусы'} ingredients={ingredientsByTypeList.sauce} />
+                    </div>
+                    <div ref={mainRef}>
+                        <IngredientsBlock title={'Начинки'} ingredients={ingredientsByTypeList.main} />
+                    </div>
+                </>
             </div>
         </div>
     );
 };
 
-BurgerIngredients.propTypes = {};
+const BurgerIngredientsContainer = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getIngredientsData());
+    }, [dispatch]);
+
+    const { ingredients, ingredientsRequest } = useSelector(state => state.ingredients);
+
+    if (ingredientsRequest && !ingredients.length) {
+        return null;
+    }
+
+    return <BurgerIngredients ingredients={ingredients} />;
+};
+
+export default BurgerIngredientsContainer;

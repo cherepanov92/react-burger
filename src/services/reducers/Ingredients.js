@@ -1,5 +1,4 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/Ingredients';
-import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
 
 const IngredientsReducer = (state = {}, action) => {
     switch (action.type) {
@@ -13,7 +12,7 @@ const IngredientsReducer = (state = {}, action) => {
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
-                ingredients: getIngredientsGroups(action.items),
+                ingredients: action.items,
                 ingredientsRequest: false
             };
         }

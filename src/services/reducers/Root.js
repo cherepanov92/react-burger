@@ -43,11 +43,7 @@ const init = (
         ingredients: {
             ingredientsRequest: false,
             ingredientsFailed: false,
-            ingredients: {
-                bun: [],
-                main: [],
-                sauce: []
-            }
+            ingredients: []
         },
         constructor: {
             bun: BASIC_BUN,
