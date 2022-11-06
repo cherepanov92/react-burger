@@ -1,7 +1,6 @@
 import { getUserApiData, login, logout } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE } from './Modal';
 import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER } from '../reducers/User';
-import { deleteCookie } from '../../utils/helpers';
 
 export const loginUser = (email, password) => {
     return function (dispatch) {
@@ -52,20 +51,25 @@ export const logoutUser = () => {
 
 export const getUserData = () => {
     return function (dispatch) {
-        dispatch({
-            type: GET_USER_REQUEST
-        });
-        getUserApiData().then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: GET_USER_SUCCESS,
-                    data: res.user
-                });
-            } else {
-                dispatch({
-                    type: GET_USER_FAILED
-                });
-            }
-        });
+        getUserApiData()
+            .then(res => {
+                if (res && res.success) {
+                    dispatch({
+                        type: GET_USER_SUCCESS,
+                        data: res.user
+                    });
+                } else {
+                    dispatch({
+                        type: GET_USER_FAILED
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.message === 'You should be authorised') {
+                    dispatch({
+                        type: LOGOUT_USER
+                    });
+                }
+            });
     };
 };

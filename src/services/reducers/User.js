@@ -1,3 +1,5 @@
+import { deleteCookie } from '../../utils/helpers';
+
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
@@ -34,6 +36,8 @@ const UserReducer = (state = {}, action) => {
             };
         }
         case LOGOUT_USER: {
+            deleteCookie('refreshToken');
+            deleteCookie('accessToken');
             return { ...state, data: null, accessToken: null };
         }
         default: {
