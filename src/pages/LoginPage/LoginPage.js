@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import SinglePageWrapper from '../SinglePageWrapper';
@@ -9,28 +9,19 @@ import { loginUser } from '../../services/actions/User';
 
 const LoginPage = ({ isAuth }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
+    const location = useLocation();
+    const locationState = location.state;
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const onAuth = useCallback(() => {
-        history.replace({ pathname: '/' });
-    }, [history]);
 
     const enterHandler = async e => {
         e.preventDefault();
         await dispatch(loginUser(email, password));
-        await onAuth();
     };
 
     if (isAuth) {
-        return (
-            <Redirect
-                to={{
-                    pathname: '/'
-                }}
-            />
-        );
+        return <Redirect to={locationState?.from || '/'} />;
     } else {
         return (
             <SinglePageWrapper>
