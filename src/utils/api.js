@@ -9,7 +9,7 @@ import {
     API_TOKEN_URL,
     API_USER_URL
 } from './constants';
-import { deleteCookie, getCookie, setCookie } from './helpers';
+import { getCookie, setCookie } from './helpers';
 
 const checkResponse = response => {
     return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
@@ -82,6 +82,18 @@ export const login = (email, password) => {
     });
 };
 
+export const logout = () => {
+    return fetch(API_LOGOUT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            token: getCookie('refreshToken')
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(checkResponse);
+};
+
 export const userRegister = (email, password, name) => {
     return fetch(API_REGISTER_URL, {
         method: 'POST',
@@ -121,23 +133,6 @@ export const passwordResetConfirmation = (password, token) => {
             'Content-Type': 'application/json'
         }
     }).then(checkResponse);
-};
-
-export const logout = () => {
-    return fetch(API_LOGOUT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-            token: getCookie('refreshToken')
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(checkResponse)
-        .then(() => {
-            deleteCookie('refreshToken');
-            deleteCookie('accessToken');
-        });
 };
 
 export const getUserApiData = () => {
