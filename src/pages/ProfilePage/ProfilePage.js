@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import classNames from 'classnames';
 
 import styles from './ProfilePage.module.css';
+import Profile from './Profile/Profile';
+import Orders from './Orders/Orders';
+import Logout from './Logout/Logout';
 
 const ProfileNavLink = ({ to, text }) => {
     return (
@@ -16,53 +17,40 @@ const ProfileNavLink = ({ to, text }) => {
     );
 };
 
-const ProfileInput = ({ placeholder, onChange, value, type }) => {
-    return (
-        <section className={classNames(styles.section, 'mt-6')}>
-            <Input
-                type={type}
-                placeholder={placeholder}
-                onChange={e => onChange(e.target.value)}
-                value={value}
-                size={'default'}
-                icon={'EditIcon'}
-            />
-        </section>
-    );
-};
-
-const ProfilePage = ({ name, email }) => {
-    const [newName, setNewName] = useState(name);
-    const [newEmail, setNewEmail] = useState(email);
-    const [newPassword, setNewPassword] = useState('');
-
+const ProfilePage = ({ children }) => {
     return (
         <div className={styles.wrapper}>
             <section className="mr-15 mt-30">
                 <ProfileNavLink to={'/profile'} text={'Профиль'} />
                 <ProfileNavLink to={'/profile/orders'} text={'История заказов'} />
-                <ProfileNavLink to={'/'} text={'Выход'} />
+                <ProfileNavLink to={'/profile/logout'} text={'Выход'} />
                 <div className={classNames(styles.navHint, 'mt-20')}>
                     <p className="text text_type_main-default">
                         В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные данные
                     </p>
                 </div>
             </section>
-            <section className="mt-25">
-                <ProfileInput type={'text'} placeholder={'Имя'} onChange={setNewName} value={newName} />
-                <ProfileInput type={'text'} placeholder={'Логин'} onChange={setNewEmail} value={newEmail} />
-                <ProfileInput type={'password'} placeholder={'Пароль'} onChange={setNewPassword} value={newPassword} />
-            </section>
+            {children}
         </div>
     );
 };
 
 const ProfilePageContainer = () => {
-    const { data } = useSelector(state => state.user);
-
     return (
         <div className={styles.wrapper}>
-            <ProfilePage name={data.name} email={data.email} />
+            <ProfilePage>
+                <Switch>
+                    <Route path="/profile" exact>
+                        <Profile />
+                    </Route>
+                    <Route path="/profile/orders" exact>
+                        <Orders />
+                    </Route>
+                    <Route path="/profile/logout" exact>
+                        <Logout />
+                    </Route>
+                </Switch>
+            </ProfilePage>
         </div>
     );
 };
