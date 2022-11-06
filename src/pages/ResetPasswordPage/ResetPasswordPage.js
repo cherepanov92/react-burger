@@ -5,7 +5,7 @@ import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 import { passwordReset, passwordResetConfirmation } from '../../utils/api';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 
 const getStepContent = step => {
     switch (step) {
@@ -19,43 +19,61 @@ const getStepContent = step => {
 };
 
 const PasswordConformation = () => {
+    const history = useHistory();
+    const location = useLocation();
+    const isEmailConfirm = !!location.state?.isEmailConfirm;
+
     const [token, setToken] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const passwordConformationHandler = () => passwordResetConfirmation(password, token);
+
+    const passwordConformationHandler = () =>
+        passwordResetConfirmation(password, token).then(() => history.replace({ pathname: '/' }));
+
+    if (isEmailConfirm) {
+        return (
+            <>
+                <section className="mt-6">
+                    <PasswordInput
+                        onChange={e => setPassword(e.target.value)}
+                        value={password}
+                        name={'Введите новый пароль'}
+                    />
+                </section>
+                <section className="mt-6">
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        onChange={e => setToken(e.target.value)}
+                        value={token}
+                        name={'Имя'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
+                </section>
+                <section className="mt-6">
+                    <Button type="primary" size="large" htmlType="button" onClick={passwordConformationHandler}>
+                        Сохранить
+                    </Button>
+                </section>
+            </>
+        );
+    }
 
     return (
-        <>
-            <section className="mt-6">
-                <PasswordInput
-                    onChange={e => setPassword(e.target.value)}
-                    value={password}
-                    name={'Введите новый пароль'}
-                />
-            </section>
-            <section className="mt-6">
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    onChange={e => setToken(e.target.value)}
-                    value={token}
-                    name={'Имя'}
-                    error={false}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                />
-            </section>
-            <section className="mt-6">
-                <Button type="primary" size="large" htmlType="button" onClick={passwordConformationHandler}>
-                    Сохранить
-                </Button>
-            </section>
-        </>
+        <Redirect
+            to={{
+                pathname: '/forgot-password'
+            }}
+        />
     );
 };
 
 const EmailConformation = () => {
+    const history = useHistory();
     const [email, setEmail] = React.useState('');
-    const emailConformationHandler = () => passwordReset(email);
+    const emailConformationHandler = () =>
+        passwordReset(email).then(() => history.replace({ pathname: '/reset-password' }, { isEmailConfirm: true }));
 
     return (
         <>
