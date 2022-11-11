@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import styles from './IngredientDetails.module.css';
-import Modal from '../Modal/Modal';
-import { REMOVE_MODAL_TYPE } from '../../services/actions/Modal';
+import { getIngredientsData } from '../../services/actions/Ingredients';
 
 const IngredientDetailsContent = ({ ingredient }) => {
     return (
@@ -34,25 +33,44 @@ const IngredientDetailsContent = ({ ingredient }) => {
     );
 };
 
-export const IngredientDetails = ({ useModal }) => {
-    const { ingredientId } = useParams();
+const IngredientDetails = ({ ingredient }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => setIsLoading(ingredient === null), [ingredient]);
+
+    if (isLoading) {
+        return <p>Loading</p>;
+    }
+
+    return <IngredientDetailsContent ingredient={ingredient} />;
+};
+
+const IngredientDetailsContainer = ({ useModal }) => {
     const dispatch = useDispatch();
-    const { ingredients } = useSelector(state => state.ingredients);
+    const { ingredientId } = useParams();
+    const { ingredientDetails, ingredientList } = useSelector(state => ({
+        ingredientDetails: state.ingredientDetails,
+        ingredientList: state.ingredients
+    }));
 
-    const closeIngredientModal = () => {
-        dispatch({ type: REMOVE_MODAL_TYPE });
+    useEffect(() => {
+        if (!useModal) {
+            dispatch(getIngredientsData());
+        }
+    }, [dispatch, useModal]);
 
+    const getIngredient = () => {
+        if (ingredientDetails) {
+            return ingredientDetails;
+        } else if (!!ingredientList.ingredients.length) {
+            return ingredientList.ingredients.filter(item => item._id === ingredientId)[0];
+        }
+
+        return null;
     };
 
-    const currentIngredient = ingredients.filter(ingredient => ingredient._id === ingredientId)[0];
-
-    return useModal ? (
-        <Modal title={'Детали ингредиента'} onClose={closeIngredientModal}>
-            <IngredientDetailsContent ingredient={currentIngredient} />
-        </Modal>
-    ) : (
-        <IngredientDetailsContent ingredient={currentIngredient} />
-    );
+    return <IngredientDetails ingredient={getIngredient()} />;
 };
 
 IngredientDetails.propTypes = {};
+
+export default IngredientDetailsContainer;
