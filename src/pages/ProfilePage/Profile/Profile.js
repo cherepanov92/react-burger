@@ -1,36 +1,64 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import styles from '../ProfilePage.module.css';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { useForm } from '../../../hooks/useForm';
 
-const ProfileInput = ({ placeholder, onChange, value, type }) => {
+const ProfileInput = ({ placeholder, onChange, value, type, name }) => {
     return (
-        <section className={classNames(styles.section, 'mt-6')}>
+        <div className={classNames(styles.section, 'mt-6')}>
             <Input
                 type={type}
                 placeholder={placeholder}
-                onChange={e => onChange(e.target.value)}
-                value={value}
+                onChange={onChange}
+                value={value ?? ''}
+                name={name}
                 size={'default'}
                 icon={'EditIcon'}
+                autoComplete={'off'}
             />
-        </section>
+        </div>
     );
 };
 
 const Profile = () => {
-    const { data } = useSelector(state => state.user);
-    const [newName, setNewName] = useState(data.name);
-    const [newEmail, setNewEmail] = useState(data.email);
-    const [newPassword, setNewPassword] = useState('');
-    return (
-        <section className="mt-25">
-            <ProfileInput type={'text'} placeholder={'Имя'} onChange={setNewName} value={newName} />
-            <ProfileInput type={'text'} placeholder={'Логин'} onChange={setNewEmail} value={newEmail} />
-            <ProfileInput type={'password'} placeholder={'Пароль'} onChange={setNewPassword} value={newPassword} />
-        </section>
-    );
+    const { data, userRequest } = useSelector(state => state.user);
+    const { values, handleChange } = useForm({
+        name: data.name,
+        email: data.email,
+        password: data.password
+    });
+
+    if (!userRequest) {
+        return (
+            <form className="mt-25">
+                <ProfileInput
+                    type={'text'}
+                    placeholder={'Имя'}
+                    onChange={handleChange}
+                    value={values.name}
+                    name={'name'}
+                />
+                <ProfileInput
+                    type={'text'}
+                    placeholder={'Логин'}
+                    onChange={handleChange}
+                    value={values.email}
+                    name={'email'}
+                />
+                <ProfileInput
+                    type={'password'}
+                    placeholder={'Пароль'}
+                    onChange={handleChange}
+                    value={values.password}
+                    name={'password'}
+                />
+            </form>
+        );
+    }
+
+    return null;
 };
 
 export default Profile;

@@ -6,6 +6,7 @@ import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 import { passwordReset, passwordResetConfirmation } from '../../utils/api';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useForm } from '../../hooks/useForm';
 
 const getStepContent = step => {
     switch (step) {
@@ -23,40 +24,48 @@ const PasswordConformation = () => {
     const location = useLocation();
     const isEmailConfirm = !!location.state?.isEmailConfirm;
 
-    const [token, setToken] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const { values, handleChange } = useForm({
+        token: '',
+        password: ''
+    });
 
-    const passwordConformationHandler = () =>
-        passwordResetConfirmation(password, token).then(() => history.replace({ pathname: '/' }));
+    const passwordConformationHandler = e => {
+        e.preventDefault();
+        passwordResetConfirmation(e.target.password.value, e.target.token.value).then(() =>
+            history.replace({ pathname: '/' })
+        );
+    };
 
     if (isEmailConfirm) {
         return (
-            <>
-                <section className="mt-6">
+            <form onSubmit={passwordConformationHandler}>
+                <div className="mt-6">
                     <PasswordInput
-                        onChange={e => setPassword(e.target.value)}
-                        value={password}
-                        name={'Введите новый пароль'}
+                        onChange={handleChange}
+                        value={values.password}
+                        name={'password'}
+                        autoComplete={'off'}
                     />
-                </section>
-                <section className="mt-6">
+                </div>
+                <div className="mt-6">
                     <Input
                         type={'text'}
                         placeholder={'Введите код из письма'}
-                        onChange={e => setToken(e.target.value)}
-                        value={token}
-                        name={'Имя'}
+                        onChange={handleChange}
+                        value={values.token}
+                        name={'token'}
                         error={false}
                         errorText={'Ошибка'}
                         size={'default'}
+                        autoComplete={'off'}
                     />
-                </section>
-                <section className="mt-6">
-                    <Button type="primary" size="large" htmlType="button" onClick={passwordConformationHandler}>
+                </div>
+                <div className="mt-6">
+                    <Button type="primary" size="large" htmlType="submit">
                         Сохранить
                     </Button>
-                </section>
-            </>
+                </div>
+            </form>
         );
     }
 
@@ -71,21 +80,28 @@ const PasswordConformation = () => {
 
 const EmailConformation = () => {
     const history = useHistory();
-    const [email, setEmail] = React.useState('');
-    const emailConformationHandler = () =>
-        passwordReset(email).then(() => history.replace({ pathname: '/reset-password' }, { isEmailConfirm: true }));
+    const { values, handleChange } = useForm({
+        email: ''
+    });
+
+    const emailConformationHandler = e => {
+        e.preventDefault();
+        passwordReset(e.target.email.value).then(() =>
+            history.replace({ pathname: '/reset-password' }, { isEmailConfirm: true })
+        );
+    };
 
     return (
-        <>
+        <form onSubmit={emailConformationHandler}>
             <section className="mt-6">
-                <EmailInput onChange={e => setEmail(e.target.value)} value={email} name={'email'} />
+                <EmailInput onChange={handleChange} value={values.email} name={'email'} />
             </section>
             <section className="mt-6">
-                <Button type="primary" size="large" htmlType="button" onClick={emailConformationHandler}>
+                <Button type="primary" size="large" htmlType="submit">
                     Восстановить
                 </Button>
             </section>
-        </>
+        </form>
     );
 };
 
