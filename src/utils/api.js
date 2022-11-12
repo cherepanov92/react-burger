@@ -16,7 +16,7 @@ const checkResponse = response => {
 };
 
 function request(url, options) {
-    return fetch(url, options).then(checkResponse)
+    return fetch(url, options).then(checkResponse);
 }
 
 const saveTokens = (refreshToken, accessToken) => {
@@ -78,9 +78,8 @@ export const login = (email, password) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-    .then(resp => {
-        saveTokens(resp.refreshToken, resp.accessToken)
+    }).then(resp => {
+        saveTokens(resp.refreshToken, resp.accessToken);
         return resp;
     });
 };

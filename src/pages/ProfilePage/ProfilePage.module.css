@@ -9,7 +9,6 @@
     z-index: -1000;
 }
 
-
 .section {
     display: flex;
     align-items: center;
@@ -27,16 +26,16 @@
 
 .label {
     text-decoration: none;
-    color: #8585AD;
+    color: #8585ad;
 }
 
 .activeLabel {
-    color: #F2F2F3;
+    color: #f2f2f3;
     text-decoration: none;
 }
 
 .navHint {
     width: 320px;
-    color: #8585AD;
+    color: #8585ad;
     opacity: 0.4;
 }
