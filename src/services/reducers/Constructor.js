@@ -1,11 +1,11 @@
 import { ADD_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../actions/Constructor';
 
-const getIngredientWithOrderHash = ingredient => ({
-    ...ingredient,
-    orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Math.random() * 10000000)
-});
-
 export default function constructorReducer(state = {}, action) {
+    const getIngredientWithOrderHash = ingredient => ({
+        ...ingredient,
+        orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Math.random() * 10000000)
+    });
+
     switch (action.type) {
         case ADD_INGREDIENT:
             if (action.ingredient.type === 'bun') {
