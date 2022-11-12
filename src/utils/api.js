@@ -15,13 +15,17 @@ const checkResponse = response => {
     return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
 };
 
+function request(url, options) {
+    return fetch(url, options).then(checkResponse)
+}
+
 const saveTokens = (refreshToken, accessToken) => {
     setCookie('accessToken', accessToken);
     setCookie('refreshToken', refreshToken);
 };
 
 export const refreshTokenRequest = () => {
-    return fetch(API_TOKEN_URL, {
+    return request(API_TOKEN_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -29,7 +33,7 @@ export const refreshTokenRequest = () => {
         body: JSON.stringify({
             token: getCookie('refreshToken')
         })
-    }).then(checkResponse);
+    });
 };
 
 export const fetchWithRefresh = async (url, options) => {
@@ -51,21 +55,21 @@ export const fetchWithRefresh = async (url, options) => {
 };
 
 export const sendOrder = orderList => {
-    return fetch(API_ORDERS_URL, {
+    return request(API_ORDERS_URL, {
         method: 'POST',
         body: JSON.stringify({ ingredients: [...orderList] }),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    });
 };
 
 export const getIngredients = () => {
-    return fetch(API_INGREDIENTS_URL).then(checkResponse);
+    return request(API_INGREDIENTS_URL);
 };
 
 export const login = (email, password) => {
-    return fetch(API_LOGIN_URL, {
+    return request(API_LOGIN_URL, {
         method: 'POST',
         body: JSON.stringify({
             email: email,
@@ -75,7 +79,6 @@ export const login = (email, password) => {
             'Content-Type': 'application/json'
         }
     })
-    .then(checkResponse)
     .then(resp => {
         saveTokens(resp.refreshToken, resp.accessToken)
         return resp;
@@ -83,7 +86,7 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-    return fetch(API_LOGOUT_URL, {
+    return request(API_LOGOUT_URL, {
         method: 'POST',
         body: JSON.stringify({
             token: getCookie('refreshToken')
@@ -91,11 +94,11 @@ export const logout = () => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    });
 };
 
 export const userRegister = (email, password, name) => {
-    return fetch(API_REGISTER_URL, {
+    return fetchWithRefresh(API_REGISTER_URL, {
         method: 'POST',
         body: JSON.stringify({
             email: email,
@@ -105,13 +108,11 @@ export const userRegister = (email, password, name) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-        .then(checkResponse)
-        .then(fetchWithRefresh);
+    });
 };
 
 export const passwordReset = email => {
-    return fetch(API_PASSWORD_RESET_URL, {
+    return request(API_PASSWORD_RESET_URL, {
         method: 'POST',
         body: JSON.stringify({
             email: email
@@ -119,11 +120,11 @@ export const passwordReset = email => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    });
 };
 
 export const passwordResetConfirmation = (password, token) => {
-    return fetch(API_PASSWORD_RESET_CONFIRMATION_URL, {
+    return request(API_PASSWORD_RESET_CONFIRMATION_URL, {
         method: 'POST',
         body: JSON.stringify({
             password: password,
@@ -132,22 +133,21 @@ export const passwordResetConfirmation = (password, token) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(checkResponse);
+    });
 };
 
 export const getUserApiData = () => {
-    const options = {
+    return fetchWithRefresh(API_USER_URL, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             authorization: getCookie('accessToken')
         }
-    };
-    return fetchWithRefresh(API_USER_URL, options);
+    });
 };
 
 export const setUserData = (email, password, name) => {
-    const options = {
+    return fetchWithRefresh(API_USER_URL, {
         method: 'PATCH',
         body: JSON.stringify({
             email: email,
@@ -158,7 +158,5 @@ export const setUserData = (email, password, name) => {
             'Content-Type': 'application/json',
             authorization: getCookie('accessToken')
         }
-    };
-
-    return fetchWithRefresh(API_USER_URL, options);
+    });
 };
