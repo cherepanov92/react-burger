@@ -12,7 +12,12 @@ import {
 import { getCookie, setCookie } from './helpers';
 
 const checkResponse = response => {
-    return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
+    return response.ok
+        ? response.json()
+        : response
+              .json()
+              .then(err => Promise.reject(err))
+              .catch(() => Promise.reject({ message: 'Ошибка сервера' }));
 };
 
 function request(url, options) {
@@ -107,6 +112,9 @@ export const userRegister = (email, password, name) => {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).then(resp => {
+        saveTokens(resp.refreshToken, resp.accessToken);
+        return resp;
     });
 };
 
