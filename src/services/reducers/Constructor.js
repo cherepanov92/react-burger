@@ -5,7 +5,7 @@ const getIngredientWithOrderHash = ingredient => ({
     orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Math.random() * 10000000)
 });
 
-export default function ConstructorReducer(state = {}, action) {
+export default function constructorReducer(state = {}, action) {
     switch (action.type) {
         case ADD_INGREDIENT:
             if (action.ingredient.type === 'bun') {

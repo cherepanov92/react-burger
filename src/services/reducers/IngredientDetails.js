@@ -1,6 +1,6 @@
 import { ADD_INGREDIENT_DETAILS, REMOVE_INGREDIENT_DETAILS } from '../actions/IngredientDetails';
 
-export default function IngredientDetailsReducer(state = null, action) {
+export default function ingredientDetailsReducer(state = null, action) {
     switch (action.type) {
         case ADD_INGREDIENT_DETAILS:
             return { ...action.ingredient };

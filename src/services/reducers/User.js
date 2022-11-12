@@ -6,7 +6,7 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 
 export const LOGOUT_USER = 'LOGOUT_USER';
 
-const UserReducer = (state = {}, action) => {
+export default function userReducer(state = {}, action) {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {
@@ -45,5 +45,3 @@ const UserReducer = (state = {}, action) => {
         }
     }
 };
-
-export default UserReducer;
