@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { getIngredientsData } from '../../services/actions/Ingredients';
 
 import styles from './IngredientDetails.module.css';
 
@@ -53,28 +51,19 @@ const IngredientDetails = ({ ingredient }) => {
     return <IngredientDetailsContent ingredient={ingredient} isLoading={isLoading} />;
 };
 
-const IngredientDetailsContainer = ({ useModal }) => {
-    const dispatch = useDispatch();
+const IngredientDetailsContainer = () => {
     const { ingredientId } = useParams();
     const { ingredientDetails, ingredientList } = useSelector(state => ({
         ingredientDetails: state.ingredientDetails,
         ingredientList: state.ingredients
     }));
 
-    useEffect(() => {
-        if (!useModal) {
-            dispatch(getIngredientsData());
-        }
-    }, [dispatch, useModal]);
-
     const getIngredient = () => {
         if (ingredientDetails) {
             return ingredientDetails;
-        } else if (!!ingredientList.ingredients.length) {
-            return ingredientList.ingredients.filter(item => item._id === ingredientId)[0];
         }
 
-        return null;
+        return ingredientList.ingredients.filter(item => item._id === ingredientId)[0];
     };
 
     return <IngredientDetails ingredient={getIngredient()} />;

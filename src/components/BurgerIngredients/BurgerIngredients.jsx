@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styles from './BurgerIngredients.module.css';
 import { IngredientsTabs } from './IngredientsTabs';
 import { IngredientsBlock } from './IngredientsBlock';
-import { getIngredientsData } from '../../services/actions/Ingredients';
 import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
 
 const BurgerIngredients = ({ ingredients }) => {
@@ -74,12 +73,6 @@ const BurgerIngredients = ({ ingredients }) => {
 };
 
 const BurgerIngredientsContainer = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIngredientsData());
-    }, [dispatch]);
-
     const { ingredients, ingredientsRequest } = useSelector(state => state.ingredients);
 
     if (ingredientsRequest && !ingredients.length) {

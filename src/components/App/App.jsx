@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
@@ -13,14 +13,18 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { getIngredientsData } from '../../services/actions/Ingredients';
 
 function App() {
     const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
 
-    const { modalType } = useSelector(state => state.modal);
-    const [isUserLoaded, setUserLoaded] = useState(false);
+    const { modalType, ingredientList } = useSelector(state => ({
+        modalType: state.modal.modalType,
+        ingredientList: state.ingredients
+    }));
+
     const background = location.state && location.state.background;
     const handleModalClose = () => {
         history.goBack();
@@ -28,14 +32,17 @@ function App() {
 
     const init = useCallback(async () => {
         await dispatch(getUserData());
-        setUserLoaded(true);
     }, [dispatch]);
 
     useEffect(() => {
         init();
     }, [init]);
 
-    if (!isUserLoaded) {
+    useEffect(() => {
+        dispatch(getIngredientsData());
+    }, [dispatch]);
+
+    if (ingredientList.ingredientsRequest) {
         return null;
     }
 
@@ -74,7 +81,7 @@ function App() {
                     path="/ingredients/:ingredientId"
                     children={
                         <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
-                            <IngredientDetails useModal />
+                            <IngredientDetails />
                         </Modal>
                     }
                 />
