@@ -15,13 +15,18 @@ export const IngredientItem = ({ ingredient }) => {
     const dispatch = useDispatch();
     const ingredientId = ingredient._id;
 
-    const { ingredients } = useSelector(state => state.constructor);
-    const count = getOrderIngredients([null, ingredients]).filter(id => id === ingredient._id).length;
-
+    const { ingredients, bun } = useSelector(state => state.constructor);
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient });
     };
+    const getCount = (ingredient, orderIngredientList) => {
+        if (ingredient.type === 'bun') {
+            return ingredient._id === bun?._id ? 2 : null;
+        }
 
+        return getOrderIngredients([null, orderIngredientList]).filter(id => id === ingredient._id).length;
+    };
+    const count = getCount(ingredient, ingredients);
     const [, dragRef] = useDrag({
         type: 'ingredient',
         item: ingredient,
