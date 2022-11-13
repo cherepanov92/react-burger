@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
@@ -9,16 +9,29 @@ import { ADD_INGREDIENT } from '../../services/actions/Constructor';
 import { sendOrderRequest } from '../../services/actions/Order';
 import { getOrderIngredients } from '../../utils/getIngredientsGroups';
 import { ConstructorIngredient } from './ConstructotIngredient/ConstructotIngredient';
+import { APPEND_ERROR_MODAL_TYPE } from '../../services/actions/Modal';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 export const BurgerConstructor = () => {
+    const user = useSelector(state => state.user);
     const dispatch = useDispatch();
+    const [redirectToAuth, setRedirectToAuth] = useState(false);
     const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
+    const isAuth = !!user.data;
     const hasBun = !!bun;
     const hasIngredients = !!ingredients.length;
     const canOrder = hasBun && hasIngredients;
 
     const onSendOrderRequest = () => {
-        canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
+        if (!isAuth) {
+            dispatch({
+                type: APPEND_ERROR_MODAL_TYPE,
+                message: 'Оформить заказ может только авторизированный пользователь'
+            });
+            setRedirectToAuth(true);
+        } else {
+            canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
+        }
     };
 
     const onDropHandler = ingredient => {
@@ -31,6 +44,10 @@ export const BurgerConstructor = () => {
             onDropHandler(ingredient);
         }
     });
+
+    if (redirectToAuth) {
+        return <ProtectedRoute />;
+    }
 
     return (
         <section className={styles.wrapper} ref={dropTarget}>
