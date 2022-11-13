@@ -14,9 +14,11 @@ export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
     const hasBun = !!bun;
+    const hasIngredients = !!ingredients.length;
+    const canOrder = hasBun && hasIngredients;
 
     const onSendOrderRequest = () => {
-        dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
+        canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
     };
 
     const onDropHandler = ingredient => {
@@ -33,7 +35,15 @@ export const BurgerConstructor = () => {
     return (
         <section className={styles.wrapper} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, 'pt-25')}>
-                {totalPrice ? (
+                {!canOrder && (
+                    <p className="text text_type_main-small mb-10 mt-5 ">
+                        {`Пожалуйста, перенесите сюда 
+                            ${!hasIngredients ? 'ингредиенты' : ''}
+                            ${!hasIngredients ? (!hasBun ? ' и' : '') : ''}
+                            ${!hasBun ? ' булку' : ''} для создания заказа`}
+                    </p>
+                )}
+                {!!totalPrice && (
                     <>
                         <div className={'mr-4'}>
                             {hasBun && (
@@ -66,8 +76,6 @@ export const BurgerConstructor = () => {
                             )}
                         </div>
                     </>
-                ) : (
-                    <p>Пусто</p>
                 )}
             </section>
             <section className={classNames(styles.priceBlock, 'mt-10 mr-4 mb-10')}>
@@ -77,7 +85,7 @@ export const BurgerConstructor = () => {
                 </div>
                 <Button
                     onClick={onSendOrderRequest}
-                    type={totalPrice ? 'primary' : 'disable'}
+                    type={canOrder ? 'primary' : 'disable'}
                     size="large"
                     htmlType="button"
                 >
