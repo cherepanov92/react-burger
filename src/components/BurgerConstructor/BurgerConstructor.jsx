@@ -102,7 +102,8 @@ export const BurgerConstructor = () => {
                 </div>
                 <Button
                     onClick={onSendOrderRequest}
-                    type={canOrder ? 'primary' : 'disable'}
+                    type={'primary'}
+                    disabled={!canOrder}
                     size="large"
                     htmlType="button"
                 >
