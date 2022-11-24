@@ -1,5 +1,5 @@
 .wrapper {
-    background-color: #1C1C21;
+    background-color: #1c1c21;
 }
 
 .nav {
@@ -27,4 +27,27 @@
     width: 424px;
     display: flex;
     justify-content: flex-end;
+}
+
+.navLink {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: 40px;
+    color: #8585ad;
+    cursor: pointer;
+
+    background: none;
+    border-style: hidden;
+    text-decoration: none;
+}
+
+.isActive {
+    color: #f2f2f3;
+}
+
+@media screen and (max-width: 1200px) {
+    .text {
+        display: none;
+    }
 }

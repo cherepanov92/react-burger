@@ -1,50 +1,61 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag } from "react-dnd";
-import classNames from "classnames";
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag } from 'react-dnd';
+import { Link, useLocation } from 'react-router-dom';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './IngredientItem.module.css';
-import { ingredientType } from "../../../utils/types";
-import { ADD_INGREDIENT_DETAILS } from "../../../services/actions/IngredientDetails";
-import { APPEND_MODAL_TYPE } from "../../../services/actions/Modal";
-import { getOrderIngredients } from "../../../utils/getIngredientsGroups";
+import { ingredientType } from '../../../utils/types';
+import { getOrderIngredients } from '../../../utils/getIngredientsGroups';
+import { ADD_INGREDIENT_DETAILS } from '../../../services/actions/IngredientDetails';
 
-
-export const IngredientItem = ({ingredient}) => {
+export const IngredientItem = ({ ingredient }) => {
+    const location = useLocation();
     const dispatch = useDispatch();
-    const { ingredients } = useSelector(state => state.constructor);
-    const count = getOrderIngredients([null, ingredients]).filter(id => id === ingredient._id).length;
+    const ingredientId = ingredient._id;
 
+    const { ingredients, bun } = useSelector(state => state.constructor);
     const showIngredientDetails = () => {
-        dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient })
-        dispatch({ type: APPEND_MODAL_TYPE, modalType: 'ingredientDetails' })
-    }
+        dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient });
+    };
+    const getCount = (ingredient, orderIngredientList) => {
+        if (ingredient.type === 'bun') {
+            return ingredient._id === bun?._id ? 2 : null;
+        }
 
-    const [{isDrag}, dragRef] = useDrag({
-        type: "ingredient",
+        return getOrderIngredients([null, orderIngredientList]).filter(id => id === ingredient._id).length;
+    };
+    const count = getCount(ingredient, ingredients);
+    const [, dragRef] = useDrag({
+        type: 'ingredient',
         item: ingredient,
         collect: monitor => ({
             isDrag: monitor.isDragging()
         })
     });
 
-    // todo: Убирать кол-во элементов взаказе у переносимого отпечатка
     return (
-        <div
+        <Link
             ref={dragRef}
+            key={ingredientId}
+            to={{
+                pathname: `/ingredients/${ingredientId}`,
+                state: { background: location }
+            }}
             onClick={() => showIngredientDetails()}
-            className={classNames(styles.wrapper, 'mb-4')}>
-            { !!count && <Counter count={ count } size="default" />}
-            <img className={"ml-4 mr-4 mb-1"} src={ingredient.image} alt={`Компонент: ${ingredient.name}`}/>
-            <div className={classNames(styles.priceBlock, "pt-1 pb-1")}>
+            className={classNames(styles.wrapper, 'mb-4')}
+        >
+            {!!count && <Counter count={count} size="default" />}
+            <img className={'ml-4 mr-4 mb-1'} src={ingredient.image} alt={`Компонент: ${ingredient.name}`} />
+            <div className={classNames(styles.priceBlock, 'pt-1 pb-1')}>
                 <span className="text text_type_digits-default mr-2">{ingredient.price}</span>
                 <CurrencyIcon type="primary" />
             </div>
             <span className="text text_type_main-default pt-1">{ingredient.name}</span>
-        </div>
+        </Link>
     );
-}
+};
 
 IngredientItem.propTypes = {
     ingredient: ingredientType.isRequired

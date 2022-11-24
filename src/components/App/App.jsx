@@ -1,44 +1,93 @@
-import React from 'react';
-import { useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import styles from './App.module.css';
 import { AppHeader } from '../AppHeader';
-import { BurgerIngredients } from "../BurgerIngredients";
-import { BurgerConstructor } from "../BurgerConstructor";
-import { IngredientDetails } from "../BurgerIngredients/IngredientDetails";
-import { OrderDetails } from "../BurgerConstructor/OrderDetails";
-import { ErrorModal } from "../Modal/ErrorModal/ErrorModal";
-
-const getModal = (modalType) => {
-    switch (modalType) {
-        case 'ingredientDetails':
-            return <IngredientDetails />
-        case 'order':
-            return <OrderDetails />
-        case 'error':
-            return <ErrorModal />
-        default:
-            return null;
-    }
-}
+import { getModal } from '../../utils/helpers';
+import { getUserData } from '../../services/actions/User';
+import Modal from '../Modal/Modal';
+import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
+import LoginPage from '../../pages/LoginPage/LoginPage';
+import RegistrationPage from '../../pages/RegistrationPage/RegistrationPage';
+import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
+import ProfilePage from '../../pages/ProfilePage/ProfilePage';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { getIngredientsData } from '../../services/actions/Ingredients';
 
 function App() {
-    const { modalType } = useSelector(state => state.modal);
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+
+    const { modalType, ingredientList } = useSelector(state => ({
+        modalType: state.modal.modalType,
+        ingredientList: state.ingredients
+    }));
+
+    const background = location.state && location.state.background;
+    const handleModalClose = () => {
+        history.goBack();
+    };
+
+    const init = useCallback(async () => {
+        await dispatch(getUserData());
+    }, [dispatch]);
+
+    useEffect(() => {
+        init();
+    }, [init]);
+
+    useEffect(() => {
+        dispatch(getIngredientsData());
+    }, [dispatch]);
+
+    if (ingredientList.ingredientsRequest) {
+        return null;
+    }
 
     return (
         <div className="App">
             <AppHeader />
-            <main className={styles.content}>
-                <DndProvider backend={HTML5Backend}>
-                    <>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </>
-                </DndProvider>
-            </main>
-            { modalType && getModal(modalType) }
+            <Switch location={background || location}>
+                <Route path="/login" exact>
+                    <LoginPage />
+                </Route>
+                <Route path="/register" exact>
+                    <RegistrationPage />
+                </Route>
+                <Route path="/forgot-password" exact>
+                    <ResetPasswordPage step={'email'} />
+                </Route>
+                <Route path="/reset-password" exact>
+                    <ResetPasswordPage step={'password'} />
+                </Route>
+                <ProtectedRoute path="/profile">
+                    <ProfilePage />
+                </ProtectedRoute>
+                <Route path="/ingredients/:ingredientId" exact>
+                    <IngredientDetails />
+                </Route>
+                <Route path="/" exact>
+                    <ConstructorPage />
+                </Route>
+                {/*<Route>*/}
+                {/*    <NotFound404 />*/}
+                {/*</Route>*/}
+            </Switch>
+
+            {background && (
+                <Route
+                    path="/ingredients/:ingredientId"
+                    children={
+                        <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
+                            <IngredientDetails />
+                        </Modal>
+                    }
+                />
+            )}
+
+            {modalType && getModal(modalType)}
         </div>
     );
 }

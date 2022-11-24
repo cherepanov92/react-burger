@@ -1,19 +1,18 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../actions/Ingredients";
-import { getIngredientsGroups } from "../../utils/getIngredientsGroups";
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/Ingredients';
 
-const IngredientsReducer = (state = {}, action) => {
+export default function ingredientsReducer(state = {}, action) {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
                 ...state,
                 ingredientsRequest: true,
-                ingredientsFailed: false,
+                ingredientsFailed: false
             };
         }
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
-                ingredients: getIngredientsGroups(action.items),
+                ingredients: action.items,
                 ingredientsRequest: false
             };
         }
@@ -25,10 +24,7 @@ const IngredientsReducer = (state = {}, action) => {
             };
         }
         default: {
-            return state
+            return state;
         }
     }
-}
-
-export default IngredientsReducer;
-
+};

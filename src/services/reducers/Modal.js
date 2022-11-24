@@ -1,6 +1,6 @@
-import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE } from "../actions/Modal";
+import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE } from '../actions/Modal';
 
-export default function ModalReducer(state = {}, action) {
+export default function modalReducer(state = {}, action) {
     switch (action.type) {
         case APPEND_MODAL_TYPE: {
             return {
@@ -11,19 +11,20 @@ export default function ModalReducer(state = {}, action) {
         case APPEND_ERROR_MODAL_TYPE: {
             return {
                 ...state,
-                modalType: "error",
-                errorStatus: action.errorStatus
+                modalType: 'error',
+                status: action.status,
+                message: action.message
             };
         }
         case REMOVE_MODAL_TYPE: {
             return {
                 ...state,
                 modalType: null,
-                errorStatus: null
+                status: null
             };
         }
         default: {
-            return state
+            return state;
         }
     }
 }
