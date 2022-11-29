@@ -1,18 +1,4 @@
-import { OrderDetails } from '../components/BurgerConstructor/OrderDetails';
-import { ErrorModal } from '../components/Modal/ErrorModal/ErrorModal';
-
-export const getModal = modalType => {
-    switch (modalType) {
-        case 'order':
-            return <OrderDetails />;
-        case 'error':
-            return <ErrorModal />;
-        default:
-            return null;
-    }
-};
-
-export const setCookie = (name, value, options = {}) => {
+export const setCookie = (name: string, value: string, options: any = {}) => {
     options = { path: '/', ...options };
 
     if (options.expires instanceof Date) {
@@ -32,7 +18,7 @@ export const setCookie = (name, value, options = {}) => {
     document.cookie = updatedCookie;
 };
 
-export function getCookie(name) {
+export function getCookie(name: string) {
     const matches = document.cookie.match(
         /* eslint-disable */
         new RegExp('(?:^|; )' + name.replace(/([.\\+\-*:\/?!|^${}()\[\]])/g, '\\$1') + '=([^;]*)')
@@ -40,7 +26,7 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
     setCookie(name, '', {
         'max-age': -1
     });

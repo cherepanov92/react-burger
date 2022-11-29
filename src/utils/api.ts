@@ -10,21 +10,22 @@ import {
     API_USER_URL
 } from './constants';
 import { getCookie, setCookie } from './helpers';
+import { orderedIngredient } from './types';
 
-const checkResponse = response => {
+const checkResponse = (response: any) => {
     return response.ok
         ? response.json()
         : response
               .json()
-              .then(err => Promise.reject(err))
+              .then((err: Error) => Promise.reject(err))
               .catch(() => Promise.reject({ message: 'Ошибка сервера' }));
 };
 
-function request(url, options) {
+function request(url: string, options?: any) {
     return fetch(url, options).then(checkResponse);
 }
 
-const saveTokens = (refreshToken, accessToken) => {
+const saveTokens = (refreshToken: string, accessToken: string) => {
     setCookie('accessToken', accessToken);
     setCookie('refreshToken', refreshToken);
 };
@@ -41,11 +42,11 @@ export const refreshTokenRequest = () => {
     });
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url: string, options: any) => {
     try {
         const res = await fetch(url, options);
         return await checkResponse(res);
-    } catch (err) {
+    } catch (err: any) {
         if (err.message === 'jwt expired') {
             const { refreshToken, accessToken } = await refreshTokenRequest();
             saveTokens(refreshToken, accessToken);
@@ -59,7 +60,7 @@ export const fetchWithRefresh = async (url, options) => {
     }
 };
 
-export const sendOrder = orderList => {
+export const sendOrder = (orderList: orderedIngredient[]) => {
     return request(API_ORDERS_URL, {
         method: 'POST',
         body: JSON.stringify({ ingredients: [...orderList] }),
@@ -73,7 +74,7 @@ export const getIngredients = () => {
     return request(API_INGREDIENTS_URL);
 };
 
-export const login = (email, password) => {
+export const login = (email: string, password: string) => {
     return request(API_LOGIN_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -101,7 +102,7 @@ export const logout = () => {
     });
 };
 
-export const userRegister = (email, password, name) => {
+export const userRegister = (email: string, password: string, name: string) => {
     return fetchWithRefresh(API_REGISTER_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -118,7 +119,7 @@ export const userRegister = (email, password, name) => {
     });
 };
 
-export const passwordReset = email => {
+export const passwordReset = (email: string) => {
     return request(API_PASSWORD_RESET_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -130,7 +131,7 @@ export const passwordReset = email => {
     });
 };
 
-export const passwordResetConfirmation = (password, token) => {
+export const passwordResetConfirmation = (password: string, token: string) => {
     return request(API_PASSWORD_RESET_CONFIRMATION_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -153,7 +154,7 @@ export const getUserApiData = () => {
     });
 };
 
-export const setUserData = (email, password, name) => {
+export const setUserData = (email: string, password: string, name: string) => {
     return fetchWithRefresh(API_USER_URL, {
         method: 'PATCH',
         body: JSON.stringify({
