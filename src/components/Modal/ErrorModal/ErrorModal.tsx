@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -6,8 +6,9 @@ import Modal from '../Modal';
 import styles from './ErrorModal.module.css';
 import { REMOVE_MODAL_TYPE } from '../../../services/actions/Modal';
 
-export const ErrorModal = () => {
+const ErrorModal: FC = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { status, message } = useSelector(state => state.modal);
 
     const closeModal = () => {
@@ -26,4 +27,4 @@ export const ErrorModal = () => {
     );
 };
 
-ErrorModal.propTypes = {};
+export default ErrorModal;
