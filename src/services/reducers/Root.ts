@@ -10,6 +10,7 @@ import user from './User';
 
 let composeEnhancers = compose;
 if (process.env.NODE_ENV !== 'production') {
+    // @ts-ignore
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
@@ -54,6 +55,7 @@ const init = (
             accessToken: null
         }
     }
+    // @ts-ignore
 ) => createStore(rootReducer, initialState, enhancer);
 
 export default init;

@@ -6,7 +6,12 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 
 export const LOGOUT_USER = 'LOGOUT_USER';
 
-export default function userReducer(state = {}, action) {
+type userState = {
+    data?: any;
+    accessToken?: string;
+};
+
+export default function userReducer(state: userState = {}, action: any) {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {
@@ -19,7 +24,8 @@ export default function userReducer(state = {}, action) {
             const newState = {
                 ...state,
                 data: action.data,
-                userRequest: false
+                userRequest: false,
+                accessToken: state.accessToken
             };
 
             if (action.accessToken) {
