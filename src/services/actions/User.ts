@@ -2,8 +2,8 @@ import { getUserApiData, login, logout, userRegister } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE } from './Modal';
 import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER } from '../reducers/User';
 
-export const loginUser = (email, password) => {
-    return function (dispatch) {
+export const loginUser = (email: string, password: string) => {
+    return function (dispatch: any) {
         dispatch({
             type: GET_USER_REQUEST
         });
@@ -31,7 +31,7 @@ export const loginUser = (email, password) => {
 };
 
 export const logoutUser = () => {
-    return function (dispatch) {
+    return function (dispatch: any) {
         logout()
             .then(res => {
                 if (res && res.success) {
@@ -50,7 +50,7 @@ export const logoutUser = () => {
 };
 
 export const getUserData = () => {
-    return function (dispatch) {
+    return function (dispatch: any) {
         getUserApiData()
             .then(res => {
                 if (res && res.success) {
@@ -74,8 +74,8 @@ export const getUserData = () => {
     };
 };
 
-export const registrationUser = (email, password, name) => {
-    return function (dispatch) {
+export const registrationUser = (email: string, password: string, name: string) => {
+    return function (dispatch: any) {
         userRegister(email, password, name)
             .then(res => {
                 if (res && res.success) {

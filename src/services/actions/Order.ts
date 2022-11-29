@@ -1,11 +1,13 @@
 import { sendOrder } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE } from './Modal';
+import { orderedIngredient } from '../../utils/types';
 
 export const SENT_ORDER_REQUEST = 'SENT_ORDER_REQUEST';
 export const SENT_ORDER_SUCCESS = 'SENT_ORDER_SUCCESS';
 export const SENT_ORDER_FAILED = 'SENT_ORDER_FAILED';
 
-export const sendOrderRequest = orderList => {
+export const sendOrderRequest = (orderList: orderedIngredient[]) => {
+    // @ts-ignore
     return function (dispatch) {
         dispatch({
             type: SENT_ORDER_REQUEST
