@@ -1,46 +1,52 @@
-import React, { useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from './BurgerIngredients.module.css';
+import IngredientsBlock from './IngredientsBlock/IngredientsBlock';
 import { IngredientsTabs } from './IngredientsTabs';
-import { IngredientsBlock } from './IngredientsBlock';
 import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
+import { EnumIngredientType, ingredientType } from '../../utils/types';
 
-const BurgerIngredients = ({ ingredients }) => {
-    const [currentZone, setCurrentZone] = useState('bun');
-    const bunRef = useRef(null);
-    const sauceRef = useRef(null);
-    const mainRef = useRef(null);
+const BurgerIngredients: FC<{ ingredients: ingredientType[] }> = ({ ingredients }) => {
+    const [currentZone, setCurrentZone] = useState<EnumIngredientType>(EnumIngredientType.BUN);
+    const bunRef = useRef<HTMLInputElement>(null);
+    const sauceRef = useRef<HTMLInputElement>(null);
+    const mainRef = useRef<HTMLInputElement>(null);
 
     const ingredientsByTypeList = getIngredientsGroups(ingredients);
 
+    // @ts-ignore
     const handleScroll = e => {
         e.stopPropagation();
         const currentPosition = e.currentTarget.scrollTop + e.currentTarget.offsetTop;
-        const bufZone = (sauceRef.current.offsetTop - bunRef.current.offsetTop) / 2 + bunRef.current.offsetTop;
-        const mainZone = (mainRef.current.offsetTop - sauceRef.current.offsetTop) / 2 + sauceRef.current.offsetTop;
+        const bufZone =
+            sauceRef.current && bunRef.current
+                ? (sauceRef.current.offsetTop - bunRef.current.offsetTop) / 2 + bunRef.current.offsetTop
+                : 0;
+        const mainZone =
+            mainRef.current && sauceRef.current
+                ? (mainRef.current.offsetTop - sauceRef.current.offsetTop) / 2 + sauceRef.current.offsetTop
+                : 0;
 
-        //todo: будем в TS переписать на enum
         if (currentPosition <= bufZone) {
-            setCurrentZone('bun');
+            setCurrentZone(EnumIngredientType.BUN);
         } else if (currentPosition >= mainZone) {
-            setCurrentZone('main');
+            setCurrentZone(EnumIngredientType.MAIN);
         } else {
-            setCurrentZone('sauce');
+            setCurrentZone(EnumIngredientType.SAUCE);
         }
     };
 
-    const changeCurrentZone = zone => {
-        //todo: будем в TS переписать на enum
+    const changeCurrentZone = (zone: EnumIngredientType) => {
         switch (zone) {
-            case 'bun':
-                bunRef.current.scrollIntoView();
+            case EnumIngredientType.BUN:
+                bunRef.current?.scrollIntoView();
                 return;
-            case 'main':
-                mainRef.current.scrollIntoView();
+            case EnumIngredientType.MAIN:
+                mainRef.current?.scrollIntoView();
                 return;
-            case 'sauce':
-                sauceRef.current.scrollIntoView();
+            case EnumIngredientType.SAUCE:
+                sauceRef.current?.scrollIntoView();
                 return;
             default:
                 return;
@@ -73,6 +79,7 @@ const BurgerIngredients = ({ ingredients }) => {
 };
 
 const BurgerIngredientsContainer = () => {
+    // @ts-ignore
     const { ingredients, ingredientsRequest } = useSelector(state => state.ingredients);
 
     if (ingredientsRequest && !ingredients.length) {

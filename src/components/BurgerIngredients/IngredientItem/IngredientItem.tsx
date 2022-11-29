@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
@@ -6,25 +6,27 @@ import { Link, useLocation } from 'react-router-dom';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './IngredientItem.module.css';
-import { ingredientType } from '../../../utils/types';
+import { ingredientType, locationProps } from '../../../utils/types';
 import { getOrderIngredients } from '../../../utils/getIngredientsGroups';
 import { ADD_INGREDIENT_DETAILS } from '../../../services/actions/IngredientDetails';
 
-export const IngredientItem = ({ ingredient }) => {
-    const location = useLocation();
+const IngredientItem: FC<{ ingredient: ingredientType }> = ({ ingredient }) => {
+    const location = useLocation() as unknown as locationProps;
     const dispatch = useDispatch();
     const ingredientId = ingredient._id;
 
+    // @ts-ignore
     const { ingredients, bun } = useSelector(state => state.constructor);
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient });
     };
-    const getCount = (ingredient, orderIngredientList) => {
+    const getCount = (ingredient: ingredientType, orderIngredientList: ingredientType[] = []) => {
         if (ingredient.type === 'bun') {
             return ingredient._id === bun?._id ? 2 : null;
         }
-
-        return getOrderIngredients([null, orderIngredientList]).filter(id => id === ingredient._id).length;
+        return orderIngredientList.length
+            ? getOrderIngredients(orderIngredientList).filter(id => id === ingredient._id).length
+            : 0;
     };
     const count = getCount(ingredient, ingredients);
     const [, dragRef] = useDrag({
@@ -57,6 +59,4 @@ export const IngredientItem = ({ ingredient }) => {
     );
 };
 
-IngredientItem.propTypes = {
-    ingredient: ingredientType.isRequired
-};
+export default IngredientItem;
