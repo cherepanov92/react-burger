@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const Orders = () => {
+const Orders: FC = () => {
     return <section className="mt-25">This is Orders page</section>;
 };
 

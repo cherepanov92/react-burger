@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import SinglePageWrapper from '../SinglePageWrapper';
@@ -7,12 +7,13 @@ import { passwordReset, passwordResetConfirmation } from '../../utils/api';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
+import { EnumResetPassportStepType, locationProps } from '../../utils/types';
 
-const getStepContent = step => {
+const getStepContent = (step: EnumResetPassportStepType) => {
     switch (step) {
-        case 'email':
+        case EnumResetPassportStepType.EMAIL:
             return <EmailConformation />;
-        case 'password':
+        case EnumResetPassportStepType.PASSWORD:
             return <PasswordConformation />;
         default:
             return <EmailConformation />;
@@ -21,7 +22,7 @@ const getStepContent = step => {
 
 const PasswordConformation = () => {
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation() as unknown as locationProps;
     const isEmailConfirm = !!location.state?.isEmailConfirm;
 
     const { values, handleChange } = useForm({
@@ -29,7 +30,7 @@ const PasswordConformation = () => {
         password: ''
     });
 
-    const passwordConformationHandler = e => {
+    const passwordConformationHandler = (e: any) => {
         e.preventDefault();
         passwordResetConfirmation(e.target.password.value, e.target.token.value).then(() =>
             history.replace({ pathname: '/' })
@@ -84,7 +85,7 @@ const EmailConformation = () => {
         email: ''
     });
 
-    const emailConformationHandler = e => {
+    const emailConformationHandler = (e: any) => {
         e.preventDefault();
         passwordReset(e.target.email.value).then(() =>
             history.replace({ pathname: '/reset-password' }, { isEmailConfirm: true })
@@ -105,7 +106,7 @@ const EmailConformation = () => {
     );
 };
 
-const ResetPasswordPage = ({ step, isAuth }) => {
+const ResetPasswordPage: FC<{ step: EnumResetPassportStepType; isAuth: boolean }> = ({ step, isAuth }) => {
     if (isAuth) {
         return (
             <Redirect
@@ -125,7 +126,8 @@ const ResetPasswordPage = ({ step, isAuth }) => {
     }
 };
 
-const ResetPasswordPageContainer = ({ step }) => {
+const ResetPasswordPageContainer: FC<{ step: EnumResetPassportStepType }> = ({ step }) => {
+    // @ts-ignore
     const user = useSelector(state => state.user);
     return user ? <ResetPasswordPage isAuth={!!user.data} step={step} /> : null;
 };

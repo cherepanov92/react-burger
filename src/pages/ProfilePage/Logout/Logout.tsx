@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { logoutUser } from '../../../services/actions/User';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-const Logout = () => {
+const Logout: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -12,8 +12,9 @@ const Logout = () => {
         history.replace({ pathname: '/' });
     }, [history]);
 
-    const logoutHandler = async e => {
+    const logoutHandler = async (e: any) => {
         e.preventDefault();
+        // @ts-ignore
         await dispatch(logoutUser());
         await onLogout();
     };

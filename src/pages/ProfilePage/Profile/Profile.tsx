@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import classNames from 'classnames';
 import styles from '../ProfilePage.module.css';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useForm } from '../../../hooks/useForm';
 
-const ProfileInput = ({ placeholder, onChange, value, type, name }) => {
+type profileInputProps = {
+    placeholder: string;
+    value: string;
+    type: 'text' | 'email' | 'password' | undefined;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    name: string;
+};
+
+const ProfileInput: FC<profileInputProps> = ({ placeholder, onChange, value, type, name }) => {
     return (
         <div className={classNames(styles.section, 'mt-6')}>
             <Input
@@ -23,6 +31,7 @@ const ProfileInput = ({ placeholder, onChange, value, type, name }) => {
 };
 
 const Profile = () => {
+    // @ts-ignore
     const { data, userRequest } = useSelector(state => state.user);
     const { values, handleChange } = useForm({
         name: data.name,

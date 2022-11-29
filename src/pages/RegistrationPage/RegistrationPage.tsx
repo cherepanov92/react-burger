@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -8,7 +8,7 @@ import { registrationUser } from '../../services/actions/User';
 import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 
-const RegistrationPage = ({ isAuth }) => {
+const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
     const dispatch = useDispatch();
     const { values, handleChange } = useForm({
         name: '',
@@ -16,8 +16,9 @@ const RegistrationPage = ({ isAuth }) => {
         password: ''
     });
 
-    const registrationHandler = e => {
+    const registrationHandler = (e: any) => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(registrationUser(e.target.email.value, e.target.password.value, e.target.name.value));
     };
 
@@ -75,6 +76,7 @@ const RegistrationPage = ({ isAuth }) => {
 };
 
 const RegistrationPageContainer = () => {
+    // @ts-ignore
     const user = useSelector(state => state.user);
     return user ? <RegistrationPage isAuth={!!user.data} /> : null;
 };

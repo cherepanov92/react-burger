@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -6,8 +6,9 @@ import styles from './ProfilePage.module.css';
 import Profile from './Profile/Profile';
 import Orders from './Orders/Orders';
 import Logout from './Logout/Logout';
+import { navItemProps } from '../../utils/types';
 
-const ProfileNavLink = ({ to, text }) => {
+const ProfileNavLink: FC<navItemProps> = ({ to, text }) => {
     return (
         <NavLink to={to} className={styles.label} activeClassName={styles.activeLabel} exact>
             <div className={styles.labelWrapper}>
@@ -17,7 +18,7 @@ const ProfileNavLink = ({ to, text }) => {
     );
 };
 
-const ProfilePage = ({ children }) => {
+const ProfilePage: FC = ({ children }) => {
     return (
         <div className={styles.wrapper}>
             <section className="mr-15 mt-30">
