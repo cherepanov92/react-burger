@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { FC, useRef } from 'react';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
@@ -6,18 +6,19 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import styles from './ConstructorIngredient.module.css';
 import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../../../services/actions/Constructor';
+import { orderedIngredient } from '../../../utils/types';
 
-export const ConstructorIngredient = ({ ingredient }) => {
+export const ConstructorIngredient: FC<{ ingredient: orderedIngredient }> = ({ ingredient }) => {
     const dispatch = useDispatch();
     const ref = useRef(null);
-    const onDeleteIngredient = ingredient => {
+    const onDeleteIngredient = (ingredient: orderedIngredient) => {
         dispatch({
             type: REMOVE_INGREDIENT,
             ingredient: ingredient
         });
     };
 
-    const moveCard = (ingredient, oldIndex, newIndex) => {
+    const moveCard = (ingredient: orderedIngredient, oldIndex: number, newIndex: number) => {
         dispatch({
             type: MOVE_INGREDIENT,
             ingredient,
@@ -28,7 +29,7 @@ export const ConstructorIngredient = ({ ingredient }) => {
 
     const [, drop] = useDrop({
         accept: 'movedIngredient',
-        hover(item, monitor) {
+        hover(item: orderedIngredient, monitor) {
             if (!ref.current) {
                 return;
             }
@@ -36,12 +37,14 @@ export const ConstructorIngredient = ({ ingredient }) => {
             const hoverIndex = ingredient.orderIndex;
 
             // Determine rectangle on screen
+            // @ts-ignore
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
             // Get pixels to the top
+            // @ts-ignore
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;

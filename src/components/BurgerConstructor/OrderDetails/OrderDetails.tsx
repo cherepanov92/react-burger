@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 
 import styles from './OrderDetails.module.css';
@@ -7,13 +7,15 @@ import Modal from '../../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { REMOVE_MODAL_TYPE } from '../../../services/actions/Modal';
 
-export const OrderDetails = () => {
+const OrderDetails: FC = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const { orderRequest, orderData } = useSelector(state => state.order);
 
     const closeModal = () => {
         dispatch({ type: REMOVE_MODAL_TYPE });
     };
+
     return (
         <Modal onClose={closeModal}>
             <div className={styles.wrapper}>
@@ -31,4 +33,4 @@ export const OrderDetails = () => {
     );
 };
 
-OrderDetails.propTypes = {};
+export default OrderDetails

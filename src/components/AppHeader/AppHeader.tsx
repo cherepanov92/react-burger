@@ -1,28 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import styles from './AppHeader.module.css';
+import { EnumIconType, navItemProps } from '../../utils/types';
 
-const CONSTRUCTOR = 'constructor';
-const ORDER_QUEUE = 'orderQueue';
-const LK = 'lk';
-
-const getIcon = (type, isActive) => {
+const getIcon = (type: EnumIconType, isActive: boolean): JSX.Element => {
     switch (type) {
-        case CONSTRUCTOR:
+        case EnumIconType.CONSTRUCTOR:
             return <BurgerIcon type={isActive ? 'primary' : 'secondary'} />;
-        case ORDER_QUEUE:
+        case EnumIconType.ORDER_QUEUE:
             return <ListIcon type={isActive ? 'primary' : 'secondary'} />;
-        case LK:
+        case EnumIconType.LK:
             return <ProfileIcon type={isActive ? 'primary' : 'secondary'} />;
-        default:
-            return <p>{isActive}</p>;
     }
 };
 
-const NavItem = ({ to, text, type }) => {
+const NavItem: FC<navItemProps & { type: EnumIconType }> = ({ to, text, type }) => {
     const { pathname } = useLocation();
     const isActive = to === pathname;
 
@@ -38,19 +33,19 @@ const NavItem = ({ to, text, type }) => {
     );
 };
 
-export const AppHeader = () => {
+export const AppHeader: FC = () => {
     return (
         <header className={classNames(styles.wrapper, 'p-5')}>
             <nav className={styles.nav}>
                 <section className={styles.leftBlock}>
-                    <NavItem to="/" text="Конструктор" type={CONSTRUCTOR} />
-                    <NavItem to="/profile/orders" text="Лента заказов" type={ORDER_QUEUE} />
+                    <NavItem to="/" text="Конструктор" type={EnumIconType.CONSTRUCTOR} />
+                    <NavItem to="/profile/orders" text="Лента заказов" type={EnumIconType.ORDER_QUEUE} />
                 </section>
                 <section className={styles.centralBlock}>
                     <Logo />
                 </section>
                 <section className={styles.rightBlock}>
-                    <NavItem to="/profile" text="Личный кабинет" type={LK} />
+                    <NavItem to="/profile" text="Личный кабинет" type={EnumIconType.LK} />
                 </section>
             </nav>
         </header>

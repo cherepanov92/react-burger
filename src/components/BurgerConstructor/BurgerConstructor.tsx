@@ -11,12 +11,15 @@ import { getOrderIngredients } from '../../utils/getIngredientsGroups';
 import { ConstructorIngredient } from './ConstructotIngredient/ConstructotIngredient';
 import { APPEND_ERROR_MODAL_TYPE } from '../../services/actions/Modal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { orderedIngredient } from '../../utils/types';
 
-export const BurgerConstructor = () => {
+const BurgerConstructor = () => {
+    // @ts-ignore
     const user = useSelector(state => state.user);
+    // @ts-ignore
+    const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
     const dispatch = useDispatch();
     const [redirectToAuth, setRedirectToAuth] = useState(false);
-    const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
     const isAuth = !!user.data;
     const hasBun = !!bun;
     const hasIngredients = !!ingredients.length;
@@ -30,17 +33,18 @@ export const BurgerConstructor = () => {
             });
             setRedirectToAuth(true);
         } else {
+            // @ts-ignore
             canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
         }
     };
 
-    const onDropHandler = ingredient => {
+    const onDropHandler = (ingredient: orderedIngredient) => {
         dispatch({ type: ADD_INGREDIENT, ingredient: ingredient });
     };
 
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(ingredient) {
+        drop(ingredient: orderedIngredient) {
             onDropHandler(ingredient);
         }
     });
@@ -76,8 +80,8 @@ export const BurgerConstructor = () => {
                         <div className={styles.selectedBlock}>
                             {!!ingredients.length &&
                                 ingredients
-                                    .sort((a, b) => a.orderIndex - b.orderIndex)
-                                    .map((ingredient, index) => (
+                                    .sort((a: orderedIngredient, b: orderedIngredient) => a?.orderIndex - b?.orderIndex)
+                                    .map((ingredient: orderedIngredient, index: number) => (
                                         <ConstructorIngredient key={index} ingredient={ingredient} />
                                     ))}
                         </div>
@@ -114,4 +118,4 @@ export const BurgerConstructor = () => {
     );
 };
 
-BurgerConstructor.propTypes = {};
+export default BurgerConstructor;

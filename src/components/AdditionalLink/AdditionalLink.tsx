@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classnames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 import styles from './AdditionalLink.module.css';
 
-const AdditionalLink = ({ className, label, lintText, to, replace }) => {
+type additionalLinkProps = {
+    className: string;
+    label: string;
+    lintText: string;
+};
+
+const AdditionalLink: FC<additionalLinkProps & Pick<LinkProps, 'to' | 'replace'>> = ({
+    className,
+    label,
+    lintText,
+    to,
+    replace
+}) => {
     return (
         <section className={className}>
             <span className={classnames(styles.linkLabel, 'text text_type_main-default mr-2')}>{label}</span>{' '}

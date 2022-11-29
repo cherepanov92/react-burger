@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '../AppHeader';
-import { getModal } from '../../utils/helpers';
 import { getUserData } from '../../services/actions/User';
 import Modal from '../Modal/Modal';
 import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
@@ -14,23 +13,41 @@ import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { getIngredientsData } from '../../services/actions/Ingredients';
+import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
+import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
+import ErrorModal from '../Modal/ErrorModal/ErrorModal';
+
+const getModal = (modalType: EnumModalType) => {
+    switch (modalType) {
+        case EnumModalType.ORDER:
+            return <OrderDetails />;
+        case EnumModalType.ERROR:
+            return <ErrorModal />;
+        default:
+            return null;
+    }
+};
 
 function App() {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<Location>();
     const history = useHistory();
 
     const { modalType, ingredientList } = useSelector(state => ({
+        // @ts-ignore
         modalType: state.modal.modalType,
+        // @ts-ignore
         ingredientList: state.ingredients
     }));
 
+    // @ts-ignore
     const background = location.state && location.state.background;
     const handleModalClose = () => {
         history.goBack();
     };
 
     const init = useCallback(async () => {
+        // @ts-ignore
         await dispatch(getUserData());
     }, [dispatch]);
 
@@ -39,6 +56,7 @@ function App() {
     }, [init]);
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(getIngredientsData());
     }, [dispatch]);
 
@@ -57,10 +75,10 @@ function App() {
                     <RegistrationPage />
                 </Route>
                 <Route path="/forgot-password" exact>
-                    <ResetPasswordPage step={'email'} />
+                    <ResetPasswordPage step={EnumResetPassportStepType.EMAIL} />
                 </Route>
                 <Route path="/reset-password" exact>
-                    <ResetPasswordPage step={'password'} />
+                    <ResetPasswordPage step={EnumResetPassportStepType.PASSWORD} />
                 </Route>
                 <ProtectedRoute path="/profile">
                     <ProfilePage />

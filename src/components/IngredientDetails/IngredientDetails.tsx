@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import styles from './IngredientDetails.module.css';
+import { ingredientType } from '../../utils/types';
 
-const IngredientDetailsContent = ({ ingredient, isLoading }) => {
-    const getProperty = propertyName => {
-        return isLoading ? '...' : ingredient[propertyName];
+type ingredientDetailsProps = {
+    ingredient: ingredientType;
+};
+
+const IngredientDetailsContent: FC<ingredientDetailsProps & { isLoading: boolean }> = ({ ingredient, isLoading }) => {
+    const getProperty = (propertyName: string) => {
+        return isLoading ? '...' : ingredient[propertyName as keyof ingredientType];
     };
 
     return (
@@ -44,7 +49,7 @@ const IngredientDetailsContent = ({ ingredient, isLoading }) => {
     );
 };
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails: FC<ingredientDetailsProps> = ({ ingredient }) => {
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => setIsLoading(ingredient === null), [ingredient]);
 
@@ -52,9 +57,11 @@ const IngredientDetails = ({ ingredient }) => {
 };
 
 const IngredientDetailsContainer = () => {
-    const { ingredientId } = useParams();
+    const { ingredientId }: { ingredientId: string } = useParams();
     const { ingredientDetails, ingredientList } = useSelector(state => ({
+        // @ts-ignore
         ingredientDetails: state.ingredientDetails,
+        // @ts-ignore
         ingredientList: state.ingredients
     }));
 
@@ -63,12 +70,10 @@ const IngredientDetailsContainer = () => {
             return ingredientDetails;
         }
 
-        return ingredientList.ingredients.filter(item => item._id === ingredientId)[0];
+        return ingredientList.ingredients.filter((item: ingredientType) => item._id === ingredientId)[0];
     };
 
     return <IngredientDetails ingredient={getIngredient()} />;
 };
-
-IngredientDetails.propTypes = {};
 
 export default IngredientDetailsContainer;
