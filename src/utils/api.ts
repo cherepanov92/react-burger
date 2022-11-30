@@ -12,7 +12,7 @@ import {
 import { getCookie, setCookie } from './helpers';
 import { OrderedIngredient } from './types';
 
-const checkResponse = (response: any) => {
+const checkResponse = (response: Response) => {
     return response.ok
         ? response.json()
         : response
@@ -21,7 +21,7 @@ const checkResponse = (response: any) => {
               .catch(() => Promise.reject({ message: 'Ошибка сервера' }));
 };
 
-function request(url: string, options?: any) {
+function request(url: string, options?: RequestInit) {
     return fetch(url, options).then(checkResponse);
 }
 
