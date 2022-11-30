@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 });
 
 const init = (
-    initialState = {
+    initialState: any = {
         ingredients: {
             ingredientsRequest: false,
             ingredientsFailed: false,
@@ -55,7 +55,6 @@ const init = (
             accessToken: null
         }
     }
-    // @ts-ignore
 ) => createStore(rootReducer, initialState, enhancer);
 
 export default init;
