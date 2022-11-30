@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {FC, FormEvent} from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import SinglePageWrapper from '../SinglePageWrapper';
@@ -8,6 +8,15 @@ import { useSelector } from 'react-redux';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { EnumResetPassportStepType, LocationProps } from '../../utils/types';
+
+interface EmailConformationFormData {
+    email: { value: string };
+}
+
+interface PasswordConformationFormData {
+    password: { value: string };
+    token: { value: string };
+}
 
 const getStepContent = (step: EnumResetPassportStepType) => {
     switch (step) {
@@ -30,9 +39,10 @@ const PasswordConformation = () => {
         password: ''
     });
 
-    const passwordConformationHandler = (e: any) => {
+    const passwordConformationHandler = (e: React.FormEvent) => {
         e.preventDefault();
-        passwordResetConfirmation(e.target.password.value, e.target.token.value).then(() =>
+        const { password, token } = e.target as typeof e.target & PasswordConformationFormData;
+        passwordResetConfirmation(password.value, token.value).then(() =>
             history.replace({ pathname: '/' })
         );
     };
@@ -85,9 +95,10 @@ const EmailConformation = () => {
         email: ''
     });
 
-    const emailConformationHandler = (e: any) => {
+    const emailConformationHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        passwordReset(e.target.email.value).then(() =>
+        const { email } = e.target as typeof e.target & EmailConformationFormData;
+        passwordReset(email.value).then(() =>
             history.replace({ pathname: '/reset-password' }, { isEmailConfirm: true })
         );
     };

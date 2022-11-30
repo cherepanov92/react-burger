@@ -8,6 +8,12 @@ import { registrationUser } from '../../services/actions/User';
 import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 
+interface RegistrationFormData {
+    email: { value: string };
+    password: { value: string };
+    name: { value: string };
+}
+
 const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
     const dispatch = useDispatch();
     const { values, handleChange } = useForm({
@@ -16,10 +22,11 @@ const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
         password: ''
     });
 
-    const registrationHandler = (e: any) => {
+    const registrationHandler = (e: React.FormEvent) => {
         e.preventDefault();
+        const { email, password, name } = e.target as typeof e.target & RegistrationFormData;
         // @ts-ignore
-        dispatch(registrationUser(e.target.email.value, e.target.password.value, e.target.name.value));
+        dispatch(registrationUser(email.value, password.value, name.value));
     };
 
     if (isAuth) {

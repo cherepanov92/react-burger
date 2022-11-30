@@ -9,6 +9,11 @@ import { useForm } from '../../hooks/useForm';
 import { LocationProps } from '../../utils/types';
 import SinglePageWrapper from '../SinglePageWrapper';
 
+interface LoginFormData {
+    password: { value: string };
+    email: { value: string };
+}
+
 const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
     const dispatch = useDispatch();
     const location = useLocation() as unknown as LocationProps;
@@ -19,15 +24,15 @@ const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
         password: ''
     });
 
-    // @ts-ignore
-    const enterHandler = async e => {
+    const enterHandler = async (e: React.FormEvent) => {
         e.preventDefault();
         setValues({
             ...values
         });
 
+        const { password, email } = e.target as typeof e.target & LoginFormData;
         // @ts-ignore
-        await dispatch(loginUser(e.target.email.value, e.target.password.value));
+        await dispatch(loginUser(email.value, password.value));
     };
 
     if (isAuth) {
