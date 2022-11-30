@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef, useState, UIEvent } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from './BurgerIngredients.module.css';
@@ -15,8 +15,7 @@ const BurgerIngredients: FC<{ ingredients: IngredientType[] }> = ({ ingredients 
 
     const ingredientsByTypeList = getIngredientsGroups(ingredients);
 
-    // @ts-ignore
-    const handleScroll = e => {
+    const handleScroll = (e: UIEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const currentPosition = e.currentTarget.scrollTop + e.currentTarget.offsetTop;
         const bufZone =

@@ -12,7 +12,7 @@ const Logout: FC = () => {
         history.replace({ pathname: '/' });
     }, [history]);
 
-    const logoutHandler = async (e: any) => {
+    const logoutHandler = async (e: React.SyntheticEvent<Element, Event>) => {
         e.preventDefault();
         // @ts-ignore
         await dispatch(logoutUser());

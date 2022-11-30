@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { FC, useEffect } from 'react';
+import { FC, MouseEvent, useEffect } from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './Modal.module.css';
@@ -14,10 +14,9 @@ type ModalProps = {
 
 const Modal: FC<ModalProps> = ({ title, onClose, children }) => {
     useEffect(() => {
-        // @ts-ignore
-        const handleEscape = event => {
-            if (event.key === 'Escape') {
-                onClose(event);
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose(e);
             }
         };
 
@@ -25,8 +24,7 @@ const Modal: FC<ModalProps> = ({ title, onClose, children }) => {
         return () => window.removeEventListener('keydown', handleEscape);
     }, [onClose]);
 
-    // @ts-ignore
-    const stopPropagation = e => {
+    const stopPropagation = (e: MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
     };
 
