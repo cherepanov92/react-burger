@@ -1,13 +1,13 @@
 import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE } from '../actions/Modal';
 import { EnumModalType } from '../../utils/types';
 
-type modalState = {
+type ModalState = {
     modalType?: EnumModalType;
     status?: string;
     message?: string;
 };
 
-export default function modalReducer(state: modalState = {}, action: any) {
+export default function modalReducer(state: ModalState = {}, action: any) {
     switch (action.type) {
         case APPEND_MODAL_TYPE: {
             return {

@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import styles from './IngredientDetails.module.css';
-import { ingredientType } from '../../utils/types';
+import { IngredientType } from '../../utils/types';
 
-type ingredientDetailsProps = {
-    ingredient: ingredientType;
+type IngredientDetailsProps = {
+    ingredient: IngredientType;
 };
 
-const IngredientDetailsContent: FC<ingredientDetailsProps & { isLoading: boolean }> = ({ ingredient, isLoading }) => {
+const IngredientDetailsContent: FC<IngredientDetailsProps & { isLoading: boolean }> = ({ ingredient, isLoading }) => {
     const getProperty = (propertyName: string) => {
-        return isLoading ? '...' : ingredient[propertyName as keyof ingredientType];
+        return isLoading ? '...' : ingredient[propertyName as keyof IngredientType];
     };
 
     return (
@@ -49,7 +49,7 @@ const IngredientDetailsContent: FC<ingredientDetailsProps & { isLoading: boolean
     );
 };
 
-const IngredientDetails: FC<ingredientDetailsProps> = ({ ingredient }) => {
+const IngredientDetails: FC<IngredientDetailsProps> = ({ ingredient }) => {
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => setIsLoading(ingredient === null), [ingredient]);
 
@@ -70,7 +70,7 @@ const IngredientDetailsContainer = () => {
             return ingredientDetails;
         }
 
-        return ingredientList.ingredients.filter((item: ingredientType) => item._id === ingredientId)[0];
+        return ingredientList.ingredients.filter((item: IngredientType) => item._id === ingredientId)[0];
     };
 
     return <IngredientDetails ingredient={getIngredient()} />;

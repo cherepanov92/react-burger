@@ -6,12 +6,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './IngredientItem.module.css';
-import { ingredientType, locationProps } from '../../../utils/types';
+import { IngredientType, LocationProps } from '../../../utils/types';
 import { getOrderIngredients } from '../../../utils/getIngredientsGroups';
 import { ADD_INGREDIENT_DETAILS } from '../../../services/actions/IngredientDetails';
 
-const IngredientItem: FC<{ ingredient: ingredientType }> = ({ ingredient }) => {
-    const location = useLocation() as unknown as locationProps;
+const IngredientItem: FC<{ ingredient: IngredientType }> = ({ ingredient }) => {
+    const location = useLocation() as unknown as LocationProps;
     const dispatch = useDispatch();
     const ingredientId = ingredient._id;
 
@@ -20,7 +20,7 @@ const IngredientItem: FC<{ ingredient: ingredientType }> = ({ ingredient }) => {
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient });
     };
-    const getCount = (ingredient: ingredientType, orderIngredientList: ingredientType[] = []) => {
+    const getCount = (ingredient: IngredientType, orderIngredientList: IngredientType[] = []) => {
         if (ingredient.type === 'bun') {
             return ingredient._id === bun?._id ? 2 : null;
         }

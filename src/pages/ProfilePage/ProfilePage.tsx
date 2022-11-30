@@ -6,9 +6,9 @@ import styles from './ProfilePage.module.css';
 import Profile from './Profile/Profile';
 import Orders from './Orders/Orders';
 import Logout from './Logout/Logout';
-import { navItemProps } from '../../utils/types';
+import { NavItemProps } from '../../utils/types';
 
-const ProfileNavLink: FC<navItemProps> = ({ to, text }) => {
+const ProfileNavLink: FC<NavItemProps> = ({ to, text }) => {
     return (
         <NavLink to={to} className={styles.label} activeClassName={styles.activeLabel} exact>
             <div className={styles.labelWrapper}>

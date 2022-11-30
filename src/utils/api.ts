@@ -10,7 +10,7 @@ import {
     API_USER_URL
 } from './constants';
 import { getCookie, setCookie } from './helpers';
-import { orderedIngredient } from './types';
+import { OrderedIngredient } from './types';
 
 const checkResponse = (response: any) => {
     return response.ok
@@ -60,7 +60,7 @@ export const fetchWithRefresh = async (url: string, options: any) => {
     }
 };
 
-export const sendOrder = (orderList: orderedIngredient[]) => {
+export const sendOrder = (orderList: OrderedIngredient[]) => {
     return request(API_ORDERS_URL, {
         method: 'POST',
         body: JSON.stringify({ ingredients: [...orderList] }),

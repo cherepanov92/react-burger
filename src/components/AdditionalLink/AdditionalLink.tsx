@@ -4,13 +4,13 @@ import { Link, LinkProps } from 'react-router-dom';
 
 import styles from './AdditionalLink.module.css';
 
-type additionalLinkProps = {
+type AdditionalLinkProps = {
     className: string;
     label: string;
     lintText: string;
 };
 
-const AdditionalLink: FC<additionalLinkProps & Pick<LinkProps, 'to' | 'replace'>> = ({
+const AdditionalLink: FC<AdditionalLinkProps & Pick<LinkProps, 'to' | 'replace'>> = ({
     className,
     label,
     lintText,

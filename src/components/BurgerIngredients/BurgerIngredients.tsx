@@ -5,9 +5,9 @@ import styles from './BurgerIngredients.module.css';
 import IngredientsBlock from './IngredientsBlock/IngredientsBlock';
 import { IngredientsTabs } from './IngredientsTabs';
 import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
-import { EnumIngredientType, ingredientType } from '../../utils/types';
+import { EnumIngredientType, IngredientType } from '../../utils/types';
 
-const BurgerIngredients: FC<{ ingredients: ingredientType[] }> = ({ ingredients }) => {
+const BurgerIngredients: FC<{ ingredients: IngredientType[] }> = ({ ingredients }) => {
     const [currentZone, setCurrentZone] = useState<EnumIngredientType>(EnumIngredientType.BUN);
     const bunRef = useRef<HTMLInputElement>(null);
     const sauceRef = useRef<HTMLInputElement>(null);

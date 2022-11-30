@@ -1,6 +1,6 @@
-import { ingredientType } from './types';
+import { IngredientType } from './types';
 
-export const getIngredientsGroups = (ingredients: ingredientType[]) => {
+export const getIngredientsGroups = (ingredients: IngredientType[]) => {
     return ingredients.reduce(
         (previousValue, currentValue) => {
             return { ...previousValue, [currentValue.type]: [...previousValue[currentValue.type], currentValue] };
@@ -9,6 +9,6 @@ export const getIngredientsGroups = (ingredients: ingredientType[]) => {
     );
 };
 
-export const getOrderIngredients = (orderIngredients: ingredientType[]): string[] => {
+export const getOrderIngredients = (orderIngredients: IngredientType[]): string[] => {
     return orderIngredients.map(item => item._id);
 };

@@ -1,6 +1,6 @@
 import { NavLinkProps } from 'react-router-dom';
 
-export type ingredientType = {
+export type IngredientType = {
     readonly _id: string;
     readonly name: string;
     readonly type: EnumIngredientType;
@@ -15,7 +15,7 @@ export type ingredientType = {
     readonly __v: number;
 };
 
-export interface orderedIngredient extends ingredientType {
+export interface OrderedIngredient extends IngredientType {
     orderIndex: number;
     orderId: number;
     index: number;
@@ -43,11 +43,11 @@ export enum EnumResetPassportStepType {
     PASSWORD = 'password'
 }
 
-export type locationProps = {
+export type LocationProps = {
     state: {
         from: Location;
         isEmailConfirm: boolean;
     };
 };
 
-export type navItemProps = Pick<NavLinkProps, 'to'> & { text: string };
+export type NavItemProps = Pick<NavLinkProps, 'to'> & { text: string };

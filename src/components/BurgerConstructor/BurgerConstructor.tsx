@@ -11,7 +11,7 @@ import { getOrderIngredients } from '../../utils/getIngredientsGroups';
 import { ConstructorIngredient } from './ConstructotIngredient/ConstructotIngredient';
 import { APPEND_ERROR_MODAL_TYPE } from '../../services/actions/Modal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { orderedIngredient } from '../../utils/types';
+import { OrderedIngredient } from '../../utils/types';
 
 const BurgerConstructor = () => {
     // @ts-ignore
@@ -38,13 +38,13 @@ const BurgerConstructor = () => {
         }
     };
 
-    const onDropHandler = (ingredient: orderedIngredient) => {
+    const onDropHandler = (ingredient: OrderedIngredient) => {
         dispatch({ type: ADD_INGREDIENT, ingredient: ingredient });
     };
 
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(ingredient: orderedIngredient) {
+        drop(ingredient: OrderedIngredient) {
             onDropHandler(ingredient);
         }
     });
@@ -80,8 +80,8 @@ const BurgerConstructor = () => {
                         <div className={styles.selectedBlock}>
                             {!!ingredients.length &&
                                 ingredients
-                                    .sort((a: orderedIngredient, b: orderedIngredient) => a?.orderIndex - b?.orderIndex)
-                                    .map((ingredient: orderedIngredient, index: number) => (
+                                    .sort((a: OrderedIngredient, b: OrderedIngredient) => a?.orderIndex - b?.orderIndex)
+                                    .map((ingredient: OrderedIngredient, index: number) => (
                                         <ConstructorIngredient key={index} ingredient={ingredient} />
                                     ))}
                         </div>

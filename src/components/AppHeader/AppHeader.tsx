@@ -4,7 +4,7 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-dev
 import { NavLink, useLocation } from 'react-router-dom';
 
 import styles from './AppHeader.module.css';
-import { EnumIconType, navItemProps } from '../../utils/types';
+import { EnumIconType, NavItemProps } from '../../utils/types';
 
 const getIcon = (type: EnumIconType, isActive: boolean): JSX.Element => {
     switch (type) {
@@ -17,7 +17,7 @@ const getIcon = (type: EnumIconType, isActive: boolean): JSX.Element => {
     }
 };
 
-const NavItem: FC<navItemProps & { type: EnumIconType }> = ({ to, text, type }) => {
+const NavItem: FC<NavItemProps & { type: EnumIconType }> = ({ to, text, type }) => {
     const { pathname } = useLocation();
     const isActive = to === pathname;
 

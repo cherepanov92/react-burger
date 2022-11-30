@@ -3,12 +3,12 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './IngredientsTabs.module.css';
 import { EnumIngredientType } from '../../../utils/types';
 
-type ingredientsTabsProps = {
+type IngredientsTabsProps = {
     current: EnumIngredientType;
     changeCurrentZone: any;
 };
 
-export const IngredientsTabs: FC<ingredientsTabsProps> = ({ current, changeCurrentZone }) => {
+export const IngredientsTabs: FC<IngredientsTabsProps> = ({ current, changeCurrentZone }) => {
     return (
         <div className={styles.wrapper}>
             <Tab value={EnumIngredientType.BUN} active={current === EnumIngredientType.BUN} onClick={changeCurrentZone}>

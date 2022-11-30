@@ -1,6 +1,6 @@
 import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS } from '../actions/Order';
 
-type orderState = {
+type OrderState = {
     orderRequest?: boolean;
     orderFailed?: boolean;
     //todo: узнать какой тип
@@ -11,7 +11,7 @@ type orderState = {
     };
 };
 
-export default function orderReducer(state: orderState = {}, action: any) {
+export default function orderReducer(state: OrderState = {}, action: any) {
     switch (action.type) {
         case SENT_ORDER_REQUEST: {
             return {

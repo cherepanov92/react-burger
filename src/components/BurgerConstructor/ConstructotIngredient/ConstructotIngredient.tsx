@@ -6,19 +6,19 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import styles from './ConstructorIngredient.module.css';
 import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../../../services/actions/Constructor';
-import { orderedIngredient } from '../../../utils/types';
+import { OrderedIngredient } from '../../../utils/types';
 
-export const ConstructorIngredient: FC<{ ingredient: orderedIngredient }> = ({ ingredient }) => {
+export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ ingredient }) => {
     const dispatch = useDispatch();
     const ref = useRef(null);
-    const onDeleteIngredient = (ingredient: orderedIngredient) => {
+    const onDeleteIngredient = (ingredient: OrderedIngredient) => {
         dispatch({
             type: REMOVE_INGREDIENT,
             ingredient: ingredient
         });
     };
 
-    const moveCard = (ingredient: orderedIngredient, oldIndex: number, newIndex: number) => {
+    const moveCard = (ingredient: OrderedIngredient, oldIndex: number, newIndex: number) => {
         dispatch({
             type: MOVE_INGREDIENT,
             ingredient,
@@ -29,7 +29,7 @@ export const ConstructorIngredient: FC<{ ingredient: orderedIngredient }> = ({ i
 
     const [, drop] = useDrop({
         accept: 'movedIngredient',
-        hover(item: orderedIngredient, monitor) {
+        hover(item: OrderedIngredient, monitor) {
             if (!ref.current) {
                 return;
             }

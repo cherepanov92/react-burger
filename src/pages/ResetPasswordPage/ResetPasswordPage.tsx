@@ -7,7 +7,7 @@ import { passwordReset, passwordResetConfirmation } from '../../utils/api';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
-import { EnumResetPassportStepType, locationProps } from '../../utils/types';
+import { EnumResetPassportStepType, LocationProps } from '../../utils/types';
 
 const getStepContent = (step: EnumResetPassportStepType) => {
     switch (step) {
@@ -22,7 +22,7 @@ const getStepContent = (step: EnumResetPassportStepType) => {
 
 const PasswordConformation = () => {
     const history = useHistory();
-    const location = useLocation() as unknown as locationProps;
+    const location = useLocation() as unknown as LocationProps;
     const isEmailConfirm = !!location.state?.isEmailConfirm;
 
     const { values, handleChange } = useForm({

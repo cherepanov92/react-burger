@@ -6,12 +6,12 @@ import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
 import { loginUser } from '../../services/actions/User';
 import { useForm } from '../../hooks/useForm';
-import { locationProps } from '../../utils/types';
+import { LocationProps } from '../../utils/types';
 import SinglePageWrapper from '../SinglePageWrapper';
 
 const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
     const dispatch = useDispatch();
-    const location = useLocation() as unknown as locationProps;
+    const location = useLocation() as unknown as LocationProps;
     const locationState = location.state;
 
     const { values, handleChange, setValues } = useForm({

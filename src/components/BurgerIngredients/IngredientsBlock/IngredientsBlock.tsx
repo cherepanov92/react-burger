@@ -3,14 +3,14 @@ import classNames from 'classnames';
 
 import styles from './IngredientsBlock.module.css';
 import IngredientItem from '../IngredientItem/IngredientItem';
-import { ingredientType } from '../../../utils/types';
+import { IngredientType } from '../../../utils/types';
 
-type ingredientsBlockProps = {
+type IngredientsBlockProps = {
     title: string;
-    ingredients: ingredientType[];
+    ingredients: IngredientType[];
 };
 
-const IngredientsBlock: FC<ingredientsBlockProps> = ({ title, ingredients }) => {
+const IngredientsBlock: FC<IngredientsBlockProps> = ({ title, ingredients }) => {
     return (
         <>
             <p className="text text_type_main-medium">{title}</p>

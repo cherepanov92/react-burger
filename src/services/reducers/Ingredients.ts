@@ -1,13 +1,13 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/Ingredients';
-import { ingredientType } from '../../utils/types';
+import { IngredientType } from '../../utils/types';
 
-type ingredientsState = {
+type IngredientsState = {
     ingredientsRequest?: false;
     ingredientsFailed?: false;
-    ingredients?: ingredientType[];
+    ingredients?: IngredientType[];
 };
 
-export default function ingredientsReducer(state: ingredientsState = {}, action: any) {
+export default function ingredientsReducer(state: IngredientsState = {}, action: any) {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

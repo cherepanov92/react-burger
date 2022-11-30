@@ -7,12 +7,12 @@ import ModalOverlay from './ModalOverlay/ModalOverlay';
 
 const modalRoot: any = document.getElementById('modal');
 
-type modalProps = {
+type ModalProps = {
     title?: string;
     onClose: any;
 };
 
-const Modal: FC<modalProps> = ({ title, onClose, children }) => {
+const Modal: FC<ModalProps> = ({ title, onClose, children }) => {
     useEffect(() => {
         // @ts-ignore
         const handleEscape = event => {

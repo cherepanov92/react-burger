@@ -6,12 +6,12 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 
 export const LOGOUT_USER = 'LOGOUT_USER';
 
-type userState = {
+type UserState = {
     data?: any;
     accessToken?: string;
 };
 
-export default function userReducer(state: userState = {}, action: any) {
+export default function userReducer(state: UserState = {}, action: any) {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {

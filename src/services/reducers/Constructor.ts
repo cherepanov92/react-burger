@@ -1,21 +1,21 @@
 import { ADD_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../actions/Constructor';
-import { EnumIngredientType, orderedIngredient } from '../../utils/types';
+import { EnumIngredientType, OrderedIngredient } from '../../utils/types';
 
-type constructorState = {
-    bun?: orderedIngredient;
-    ingredients: orderedIngredient[];
+type ConstructorState = {
+    bun?: OrderedIngredient;
+    ingredients: OrderedIngredient[];
     totalPrice: number;
 };
 
 export default function constructorReducer(
-    state: constructorState = {
+    state: ConstructorState = {
         bun: undefined,
         ingredients: [],
         totalPrice: 0
     },
     action: any
 ) {
-    const getIngredientWithOrderHash = (ingredient: orderedIngredient) => ({
+    const getIngredientWithOrderHash = (ingredient: OrderedIngredient) => ({
         ...ingredient,
         orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Math.random() * 10000000)
     });

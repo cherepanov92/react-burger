@@ -5,7 +5,7 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useForm } from '../../../hooks/useForm';
 
-type profileInputProps = {
+type ProfileInputProps = {
     placeholder: string;
     value: string;
     type: 'text' | 'email' | 'password' | undefined;
@@ -13,7 +13,7 @@ type profileInputProps = {
     name: string;
 };
 
-const ProfileInput: FC<profileInputProps> = ({ placeholder, onChange, value, type, name }) => {
+const ProfileInput: FC<ProfileInputProps> = ({ placeholder, onChange, value, type, name }) => {
     return (
         <div className={classNames(styles.section, 'mt-6')}>
             <Input
