@@ -2,9 +2,9 @@ import { sendOrder } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE } from './Modal';
 import { OrderedIngredient } from '../../utils/types';
 
-export const SENT_ORDER_REQUEST = 'SENT_ORDER_REQUEST';
-export const SENT_ORDER_SUCCESS = 'SENT_ORDER_SUCCESS';
-export const SENT_ORDER_FAILED = 'SENT_ORDER_FAILED';
+export const SENT_ORDER_REQUEST: 'SENT_ORDER_REQUEST' = 'SENT_ORDER_REQUEST';
+export const SENT_ORDER_SUCCESS: 'SENT_ORDER_SUCCESS' = 'SENT_ORDER_SUCCESS';
+export const SENT_ORDER_FAILED: 'SENT_ORDER_FAILED' = 'SENT_ORDER_FAILED';
 
 export const sendOrderRequest = (orderList: OrderedIngredient[]) => {
     // @ts-ignore

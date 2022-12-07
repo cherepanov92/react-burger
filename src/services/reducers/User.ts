@@ -1,10 +1,5 @@
 import { deleteCookie } from '../../utils/helpers';
-
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-
-export const LOGOUT_USER = 'LOGOUT_USER';
+import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER } from '../actions/User';
 
 type UserState = {
     data?: any;

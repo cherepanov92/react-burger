@@ -1,6 +1,11 @@
 import { getUserApiData, login, logout, userRegister } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE } from './Modal';
-import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER } from '../reducers/User';
+
+export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED: 'GET_USER_FAILED' = 'GET_USER_FAILED';
+
+export const LOGOUT_USER: 'LOGOUT_USER' = 'LOGOUT_USER';
 
 export const loginUser = (email: string, password: string) => {
     return function (dispatch: any) {
