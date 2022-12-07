@@ -1,4 +1,5 @@
 import { NavLinkProps } from 'react-router-dom';
+import {APPEND_ERROR_MODAL_TYPE} from "../services/actions/Modal";
 
 export type IngredientType = {
     readonly _id: string;
@@ -51,3 +52,19 @@ export type LocationProps = {
 };
 
 export type NavItemProps = Pick<NavLinkProps, 'to'> & { text: string };
+
+type UserDataProps = {
+    password: string;
+    token: string;
+};
+
+export type UserAuthProps = {
+    refreshToken: string;
+    accessToken: string;
+    user?: UserDataProps;
+};
+
+export interface IError {
+    readonly type: typeof APPEND_ERROR_MODAL_TYPE;
+    message: String;
+}

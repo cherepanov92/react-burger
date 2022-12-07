@@ -1,5 +1,7 @@
 import { getUserApiData, login, logout, userRegister } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE } from './Modal';
+import {IError, UserAuthProps} from '../../utils/types';
+import { Dispatch } from 'react';
 
 export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
@@ -7,8 +9,28 @@ export const GET_USER_FAILED: 'GET_USER_FAILED' = 'GET_USER_FAILED';
 
 export const LOGOUT_USER: 'LOGOUT_USER' = 'LOGOUT_USER';
 
+interface IGetUserRequest {
+    readonly type: typeof GET_USER_REQUEST;
+}
+
+interface IGetUserSuccess {
+    readonly type: typeof GET_USER_SUCCESS;
+    data: UserAuthProps;
+    accessToken?: string;
+}
+
+interface IGetUserFailed {
+    readonly type: typeof GET_USER_FAILED;
+}
+
+interface ILogoutUser {
+    readonly type: typeof LOGOUT_USER;
+}
+
+export type TUserActions = IGetUserRequest | IGetUserSuccess | IGetUserFailed | ILogoutUser;
+
 export const loginUser = (email: string, password: string) => {
-    return function (dispatch: any) {
+    return function (dispatch: Dispatch<IGetUserRequest | IGetUserSuccess | IGetUserFailed | IError>) {
         dispatch({
             type: GET_USER_REQUEST
         });
@@ -36,7 +58,7 @@ export const loginUser = (email: string, password: string) => {
 };
 
 export const logoutUser = () => {
-    return function (dispatch: any) {
+    return function (dispatch: Dispatch<ILogoutUser | IError>) {
         logout()
             .then(res => {
                 if (res && res.success) {
@@ -55,7 +77,7 @@ export const logoutUser = () => {
 };
 
 export const getUserData = () => {
-    return function (dispatch: any) {
+    return function (dispatch: Dispatch<IGetUserSuccess | IGetUserFailed | ILogoutUser>) {
         getUserApiData()
             .then(res => {
                 if (res && res.success) {
@@ -80,7 +102,7 @@ export const getUserData = () => {
 };
 
 export const registrationUser = (email: string, password: string, name: string) => {
-    return function (dispatch: any) {
+    return function (dispatch: Dispatch<IGetUserSuccess | IGetUserFailed | IError>) {
         userRegister(email, password, name)
             .then(res => {
                 if (res && res.success) {
