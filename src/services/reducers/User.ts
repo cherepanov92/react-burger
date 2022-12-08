@@ -1,12 +1,17 @@
 import { deleteCookie } from '../../utils/helpers';
 import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER, TUserActions } from '../actions/User';
 
-type UserState = {
-    data?: any;
-    accessToken?: string;
+type TUserState = {
+    data: any;
+    accessToken: string | null;
 };
 
-export default function userReducer(state: UserState = {}, action: TUserActions) {
+export const InitialUserState: TUserState = {
+    data: null,
+    accessToken: null
+};
+
+export default function userReducer(state: TUserState = InitialUserState, action: TUserActions) {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {

@@ -6,13 +6,22 @@ import {
 } from '../actions/Ingredients';
 import { IngredientType } from '../../utils/types';
 
-type IngredientsState = {
-    ingredientsRequest?: false;
-    ingredientsFailed?: false;
-    ingredients?: IngredientType[];
+export type TIngredientsState = {
+    ingredientsRequest: boolean;
+    ingredientsFailed: boolean;
+    ingredients: IngredientType[];
 };
 
-export default function ingredientsReducer(state: IngredientsState = {}, action: TIngredientsActions) {
+export const InitialIngredientsState: TIngredientsState = {
+    ingredientsRequest: false,
+    ingredientsFailed: false,
+    ingredients: []
+};
+
+export default function ingredientsReducer(
+    state: TIngredientsState = InitialIngredientsState,
+    action: TIngredientsActions
+) {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

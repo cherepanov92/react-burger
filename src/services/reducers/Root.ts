@@ -1,21 +1,15 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import ReduxThunk from 'redux-thunk';
 
-import ingredients from './Ingredients';
-import constructor from './Constructor';
-import ingredientDetails from './IngredientDetails';
-import order from './Order';
-import modal from './Modal';
-import user from './User';
+import ingredients, { InitialIngredientsState } from './Ingredients';
+import constructor, { InitialConstructorState } from './Constructor';
+import ingredientDetails, { InitialIngredientDetailsState } from './IngredientDetails';
+import order, { InitialOrderState } from './Order';
+import modal, { InitialModalState } from './Modal';
+import user, { InitialUserState } from './User';
+import thunk from 'redux-thunk';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-let composeEnhancers = compose;
-if (process.env.NODE_ENV !== 'production') {
-    // @ts-ignore
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-}
-const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
-
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     ingredients,
     constructor,
     ingredientDetails,
@@ -24,37 +18,38 @@ const rootReducer = combineReducers({
     user
 });
 
-const init = (
-    initialState: any = {
-        ingredients: {
-            ingredientsRequest: false,
-            ingredientsFailed: false,
-            ingredients: []
-        },
-        constructor: {
-            bun: null,
-            ingredients: [],
-            totalPrice: 0
-        },
-        ingredientDetails: null,
-        order: {
-            orderRequest: false,
-            orderFailed: false,
-            orderData: {
-                name: null,
-                number: null
-            }
-        },
-        modal: {
-            modalType: null,
-            status: null,
-            message: null
-        },
-        user: {
-            data: null,
-            accessToken: null
-        }
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
-) => createStore(rootReducer, initialState, enhancer);
+}
 
-export default init;
+export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+type TInitialState = {
+    ingredients?: typeof InitialIngredientsState;
+    constructor: typeof InitialConstructorState;
+    ingredientDetails: typeof InitialIngredientDetailsState;
+    order: typeof InitialOrderState;
+    modal: typeof InitialModalState;
+    user: typeof InitialUserState;
+};
+
+const initialState: TInitialState = {
+    ingredients: InitialIngredientsState,
+    constructor: InitialConstructorState,
+    ingredientDetails: InitialIngredientDetailsState,
+    order: InitialOrderState,
+    modal: InitialModalState,
+    user: InitialUserState
+};
+
+export const store = createStore(rootReducer, initialState, enhancer);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

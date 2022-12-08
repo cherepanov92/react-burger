@@ -1,15 +1,24 @@
 import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS, TOrderActions } from '../actions/Order';
 
-type OrderState = {
-    orderRequest?: boolean;
-    orderFailed?: boolean;
-    orderData?: {
-        name: string;
-        number: number;
+type TOrderState = {
+    orderRequest: boolean;
+    orderFailed: boolean;
+    orderData: {
+        name: string | null;
+        number: number | null;
     };
 };
 
-export default function orderReducer(state: OrderState = {}, action: TOrderActions) {
+export const InitialOrderState: TOrderState = {
+    orderRequest: false,
+    orderFailed: false,
+    orderData: {
+        name: null,
+        number: null
+    }
+};
+
+export default function orderReducer(state: TOrderState = InitialOrderState, action: TOrderActions) {
     switch (action.type) {
         case SENT_ORDER_REQUEST: {
             return {
