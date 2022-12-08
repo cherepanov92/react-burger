@@ -1,6 +1,10 @@
-import { ADD_INGREDIENT_DETAILS, REMOVE_INGREDIENT_DETAILS } from '../actions/IngredientDetails';
+import {
+    ADD_INGREDIENT_DETAILS,
+    REMOVE_INGREDIENT_DETAILS,
+    TIngredientDetailsActions
+} from '../actions/IngredientDetails';
 
-export default function ingredientDetailsReducer(state = null, action: any) {
+export default function ingredientDetailsReducer(state = null, action: TIngredientDetailsActions) {
     switch (action.type) {
         case ADD_INGREDIENT_DETAILS:
             return { ...action.ingredient };
