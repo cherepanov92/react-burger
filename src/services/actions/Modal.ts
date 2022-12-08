@@ -4,7 +4,7 @@ export const APPEND_MODAL_TYPE: 'APPEND_MODAL_TYPE' = 'APPEND_MODAL_TYPE';
 export const APPEND_ERROR_MODAL_TYPE: 'APPEND_ERROR_MODAL_TYPE' = 'APPEND_ERROR_MODAL_TYPE';
 export const REMOVE_MODAL_TYPE: 'REMOVE_MODAL_TYPE' = 'REMOVE_MODAL_TYPE';
 
-interface IAppendModalType {
+export interface IAppendModalType {
     readonly type: typeof APPEND_MODAL_TYPE;
     modalType: EnumModalType;
 }

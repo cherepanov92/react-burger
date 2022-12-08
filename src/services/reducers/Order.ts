@@ -1,31 +1,29 @@
-import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS } from '../actions/Order';
+import { SENT_ORDER_FAILED, SENT_ORDER_REQUEST, SENT_ORDER_SUCCESS, TOrderActions } from '../actions/Order';
 
 type OrderState = {
     orderRequest?: boolean;
     orderFailed?: boolean;
-    //todo: узнать какой тип
-    order?: any;
     orderData?: {
         name: string;
         number: number;
     };
 };
 
-export default function orderReducer(state: OrderState = {}, action: any) {
+export default function orderReducer(state: OrderState = {}, action: TOrderActions) {
     switch (action.type) {
         case SENT_ORDER_REQUEST: {
             return {
                 ...state,
                 orderRequest: true,
                 orderFailed: false,
-                orderData: { ...state.order, name: null, number: null }
+                orderData: { name: null, number: null }
             };
         }
         case SENT_ORDER_SUCCESS: {
             return {
                 ...state,
                 orderRequest: false,
-                orderData: { ...state.order, name: action.name, number: action.number }
+                orderData: { name: action.name, number: action.number }
             };
         }
         case SENT_ORDER_FAILED: {
@@ -33,7 +31,7 @@ export default function orderReducer(state: OrderState = {}, action: any) {
                 ...state,
                 orderFailed: true,
                 orderRequest: false,
-                orderData: { ...state.order, name: null, number: null }
+                orderData: { name: null, number: null }
             };
         }
         default: {
