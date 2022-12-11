@@ -11,8 +11,8 @@ export interface IAppendModalType {
 
 interface IAppendErrorModalType {
     readonly type: typeof APPEND_ERROR_MODAL_TYPE;
-    status: string;
-    message: string;
+    status?: string | null;
+    message: string | null;
 }
 
 interface IRemoveModalTypeE {

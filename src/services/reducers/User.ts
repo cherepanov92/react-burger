@@ -4,11 +4,15 @@ import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER, TUser
 type TUserState = {
     data: any;
     accessToken: string | null;
+    userRequest: boolean;
+    userFailed: boolean;
 };
 
 export const InitialUserState: TUserState = {
     data: null,
-    accessToken: null
+    accessToken: null,
+    userRequest: false,
+    userFailed: false
 };
 
 export default function userReducer(state: TUserState = InitialUserState, action: TUserActions) {

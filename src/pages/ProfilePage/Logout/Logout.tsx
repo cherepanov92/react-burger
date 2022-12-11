@@ -1,11 +1,11 @@
 import React, { FC, useCallback } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { logoutUser } from '../../../services/actions/User';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from '../../../services/reducers/Root';
 
 const Logout: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const history = useHistory();
 
     const onLogout = useCallback(() => {

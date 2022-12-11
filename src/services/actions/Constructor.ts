@@ -7,7 +7,6 @@ export const MOVE_INGREDIENT: 'MOVE_INGREDIENT' = 'MOVE_INGREDIENT';
 interface IAddIngredient {
     readonly type: typeof ADD_INGREDIENT;
     ingredient: OrderedIngredient;
-    totalPrice: number;
 }
 
 interface IRemoveIngredient {

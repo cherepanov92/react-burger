@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '../AppHeader';
@@ -16,6 +15,7 @@ import { getIngredientsData } from '../../services/actions/Ingredients';
 import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
 import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
 import ErrorModal from '../Modal/ErrorModal/ErrorModal';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 
 const getModal = (modalType: EnumModalType) => {
     switch (modalType) {
@@ -29,14 +29,12 @@ const getModal = (modalType: EnumModalType) => {
 };
 
 function App() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation<Location>();
     const history = useHistory();
 
-    const { modalType, ingredientList } = useSelector(state => ({
-        // @ts-ignore
+    const { modalType, ingredientList } = useAppSelector(state => ({
         modalType: state.modal.modalType,
-        // @ts-ignore
         ingredientList: state.ingredients
     }));
 

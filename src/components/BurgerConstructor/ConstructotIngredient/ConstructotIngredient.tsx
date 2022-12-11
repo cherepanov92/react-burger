@@ -1,15 +1,15 @@
 import React, { FC, useRef } from 'react';
 import classNames from 'classnames';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './ConstructorIngredient.module.css';
 import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../../../services/actions/Constructor';
 import { OrderedIngredient } from '../../../utils/types';
+import { useAppDispatch } from '../../../services/reducers/Root';
 
 export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ ingredient }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const ref = useRef(null);
     const onDeleteIngredient = (ingredient: OrderedIngredient) => {
         dispatch({

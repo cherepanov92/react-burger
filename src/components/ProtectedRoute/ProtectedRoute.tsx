@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { RouteProps } from 'react-router';
+import { useAppSelector } from '../../services/reducers/Root';
 
-const ProtectedRoute: FC<RouteProps & {children?: React.ReactNode}> = ({ children, ...rest }) => {
-    // @ts-ignore
-    const user = useSelector(state => state.user);
+const ProtectedRoute: FC<RouteProps & { children?: React.ReactNode }> = ({ children, ...rest }) => {
+    const user = useAppSelector(state => state.user);
     const isAuth = !!user.data;
 
     return (

@@ -2,8 +2,8 @@ import React, { ChangeEvent, FC } from 'react';
 import classNames from 'classnames';
 import styles from '../ProfilePage.module.css';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useForm } from '../../../hooks/useForm';
+import { useAppSelector } from '../../../services/reducers/Root';
 
 type ProfileInputProps = {
     placeholder: string;
@@ -31,8 +31,7 @@ const ProfileInput: FC<ProfileInputProps> = ({ placeholder, onChange, value, typ
 };
 
 const Profile = () => {
-    // @ts-ignore
-    const { data, userRequest } = useSelector(state => state.user);
+    const { data, userRequest } = useAppSelector(state => state.user);
     const { values, handleChange } = useForm({
         name: data.name,
         email: data.email,

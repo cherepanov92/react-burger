@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import Modal from '../Modal';
 import styles from './ErrorModal.module.css';
 import { REMOVE_MODAL_TYPE } from '../../../services/actions/Modal';
+import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
 
 const ErrorModal: FC = () => {
-    const dispatch = useDispatch();
-    // @ts-ignore
-    const { status, message } = useSelector(state => state.modal);
+    const dispatch = useAppDispatch();
+    const { status, message } = useAppSelector(state => state.modal);
 
     const closeModal = () => {
         dispatch({ type: REMOVE_MODAL_TYPE });

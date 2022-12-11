@@ -3,7 +3,7 @@ import { EnumModalType } from '../../utils/types';
 
 type TModalState = {
     modalType: EnumModalType | null;
-    status: string | null;
+    status?: string | null;
     message: string | null;
 };
 
@@ -25,8 +25,8 @@ export default function modalReducer(state: TModalState = InitialModalState, act
             return {
                 ...state,
                 modalType: EnumModalType.ERROR,
-                status: action.status,
-                message: action.message
+                status: action?.status ? action.status : state.status,
+                message: action?.message ? action.message : state.message
             };
         }
         case REMOVE_MODAL_TYPE: {
