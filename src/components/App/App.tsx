@@ -3,6 +3,10 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '../AppHeader';
 import { getUserData } from '../../services/actions/User';
+import { getIngredientsData } from '../../services/actions/Ingredients';
+import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
+
 import Modal from '../Modal/Modal';
 import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
@@ -11,11 +15,9 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { getIngredientsData } from '../../services/actions/Ingredients';
-import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
 import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
 import ErrorModal from '../Modal/ErrorModal/ErrorModal';
-import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
+import FeedPage from '../../pages/FeedPage/FeedPage';
 
 const getModal = (modalType: EnumModalType) => {
     switch (modalType) {
@@ -81,6 +83,12 @@ function App() {
                 <ProtectedRoute path="/profile">
                     <ProfilePage />
                 </ProtectedRoute>
+                <Route path="/feed" exact>
+                    <FeedPage />
+                </Route>
+                <Route path="/feed/:id" exact>
+                    <FeedPage isOpen />
+                </Route>
                 <Route path="/ingredients/:ingredientId" exact>
                     <IngredientDetails />
                 </Route>

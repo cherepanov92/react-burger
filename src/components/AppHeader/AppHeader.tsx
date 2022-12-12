@@ -39,7 +39,7 @@ export const AppHeader: FC = () => {
             <nav className={styles.nav}>
                 <section className={styles.leftBlock}>
                     <NavItem to="/" text="Конструктор" type={EnumIconType.CONSTRUCTOR} />
-                    <NavItem to="/profile/orders" text="Лента заказов" type={EnumIconType.ORDER_QUEUE} />
+                    <NavItem to="/feed" text="Лента заказов" type={EnumIconType.ORDER_QUEUE} />
                 </section>
                 <section className={styles.centralBlock}>
                     <Logo />
