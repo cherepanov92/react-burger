@@ -21,7 +21,7 @@ const ProfileNavLink: FC<NavItemProps> = ({ to, text }) => {
 const ProfilePage: FC = ({ children }) => {
     return (
         <div className={styles.wrapper}>
-            <section className="mr-15 mt-30">
+            <div className="mr-15 mt-25">
                 <ProfileNavLink to={'/profile'} text={'Профиль'} />
                 <ProfileNavLink to={'/profile/orders'} text={'История заказов'} />
                 <ProfileNavLink to={'/profile/logout'} text={'Выход'} />
@@ -30,8 +30,10 @@ const ProfilePage: FC = ({ children }) => {
                         В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные данные
                     </p>
                 </div>
-            </section>
-            {children}
+            </div>
+            <div className={styles.content}>
+                {children}
+            </div>
         </div>
     );
 };

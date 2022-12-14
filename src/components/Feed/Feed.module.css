@@ -12,7 +12,7 @@
     justify-content: flex-start;
 }
 
-.orders {
+.orderList {
     height: 924px;
     width: 100%;
     max-width: 592px;
@@ -20,15 +20,15 @@
     scroll-behavior: smooth;
 }
 
-.orders::-webkit-scrollbar {
+.orderList::-webkit-scrollbar {
     width: 8px;
 }
 
-.orders::-webkit-scrollbar-track {
+.orderList::-webkit-scrollbar-track {
     background: #2F2F37;
 }
 
-.orders::-webkit-scrollbar-thumb {
+.orderList::-webkit-scrollbar-thumb {
     background-color: #8585AD;
 }
 

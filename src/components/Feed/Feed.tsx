@@ -39,20 +39,28 @@ const OrderTable: FC = () => {
     )
 }
 
+export const OrderList: FC = () => {
+    return (
+        <>
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+            <OrderListItem />
+        </>
+    )
+}
+
 const Feed: FC = () => {
     return (
         <div className={classNames(styles.container, "pl-4 pr-4 mt-10")}>
             <p className="text text_type_main-large mt-10 mb-5">Лента заказов</p>
             <div className={styles.wrapper}>
-                <div className={styles.orders + ' pr-2'}>
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
-                    <OrderListItem />
+                <div className={classNames(styles.orderList, "pr-2")}>
+                    <OrderList />
                 </div>
                 <div className={styles.orderTable}>
                     <OrderTable />
