@@ -7,6 +7,7 @@ import Profile from './Profile/Profile';
 import Orders from './Orders/Orders';
 import Logout from './Logout/Logout';
 import { NavItemProps } from '../../utils/types';
+import FeedPage from '../FeedPage/FeedPage';
 
 const ProfileNavLink: FC<NavItemProps> = ({ to, text }) => {
     return (
@@ -31,9 +32,7 @@ const ProfilePage: FC = ({ children }) => {
                     </p>
                 </div>
             </div>
-            <div className={styles.content}>
-                {children}
-            </div>
+            <div className={styles.content}>{children}</div>
         </div>
     );
 };
@@ -41,19 +40,22 @@ const ProfilePage: FC = ({ children }) => {
 const ProfilePageContainer = () => {
     return (
         <div className={styles.wrapper}>
-            <ProfilePage>
-                <Switch>
-                    <Route path="/profile" exact>
-                        <Profile />
-                    </Route>
+            <Switch>
+                <Route path="/profile/orders/:id" exact>
+                    <FeedPage isOrderInfoMode />
+                </Route>
+                <ProfilePage>
                     <Route path="/profile/orders" exact>
                         <Orders />
+                    </Route>
+                    <Route path="/profile" exact>
+                        <Profile />
                     </Route>
                     <Route path="/profile/logout" exact>
                         <Logout />
                     </Route>
-                </Switch>
-            </ProfilePage>
+                </ProfilePage>
+            </Switch>
         </div>
     );
 };

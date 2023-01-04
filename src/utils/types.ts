@@ -1,5 +1,5 @@
 import { NavLinkProps } from 'react-router-dom';
-import {APPEND_ERROR_MODAL_TYPE} from "../services/actions/Modal";
+import { APPEND_ERROR_MODAL_TYPE } from '../services/actions/Modal';
 
 export type IngredientType = {
     readonly _id: string;
@@ -48,6 +48,7 @@ export type LocationProps = {
     state: {
         from: Location;
         isEmailConfirm: boolean;
+        isModal?: boolean;
     };
 };
 

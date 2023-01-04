@@ -87,7 +87,7 @@ function App() {
                     <FeedPage />
                 </Route>
                 <Route path="/feed/:id" exact>
-                    <FeedPage isOpen />
+                    <FeedPage isOrderInfoMode />
                 </Route>
                 <Route path="/ingredients/:ingredientId" exact>
                     <IngredientDetails />

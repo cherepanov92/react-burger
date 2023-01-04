@@ -1,8 +1,12 @@
 import React, { FC } from 'react';
 import '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Feed.module.css';
-import classNames from "classnames";
-import OrderListItem from "../OrderListItem/OrderListItem";
+import classNames from 'classnames';
+import OrderListItem from '../OrderListItem/OrderListItem';
+import Modal from '../Modal/Modal';
+import { OrderItem } from '../OrderListItem/OrderItem/OrderItem';
+import { useHistory, useLocation } from 'react-router-dom';
+import { LocationProps } from '../../utils/types';
 
 const OrderTable: FC = () => {
     return (
@@ -36,8 +40,8 @@ const OrderTable: FC = () => {
                 <p className={styles.result_text + ' text text_type_digits-large'}>138</p>
             </div>
         </>
-    )
-}
+    );
+};
 
 export const OrderList: FC = () => {
     return (
@@ -51,27 +55,44 @@ export const OrderList: FC = () => {
             <OrderListItem />
             <OrderListItem />
         </>
-    )
-}
+    );
+};
 
-const Feed: FC = () => {
+const Feed: FC<{ isOrderInfoMode: boolean }> = ({ isOrderInfoMode }) => {
+    const location = useLocation() as unknown as LocationProps;
+    const history = useHistory();
+
+    const isModal = !!location.state?.isModal;
+    const isOrderInfoModalMode = isModal && isOrderInfoMode;
+
+    const OnCloseOrderModal = () => {
+        history.replace(`/feed`, { isModal: false });
+    };
+
     return (
-        <div className={classNames(styles.container, "pl-4 pr-4 mt-10")}>
-            <p className="text text_type_main-large mt-10 mb-5">Лента заказов</p>
-            <div className={styles.wrapper}>
-                <div className={classNames(styles.orderList, "pr-2")}>
-                    <OrderList />
-                </div>
-                <div className={styles.orderTable}>
-                    <OrderTable />
-                </div>
-            </div>
+        <div className={classNames(styles.container, 'pl-4 pr-4 mt-10')}>
+            {isOrderInfoMode && !isOrderInfoModalMode ? (
+                <OrderItem />
+            ) : (
+                <>
+                    <p className="text text_type_main-large mt-10 mb-5">Лента заказов</p>
+                    <div className={styles.wrapper}>
+                        <div className={classNames(styles.orderList, 'pr-2')}>
+                            <OrderList />
+                        </div>
+                        <div className={styles.orderTable}>
+                            <OrderTable />
+                        </div>
+                    </div>
+                    {isOrderInfoModalMode && (
+                        <Modal onClose={OnCloseOrderModal}>
+                            <OrderItem />
+                        </Modal>
+                    )}
+                </>
+            )}
         </div>
     );
 };
 
-const FeedContainer:FC = () => {
-    return <Feed />;
-};
-
-export default FeedContainer;
+export default Feed;
