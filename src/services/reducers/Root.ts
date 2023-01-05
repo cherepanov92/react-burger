@@ -6,8 +6,11 @@ import ingredientDetails, { InitialIngredientDetailsState } from './IngredientDe
 import order, { InitialOrderState } from './Order';
 import modal, { InitialModalState } from './Modal';
 import user, { InitialUserState } from './User';
+import orderList from './OrderList';
 import thunk from 'redux-thunk';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { socketMiddleware } from '../middleware/socket';
+import { WSS_ORDERS_URL } from '../../utils/constants';
 
 export const rootReducer = combineReducers({
     ingredients,
@@ -15,7 +18,8 @@ export const rootReducer = combineReducers({
     ingredientDetails,
     order,
     modal,
-    user
+    user,
+    orderList
 });
 
 declare global {
@@ -26,7 +30,7 @@ declare global {
 
 export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk), applyMiddleware(socketMiddleware(WSS_ORDERS_URL)));
 
 type TInitialState = {
     ingredients?: typeof InitialIngredientsState;
