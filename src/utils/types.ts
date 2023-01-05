@@ -16,6 +16,16 @@ export type IngredientType = {
     readonly __v: number;
 };
 
+export type OrderType = {
+    readonly _id: string;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+    readonly status: 'created' | 'pending' | 'done';
+    readonly name: string;
+    readonly number: number;
+    readonly ingredients: string[];
+};
+
 export interface OrderedIngredient extends IngredientType {
     orderIndex: number;
     orderId: number;

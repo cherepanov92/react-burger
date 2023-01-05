@@ -1,7 +1,8 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 import {
-    TWSActions,
-    WS_CONNECTION_ERROR, WS_CONNECTION_START,
+    TWSActions, WS_CLOSE_CONNECTION,
+    WS_CONNECTION_ERROR,
+    WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
     WS_GET_MESSAGE,
     WS_SEND_MESSAGE
@@ -20,6 +21,10 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
                 socket = new WebSocket(wsUrl);
             }
 
+            if (type === WS_CLOSE_CONNECTION) {
+                socket?.close();
+            }
+
             if (socket) {
                 socket.onopen = event => {
                     dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
@@ -31,7 +36,8 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
 
                 socket.onmessage = event => {
                     const { data } = event;
-                    dispatch({ type: WS_GET_MESSAGE, payload: data });
+                    const dataObject = JSON.parse(data);
+                    dispatch({ type: WS_GET_MESSAGE, payload: dataObject?.orders });
                 };
 
                 socket.onclose = event => {

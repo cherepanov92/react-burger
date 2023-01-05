@@ -5,18 +5,18 @@ import {
     WS_CONNECTION_SUCCESS,
     WS_GET_MESSAGE
 } from '../actions/WebSocket';
+import { OrderType } from '../../utils/types';
 
 type TOrderListState = {
     ordersRequest: boolean;
     ordersFailed: boolean;
-    //todo: типизировать когда будет понятно
-    data: any;
+    data: OrderType[];
 };
 
 const initialState: TOrderListState = {
     ordersRequest: false,
     ordersFailed: false,
-    data: null
+    data: []
 };
 
 const orderListReducer = (state: TOrderListState = initialState, action: TWSActions) => {
