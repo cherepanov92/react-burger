@@ -32,7 +32,6 @@ const orderListReducer = (state: TOrderListState = initialState, action: TWSActi
                 ...state,
                 ordersRequest: false,
                 ordersFailed: false,
-                data: action.payload
             };
         }
         case WS_CONNECTION_ERROR: {
@@ -46,7 +45,7 @@ const orderListReducer = (state: TOrderListState = initialState, action: TWSActi
             return {
                 ...state,
                 ordersFailed: false,
-                data: action.payload
+                data: action.payload as OrderType[]
             };
         }
         default: {
