@@ -32,7 +32,7 @@ const BurgerConstructor = () => {
             setRedirectToAuth(true);
         } else {
             // @ts-ignore
-            canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
+            canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ...ingredients])));
         }
     };
 

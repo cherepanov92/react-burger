@@ -1,6 +1,6 @@
 import { sendOrder } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, IAppendModalType } from './Modal';
-import { EnumModalType, IError, OrderedIngredient } from '../../utils/types';
+import { EnumModalType, IError } from '../../utils/types';
 import { Dispatch } from 'react';
 
 export const SENT_ORDER_REQUEST: 'SENT_ORDER_REQUEST' = 'SENT_ORDER_REQUEST';
@@ -23,7 +23,7 @@ interface ISendOrderFailed {
 
 export type TOrderActions = ISendOrderRequest | ISendOrderSuccess | ISendOrderFailed;
 
-export const sendOrderRequest = (orderList: OrderedIngredient[]) => {
+export const sendOrderRequest = (orderList: string[]) => {
     return function (dispatch: Dispatch<TOrderActions | IAppendModalType | IError>) {
         dispatch({
             type: SENT_ORDER_REQUEST

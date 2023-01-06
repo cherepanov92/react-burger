@@ -10,5 +10,13 @@ export const getIngredientsGroups = (ingredients: IngredientType[]) => {
 };
 
 export const getOrderIngredients = (orderIngredients: IngredientType[]): string[] => {
-    return orderIngredients.map(item => item._id);
+    const result:string[] = [];
+    orderIngredients.forEach(item => {
+        if (item.type === 'bun') {
+            result.push(item._id);
+        }
+        result.push(item._id);
+    });
+
+    return result;
 };
