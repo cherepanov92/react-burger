@@ -16,6 +16,12 @@ export type IngredientType = {
     readonly __v: number;
 };
 
+export enum EnumOrderStatusName {
+    'created' = 'Создан',
+    'pending' = 'Готовится',
+    'done' = 'Готов'
+}
+
 export type OrderType = {
     readonly _id: string;
     readonly createdAt: string;
