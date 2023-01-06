@@ -10,7 +10,6 @@ import {
     API_USER_URL
 } from './constants';
 import { getCookie, setCookie } from './helpers';
-import { OrderedIngredient } from './types';
 
 const checkResponse = (response: Response) => {
     return response.ok
@@ -60,14 +59,20 @@ export const fetchWithRefresh = async (url: string, options: any) => {
     }
 };
 
-export const sendOrder = (orderList: OrderedIngredient[]) => {
-    return request(API_ORDERS_URL, {
+export const sendOrder = (orderList: string[]) => {
+    const accessToken = getCookie('accessToken');
+    let headers = {'Content-Type': 'application/json'}
+
+    if (accessToken) {
+        headers = Object.assign(headers, {'authorization': accessToken});
+    }
+
+    let options = {
         method: 'POST',
-        body: JSON.stringify({ ingredients: [...orderList] }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+        body: JSON.stringify({ingredients: [...orderList]}),
+        headers: headers
+    }
+    return request(API_ORDERS_URL, options);
 };
 
 export const getIngredients = () => {
