@@ -9,7 +9,7 @@ export const getIngredientsGroups = (ingredients: IngredientType[]) => {
     );
 };
 
-export const getOrderIngredients = (orderIngredients: IngredientType[]): string[] => {
+export const getOrderIngredientsIDs = (orderIngredients: IngredientType[]): string[] => {
     const result:string[] = [];
     orderIngredients.forEach(item => {
         if (item.type === 'bun') {

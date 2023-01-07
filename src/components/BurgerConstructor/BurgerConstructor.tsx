@@ -6,7 +6,7 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import styles from './BurgerConstructor.module.css';
 import { ADD_INGREDIENT } from '../../services/actions/Constructor';
 import { sendOrderRequest } from '../../services/actions/Order';
-import { getOrderIngredients } from '../../utils/getIngredientsGroups';
+import { getOrderIngredientsIDs } from '../../utils/getIngredientsGroups';
 import { ConstructorIngredient } from './ConstructotIngredient/ConstructotIngredient';
 import { APPEND_ERROR_MODAL_TYPE } from '../../services/actions/Modal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -32,7 +32,7 @@ const BurgerConstructor = () => {
             setRedirectToAuth(true);
         } else {
             // @ts-ignore
-            canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ...ingredients])));
+            canOrder && dispatch(sendOrderRequest(getOrderIngredientsIDs([bun, ...ingredients])));
         }
     };
 
