@@ -5,17 +5,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { EnumOrderStatusName, IngredientType, OrderType } from '../../utils/types';
 import classNames from 'classnames';
-import { calculateOrderCost, dateParse } from '../../utils/helpers';
-
-interface IIngredientList {
-    [index: string]: IngredientType;
-}
-
-const getOrderIngredients = (orderIngredients: IngredientType[]): IIngredientList => {
-    return orderIngredients.reduce((result, ingredientItem) => {
-        return { ...result, [ingredientItem._id]: ingredientItem };
-    }, {});
-};
+import { calculateOrderCost, dateParse, getOrderIngredients } from '../../utils/helpers';
 
 const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType[] }> = ({
     orderData,

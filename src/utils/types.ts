@@ -85,3 +85,7 @@ export interface IError {
     readonly type: typeof APPEND_ERROR_MODAL_TYPE;
     message: String;
 }
+
+export interface IIngredientList {
+    [index: string]: IngredientType;
+}

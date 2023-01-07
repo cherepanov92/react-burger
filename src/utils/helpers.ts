@@ -1,4 +1,4 @@
-import { EnumIngredientType, IngredientType } from './types';
+import { IIngredientList, IngredientType } from './types';
 
 export const setCookie = (name: string, value: string, options: any = {}) => {
     options = { path: '/', ...options };
@@ -36,10 +36,6 @@ export const deleteCookie = (name: string) => {
 
 export const calculateOrderCost = (ingredients: IngredientType[]) => {
     return ingredients.reduce((sum, ingredient) => {
-        if (ingredient.type === EnumIngredientType.BUN) {
-            return sum + ingredient.price * 2;
-        }
-
         return sum + ingredient.price;
     }, 0);
 };
@@ -66,4 +62,10 @@ export const dateParse = (createdAt: string): string => {
         hour: 'numeric',
         minute: 'numeric'
     })}`;
+};
+
+export const getOrderIngredients = (orderIngredients: IngredientType[]): IIngredientList => {
+    return orderIngredients.reduce((result, ingredientItem) => {
+        return { ...result, [ingredientItem._id]: ingredientItem };
+    }, {});
 };
