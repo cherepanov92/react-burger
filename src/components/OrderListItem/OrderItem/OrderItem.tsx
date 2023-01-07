@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { FC } from 'react';
 import { useAppSelector } from '../../../services/reducers/Root';
 import { EnumOrderStatusName, IIngredientList, OrderType } from '../../../utils/types';
-import { calculateOrderCost, getOrderIngredients } from '../../../utils/helpers';
+import {calculateOrderCost, dateParse, getOrderIngredients} from '../../../utils/helpers';
 import { useParams } from 'react-router-dom';
 
 const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList; isModal: boolean }> = ({
@@ -47,7 +47,7 @@ const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList; isM
                 })}
             </div>
             <div className={styles.bottom}>
-                <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
+                <p className="text text_type_main-default text_color_inactive">{dateParse(orderItem.createdAt)}</p>
                 <div className={styles.price}>
                     <p className="text text_type_digits-default mr-2">
                         {calculateOrderCost(orderItem.ingredients.map(ingredient => ingredientList[ingredient]))}
