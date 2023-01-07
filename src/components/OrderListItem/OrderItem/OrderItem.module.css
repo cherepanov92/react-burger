@@ -47,8 +47,21 @@
 .icon {
     width: 64px;
     height: 64px;
+    position: relative;
+    border: solid 2px #4D49EA;
     border-radius: 50%;
-    border: solid 2px greenyellow;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-left: 15px;
+    background-color: #1c1c21;
+}
+
+.iconImg {
+    height: 95%;
 }
 
 .bottom {
