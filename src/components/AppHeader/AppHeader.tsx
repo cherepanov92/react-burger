@@ -45,7 +45,7 @@ export const AppHeader: FC = () => {
                     <Logo />
                 </section>
                 <section className={styles.rightBlock}>
-                    <NavItem to="/profile" text="Личный кабинет" type={EnumIconType.LK} />
+                    <NavItem to="/profile/orders" text="Личный кабинет" type={EnumIconType.LK} />
                 </section>
             </nav>
         </header>
