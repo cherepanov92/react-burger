@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './OrderListItem.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { EnumOrderStatusName, IngredientType, OrderType } from '../../utils/types';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { EnumOrderStatusName, IngredientType, LocationProps, OrderType } from '../../utils/types';
 import classNames from 'classnames';
 import { calculateOrderCost, dateParse, getOrderIngredients } from '../../utils/helpers';
 
@@ -12,13 +12,13 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
     orderIngredients
 }) => {
     const history = useHistory();
+    const location = useLocation() as unknown as LocationProps;
     const { path } = useRouteMatch();
-    const isModalMode = useRouteMatch('/feed');
 
     const ingredientList = getOrderIngredients(orderIngredients);
 
     const OpenOrderItemHandler = () => {
-        history.replace(`${path}/${orderData._id}`, { isModal: isModalMode });
+        history.replace(`${path}/${orderData._id}`, { background: location });
     };
 
     return (

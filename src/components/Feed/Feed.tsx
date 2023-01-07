@@ -3,10 +3,7 @@ import '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Feed.module.css';
 import classNames from 'classnames';
 import OrderListItem from '../OrderListItem/OrderListItem';
-import Modal from '../Modal/Modal';
-import OrderItem from '../OrderListItem/OrderItem/OrderItem';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { IngredientType, LocationProps, OrderType } from '../../utils/types';
+import { IngredientType, OrderType } from '../../utils/types';
 import { useAppSelector } from '../../services/reducers/Root';
 import { diffDates } from '../../utils/helpers';
 
@@ -84,23 +81,6 @@ export const OrderList: FC<{ orderData: OrderType[]; ingredients: IngredientType
 };
 
 const Feed: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ orderData, ingredients }) => {
-    const location = useLocation() as unknown as LocationProps;
-    const history = useHistory();
-    const urlParams = useParams<{ id?: string }>();
-    const selectedOrderId = urlParams.id;
-    const isOrderInfoMode = !!selectedOrderId;
-
-    const isModal = !!location.state?.isModal;
-    const isOrderInfoModalMode = isModal && isOrderInfoMode;
-
-    const OnCloseOrderModal = () => {
-        history.replace(`/feed`, { isModal: false });
-    };
-
-    if (isOrderInfoMode && !isOrderInfoModalMode) {
-        return <OrderItem orderId={selectedOrderId} />;
-    }
-
     return (
         <>
             <p className="text text_type_main-large mt-10 mb-5">Лента заказов</p>
@@ -112,11 +92,6 @@ const Feed: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ o
                     <OrderTable orderData={orderData} />
                 </div>
             </div>
-            {isOrderInfoModalMode && (
-                <Modal onClose={OnCloseOrderModal}>
-                    <OrderItem orderId={selectedOrderId} />
-                </Modal>
-            )}
         </>
     );
 };

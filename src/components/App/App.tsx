@@ -19,6 +19,7 @@ import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
 import ErrorModal from '../Modal/ErrorModal/ErrorModal';
 import FeedPage from '../../pages/FeedPage/FeedPage';
 import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../services/actions/WebSocket';
+import OrderItem from "../OrderListItem/OrderItem/OrderItem";
 
 const getModal = (modalType: EnumModalType) => {
     switch (modalType) {
@@ -97,7 +98,7 @@ function App() {
                     <FeedPage />
                 </Route>
                 <Route path="/feed/:id" exact>
-                    <FeedPage />
+                    <OrderItem />
                 </Route>
                 <Route path="/ingredients/:ingredientId" exact>
                     <IngredientDetails />
@@ -110,12 +111,23 @@ function App() {
                 {/*</Route>*/}
             </Switch>
 
-            {background && (
+            {background?.pathname === '/' && (
+                    <Route
+                        path="/ingredients/:ingredientId"
+                        children={
+                            <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
+                                <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+            )}
+
+            {['/feed', '/profile/orders'].includes(background?.pathname) && (
                 <Route
-                    path="/ingredients/:ingredientId"
+                    path={`${background.pathname}/:id`}
                     children={
-                        <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
-                            <IngredientDetails />
+                        <Modal title={''} onClose={handleModalClose}>
+                            <OrderItem isModal />
                         </Modal>
                     }
                 />

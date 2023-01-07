@@ -6,12 +6,17 @@ import React, { FC } from 'react';
 import { useAppSelector } from '../../../services/reducers/Root';
 import { EnumOrderStatusName, IIngredientList, OrderType } from '../../../utils/types';
 import { calculateOrderCost, getOrderIngredients } from '../../../utils/helpers';
+import { useParams } from 'react-router-dom';
 
-const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList }> = ({ orderItem, ingredientList }) => {
+const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList; isModal: boolean }> = ({
+    orderItem,
+    ingredientList,
+    isModal
+}) => {
     const orderIngredientsSet = new Set(orderItem.ingredients);
 
     return (
-        <div className={classNames(styles.wrapper, 'mt-10 mb-10')}>
+        <div className={classNames(styles.wrapper, 'mb-10', { 'mt-10 ': !isModal })}>
             <p className="text text_type_digits-default mb-10">#{orderItem.number}</p>
             <p className="text text_type_main-medium mb-3">{orderItem.name}</p>
             <p className="text text_type_main-default mb-15">{EnumOrderStatusName[orderItem.status]}</p>
@@ -54,16 +59,22 @@ const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList }> =
     );
 };
 
-const OrderItemContainer: FC<{ orderId: string }> = ({ orderId }) => {
+const OrderItemContainer: FC<{ isModal?: boolean }> = ({ isModal }) => {
     const { orderData, ingredients } = useAppSelector(state => ({
         orderData: state.orderList.data,
         ingredients: state.ingredients.ingredients
     }));
+    const urlParams = useParams<{ id: string }>();
+    const selectedOrderId = urlParams.id;
+
+    if (!orderData.length || !ingredients.length) {
+        return null;
+    }
 
     const ingredientList = getOrderIngredients(ingredients);
-    const selectedOrderData = orderData.find(order => order._id === orderId) as OrderType;
+    const selectedOrderData = orderData.find(order => order._id === selectedOrderId) as OrderType;
 
-    return <OrderItem orderItem={selectedOrderData} ingredientList={ingredientList} />;
+    return <OrderItem orderItem={selectedOrderData} ingredientList={ingredientList} isModal={!!isModal} />;
 };
 
 export default OrderItemContainer;

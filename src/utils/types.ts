@@ -64,7 +64,6 @@ export type LocationProps = {
     state: {
         from: Location;
         isEmailConfirm: boolean;
-        isModal?: boolean;
     };
 };
 

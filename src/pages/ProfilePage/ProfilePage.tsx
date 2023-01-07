@@ -7,7 +7,7 @@ import Profile from './Profile/Profile';
 import Orders from './Orders/Orders';
 import Logout from './Logout/Logout';
 import { NavItemProps } from '../../utils/types';
-import FeedPage from '../FeedPage/FeedPage';
+import OrderItem from "../../components/OrderListItem/OrderItem/OrderItem";
 
 const ProfileNavLink: FC<NavItemProps> = ({ to, text }) => {
     return (
@@ -42,7 +42,7 @@ const ProfilePageContainer = () => {
         <div className={styles.wrapper}>
             <Switch>
                 <Route path="/profile/orders/:id" exact>
-                    <FeedPage />
+                    <OrderItem />
                 </Route>
                 <ProfilePage>
                     <Route path="/profile/orders" exact>
