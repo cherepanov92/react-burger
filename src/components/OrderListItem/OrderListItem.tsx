@@ -18,7 +18,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
     const ingredientList = getOrderIngredients(orderIngredients);
 
     const OpenOrderItemHandler = () => {
-        history.replace(`${path}/${orderData.number}`, { isModal: isModalMode });
+        history.replace(`${path}/${orderData._id}`, { isModal: isModalMode });
     };
 
     return (
