@@ -80,7 +80,9 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                         .reverse()}
                 </div>
                 <div className={styles.price}>
-                    <p className="text text_type_digits-default mr-2">{calculateOrderCost(orderIngredients)}</p>
+                    <p className="text text_type_digits-default mr-2">
+                        {calculateOrderCost(orderData.ingredients.map(ingredient => ingredientList[ingredient]))}
+                    </p>
                     <CurrencyIcon type="primary" />
                 </div>
             </div>
