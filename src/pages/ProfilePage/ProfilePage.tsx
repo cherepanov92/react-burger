@@ -42,7 +42,7 @@ const ProfilePageContainer = () => {
         <div className={styles.wrapper}>
             <Switch>
                 <Route path="/profile/orders/:id" exact>
-                    <FeedPage isOrderInfoMode />
+                    <FeedPage />
                 </Route>
                 <ProfilePage>
                     <Route path="/profile/orders" exact>

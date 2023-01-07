@@ -4,8 +4,8 @@ import styles from './Feed.module.css';
 import classNames from 'classnames';
 import OrderListItem from '../OrderListItem/OrderListItem';
 import Modal from '../Modal/Modal';
-import { OrderItem } from '../OrderListItem/OrderItem/OrderItem';
-import { useHistory, useLocation } from 'react-router-dom';
+import OrderItem from '../OrderListItem/OrderItem/OrderItem';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { IngredientType, LocationProps, OrderType } from '../../utils/types';
 import { useAppSelector } from '../../services/reducers/Root';
 import { diffDates } from '../../utils/helpers';
@@ -83,13 +83,12 @@ export const OrderList: FC<{ orderData: OrderType[]; ingredients: IngredientType
     );
 };
 
-const Feed: FC<{ isOrderInfoMode: boolean; orderData: OrderType[]; ingredients: IngredientType[] }> = ({
-    isOrderInfoMode,
-    orderData,
-    ingredients
-}) => {
+const Feed: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ orderData, ingredients }) => {
     const location = useLocation() as unknown as LocationProps;
     const history = useHistory();
+    const urlParams = useParams<{ id?: string }>();
+    const selectedOrderId = urlParams.id;
+    const isOrderInfoMode = !!selectedOrderId;
 
     const isModal = !!location.state?.isModal;
     const isOrderInfoModalMode = isModal && isOrderInfoMode;
@@ -99,7 +98,7 @@ const Feed: FC<{ isOrderInfoMode: boolean; orderData: OrderType[]; ingredients: 
     };
 
     if (isOrderInfoMode && !isOrderInfoModalMode) {
-        return <OrderItem />;
+        return <OrderItem orderId={selectedOrderId} />;
     }
 
     return (
@@ -115,14 +114,14 @@ const Feed: FC<{ isOrderInfoMode: boolean; orderData: OrderType[]; ingredients: 
             </div>
             {isOrderInfoModalMode && (
                 <Modal onClose={OnCloseOrderModal}>
-                    <OrderItem />
+                    <OrderItem orderId={selectedOrderId} />
                 </Modal>
             )}
         </>
     );
 };
 
-const FeedContainer: FC<{ isOrderInfoMode: boolean }> = ({ isOrderInfoMode }) => {
+const FeedContainer: FC = () => {
     const { orderData, ingredients } = useAppSelector(state => ({
         orderData: state.orderList.data,
         ingredients: state.ingredients.ingredients
@@ -130,7 +129,7 @@ const FeedContainer: FC<{ isOrderInfoMode: boolean }> = ({ isOrderInfoMode }) =>
 
     return (
         <div className={classNames(styles.container, 'pl-4 pr-4 mt-10')}>
-            <Feed isOrderInfoMode={isOrderInfoMode} orderData={orderData} ingredients={ingredients} />
+            <Feed orderData={orderData} ingredients={ingredients} />
         </div>
     );
 };
