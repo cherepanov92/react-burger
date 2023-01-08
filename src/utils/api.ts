@@ -25,7 +25,7 @@ function request(url: string, options?: RequestInit) {
 }
 
 const saveTokens = (refreshToken: string, accessToken: string) => {
-    setCookie('accessToken', accessToken);
+    setCookie('accessToken',  accessToken.split('Bearer ')[1]);
     setCookie('refreshToken', refreshToken);
 };
 
