@@ -2,12 +2,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 import styles from './OrderItem.module.css';
 import classNames from 'classnames';
-import React, { FC, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
+import React, { FC } from 'react';
+import { useAppSelector } from '../../../services/reducers/Root';
 import { EnumOrderStatusName, IIngredientList, OrderType } from '../../../utils/types';
 import { calculateOrderCost, dateParse, getOrderIngredients } from '../../../utils/helpers';
 import { useParams } from 'react-router-dom';
-import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../../services/actions/WebSocket';
 
 const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList; isModal: boolean }> = ({
     orderItem,
@@ -61,23 +60,10 @@ const OrderItem: FC<{ orderItem: OrderType; ingredientList: IIngredientList; isM
 };
 
 const OrderItemContainer: FC<{ isModal?: boolean }> = ({ isModal }) => {
-    const dispatch = useAppDispatch();
     const { orderData, ingredients } = useAppSelector(state => ({
         orderData: state.orderList.data,
         ingredients: state.ingredients.ingredients
     }));
-
-    useEffect(() => {
-        dispatch({
-            type: WS_CONNECTION_START
-        });
-
-        return () => {
-            dispatch({
-                type: WS_CLOSE_CONNECTION
-            });
-        };
-    }, [dispatch]);
 
     const urlParams = useParams<{ id: string }>();
     const selectedOrderId = urlParams.id;

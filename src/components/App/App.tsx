@@ -88,7 +88,7 @@ function App() {
                     <FeedPage />
                 </Route>
                 <Route path="/feed/:id" exact>
-                    <OrderItem />
+                    <FeedPage isSinglePage />
                 </Route>
                 <Route path="/ingredients/:ingredientId" exact>
                     <IngredientDetails />

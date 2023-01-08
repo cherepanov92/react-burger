@@ -4,8 +4,9 @@ import Feed from '../../components/Feed/Feed';
 import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../services/actions/WebSocket';
 import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 import { WSS_ALL_ORDERS_URL } from '../../utils/constants';
+import OrderItem from '../../components/OrderListItem/OrderItem/OrderItem';
 
-const FeedPage: FC = () => {
+const FeedPage: FC<{ isSinglePage?: boolean }> = ({ isSinglePage }) => {
     const dispatch = useAppDispatch();
     const { orderData, ingredients } = useAppSelector(state => ({
         orderData: state.orderList.data,
@@ -26,7 +27,7 @@ const FeedPage: FC = () => {
     }, [dispatch]);
 
     if (!!orderData.length && !!ingredients.length) {
-        return <Feed orderData={orderData} ingredients={ingredients} />;
+        return isSinglePage ? <OrderItem /> : <Feed orderData={orderData} ingredients={ingredients} />;
     }
 
     return null;

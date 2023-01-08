@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root'
 import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../../services/actions/WebSocket';
 import { IngredientType, OrderType } from '../../../utils/types';
 import { WSS_USER_ORDERS_URL } from '../../../utils/constants';
+import OrderItem from '../../../components/OrderListItem/OrderItem/OrderItem';
 
 const Orders: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ orderData, ingredients }) => {
     return (
@@ -15,7 +16,7 @@ const Orders: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({
     );
 };
 
-const OrdersContainer = () => {
+const OrdersContainer: FC<{ isSinglePage?: boolean }> = ({ isSinglePage }) => {
     const dispatch = useAppDispatch();
     const { orderData, ingredients } = useAppSelector(state => ({
         orderData: state.orderList.data,
@@ -36,7 +37,7 @@ const OrdersContainer = () => {
     }, [dispatch]);
 
     if (!!orderData.length && !!ingredients.length) {
-        return <Orders orderData={orderData} ingredients={ingredients} />;
+        return isSinglePage ? <OrderItem /> : <Orders orderData={orderData} ingredients={ingredients} />;
     }
 
     return null;
