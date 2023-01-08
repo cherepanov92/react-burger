@@ -18,8 +18,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
 import ErrorModal from '../Modal/ErrorModal/ErrorModal';
 import FeedPage from '../../pages/FeedPage/FeedPage';
-import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../services/actions/WebSocket';
-import OrderItem from "../OrderListItem/OrderItem/OrderItem";
+import OrderItem from '../OrderListItem/OrderItem/OrderItem';
 
 const getModal = (modalType: EnumModalType) => {
     switch (modalType) {
@@ -60,15 +59,6 @@ function App() {
     useEffect(() => {
         // @ts-ignore
         dispatch(getIngredientsData());
-        dispatch({
-            type: WS_CONNECTION_START
-        });
-
-        return () => {
-            dispatch({
-                type: WS_CLOSE_CONNECTION
-            });
-        };
     }, [dispatch]);
 
     if (ingredientList.ingredientsRequest) {
@@ -112,14 +102,14 @@ function App() {
             </Switch>
 
             {background?.pathname === '/' && (
-                    <Route
-                        path="/ingredients/:ingredientId"
-                        children={
-                            <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
-                                <IngredientDetails />
-                            </Modal>
-                        }
-                    />
+                <Route
+                    path="/ingredients/:ingredientId"
+                    children={
+                        <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
+                            <IngredientDetails />
+                        </Modal>
+                    }
+                />
             )}
 
             {['/feed', '/profile/orders'].includes(background?.pathname) && (

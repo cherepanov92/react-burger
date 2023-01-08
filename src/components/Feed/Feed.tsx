@@ -4,7 +4,6 @@ import styles from './Feed.module.css';
 import classNames from 'classnames';
 import OrderListItem from '../OrderListItem/OrderListItem';
 import { IngredientType, OrderType } from '../../utils/types';
-import { useAppSelector } from '../../services/reducers/Root';
 import { diffDates } from '../../utils/helpers';
 
 const OrderTable: FC<{ orderData: OrderType[] }> = ({ orderData }) => {
@@ -82,7 +81,7 @@ export const OrderList: FC<{ orderData: OrderType[]; ingredients: IngredientType
 
 const Feed: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ orderData, ingredients }) => {
     return (
-        <>
+        <div className={classNames(styles.container, 'pl-4 pr-4 mt-10')}>
             <p className="text text_type_main-large mt-10 mb-5">Лента заказов</p>
             <div className={styles.wrapper}>
                 <div className={classNames(styles.orderList, 'pr-2')}>
@@ -92,21 +91,8 @@ const Feed: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ o
                     <OrderTable orderData={orderData} />
                 </div>
             </div>
-        </>
-    );
-};
-
-const FeedContainer: FC = () => {
-    const { orderData, ingredients } = useAppSelector(state => ({
-        orderData: state.orderList.data,
-        ingredients: state.ingredients.ingredients
-    }));
-
-    return (
-        <div className={classNames(styles.container, 'pl-4 pr-4 mt-10')}>
-            <Feed orderData={orderData} ingredients={ingredients} />
         </div>
     );
 };
 
-export default FeedContainer;
+export default Feed;
