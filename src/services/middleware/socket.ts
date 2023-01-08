@@ -1,6 +1,7 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 import {
-    TWSActions, WS_CLOSE_CONNECTION,
+    TWSActions,
+    WS_CLOSE_CONNECTION,
     WS_CONNECTION_ERROR,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
@@ -9,7 +10,7 @@ import {
 } from '../actions/WebSocket';
 import { AppDispatch, RootState } from '../reducers/Root';
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
@@ -18,7 +19,7 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
             const { type, payload } = action;
 
             if (type === WS_CONNECTION_START) {
-                socket = new WebSocket(wsUrl);
+                socket = new WebSocket(payload.url);
             }
 
             if (type === WS_CLOSE_CONNECTION) {

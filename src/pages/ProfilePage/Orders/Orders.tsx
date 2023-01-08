@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
 import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../../services/actions/WebSocket';
 import { IngredientType, OrderType } from '../../../utils/types';
+import { WSS_USER_ORDERS_URL } from '../../../utils/constants';
 
 const Orders: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({ orderData, ingredients }) => {
     return (
@@ -23,7 +24,8 @@ const OrdersContainer = () => {
 
     useEffect(() => {
         dispatch({
-            type: WS_CONNECTION_START
+            type: WS_CONNECTION_START,
+            payload: { url: WSS_USER_ORDERS_URL }
         });
 
         return () => {
