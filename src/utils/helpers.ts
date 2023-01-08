@@ -42,7 +42,8 @@ export const calculateOrderCost = (ingredients: IngredientType[]) => {
 
 export const diffDates = (checkedData: Date) => {
     const now = new Date();
-    return now.getDay() - checkedData.getDay();
+    const result = now.getTime() - checkedData.getTime();
+    return  result / (1000 * 3600 * 24);
 };
 
 export const dateParse = (createdAt: string): string => {
@@ -55,7 +56,7 @@ export const dateParse = (createdAt: string): string => {
     } else if (daysDiff < 2) {
         dayString = `Вчера`;
     } else {
-        dayString = `${Math.round(daysDiff)} дня назад`;
+        dayString = `${Math.ceil(daysDiff)} дня назад`;
     }
 
     return `${dayString} ${createdDate.toLocaleTimeString('ru-Ru', {
