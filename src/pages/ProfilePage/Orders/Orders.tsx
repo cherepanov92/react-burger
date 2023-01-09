@@ -19,7 +19,7 @@ const Orders: FC<{ orderData: OrderType[]; ingredients: IngredientType[] }> = ({
 const OrdersContainer: FC<{ isSinglePage?: boolean }> = ({ isSinglePage }) => {
     const dispatch = useAppDispatch();
     const { orderData, ingredients } = useAppSelector(state => ({
-        orderData: state.orderList.data.reverse(),
+        orderData: state.orderList.data?.reverse(),
         ingredients: state.ingredients.ingredients
     }));
 
