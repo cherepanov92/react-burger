@@ -28,6 +28,10 @@ export const getCookie = (name: string) => {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
+export const getClearAccessToken = () => {
+    return getCookie('accessToken')?.split('Bearer ')[1];
+};
+
 export const deleteCookie = (name: string) => {
     setCookie(name, '', {
         'max-age': -1

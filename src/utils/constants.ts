@@ -1,5 +1,3 @@
-import {getCookie} from "./helpers";
-
 const BASIC_URL = 'norma.nomoreparties.space';
 
 const getUrl = (type: 'HTTP' | 'WS', uri: string) => {
@@ -12,7 +10,7 @@ const getUrl = (type: 'HTTP' | 'WS', uri: string) => {
 };
 
 export const WSS_ALL_ORDERS_URL = getUrl('WS', 'orders/all');
-export const WSS_USER_ORDERS_URL = getUrl('WS', `orders?token=${getCookie('accessToken')}`);
+export const WSS_USER_ORDERS_URL = getUrl('WS', `orders?token=`);
 
 export const API_INGREDIENTS_URL = getUrl('HTTP', 'ingredients');
 export const API_ORDERS_URL = getUrl('HTTP', 'orders');
