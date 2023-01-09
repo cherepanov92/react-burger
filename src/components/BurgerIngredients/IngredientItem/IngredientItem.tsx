@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { Link, useLocation } from 'react-router-dom';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './IngredientItem.module.css';
 import { IngredientType, LocationProps } from '../../../utils/types';
-import { getOrderIngredients } from '../../../utils/getIngredientsGroups';
+import { getOrderIngredientsIDs } from '../../../utils/getIngredientsGroups';
 import { ADD_INGREDIENT_DETAILS } from '../../../services/actions/IngredientDetails';
+import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
 
 const IngredientItem: FC<{ ingredient: IngredientType }> = ({ ingredient }) => {
     const location = useLocation() as unknown as LocationProps;
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const ingredientId = ingredient._id;
 
-    // @ts-ignore
-    const { ingredients, bun } = useSelector(state => state.constructor);
+    const { ingredients, bun } = useAppSelector(state => state.constructor);
     const showIngredientDetails = () => {
         dispatch({ type: ADD_INGREDIENT_DETAILS, ingredient: ingredient });
     };
@@ -25,7 +24,7 @@ const IngredientItem: FC<{ ingredient: IngredientType }> = ({ ingredient }) => {
             return ingredient._id === bun?._id ? 2 : null;
         }
         return orderIngredientList.length
-            ? getOrderIngredients(orderIngredientList).filter(id => id === ingredient._id).length
+            ? getOrderIngredientsIDs(orderIngredientList).filter(id => id === ingredient._id).length
             : 0;
     };
     const count = getCount(ingredient, ingredients);

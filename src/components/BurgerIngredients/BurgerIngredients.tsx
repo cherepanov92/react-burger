@@ -1,11 +1,11 @@
 import React, { FC, useRef, useState, UIEvent } from 'react';
-import { useSelector } from 'react-redux';
 
 import styles from './BurgerIngredients.module.css';
 import IngredientsBlock from './IngredientsBlock/IngredientsBlock';
 import { IngredientsTabs } from './IngredientsTabs';
 import { getIngredientsGroups } from '../../utils/getIngredientsGroups';
 import { EnumIngredientType, IngredientType } from '../../utils/types';
+import { useAppSelector } from '../../services/reducers/Root';
 
 const BurgerIngredients: FC<{ ingredients: IngredientType[] }> = ({ ingredients }) => {
     const [currentZone, setCurrentZone] = useState<EnumIngredientType>(EnumIngredientType.BUN);
@@ -78,8 +78,7 @@ const BurgerIngredients: FC<{ ingredients: IngredientType[] }> = ({ ingredients 
 };
 
 const BurgerIngredientsContainer = () => {
-    // @ts-ignore
-    const { ingredients, ingredientsRequest } = useSelector(state => state.ingredients);
+    const { ingredients, ingredientsRequest } = useAppSelector(state => state.ingredients);
 
     if (ingredientsRequest && !ingredients.length) {
         return null;

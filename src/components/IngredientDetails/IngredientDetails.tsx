@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import styles from './IngredientDetails.module.css';
 import { IngredientType } from '../../utils/types';
+import { useAppSelector } from '../../services/reducers/Root';
 
 type IngredientDetailsProps = {
     ingredient: IngredientType;
@@ -58,10 +58,8 @@ const IngredientDetails: FC<IngredientDetailsProps> = ({ ingredient }) => {
 
 const IngredientDetailsContainer = () => {
     const { ingredientId }: { ingredientId: string } = useParams();
-    const { ingredientDetails, ingredientList } = useSelector(state => ({
-        // @ts-ignore
+    const { ingredientDetails, ingredientList } = useAppSelector(state => ({
         ingredientDetails: state.ingredientDetails,
-        // @ts-ignore
         ingredientList: state.ingredients
     }));
 

@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './BurgerConstructor.module.css';
 import { ADD_INGREDIENT } from '../../services/actions/Constructor';
 import { sendOrderRequest } from '../../services/actions/Order';
-import { getOrderIngredients } from '../../utils/getIngredientsGroups';
+import { getOrderIngredientsIDs } from '../../utils/getIngredientsGroups';
 import { ConstructorIngredient } from './ConstructotIngredient/ConstructotIngredient';
 import { APPEND_ERROR_MODAL_TYPE } from '../../services/actions/Modal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { OrderedIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 
 const BurgerConstructor = () => {
-    // @ts-ignore
-    const user = useSelector(state => state.user);
-    // @ts-ignore
-    const { bun, ingredients, totalPrice } = useSelector(state => state.constructor);
-    const dispatch = useDispatch();
+    const user = useAppSelector(state => state.user);
+    const { bun, ingredients, totalPrice } = useAppSelector(state => state.constructor);
+    const dispatch = useAppDispatch();
     const [redirectToAuth, setRedirectToAuth] = useState(false);
     const isAuth = !!user.data;
     const hasBun = !!bun;
@@ -34,7 +32,7 @@ const BurgerConstructor = () => {
             setRedirectToAuth(true);
         } else {
             // @ts-ignore
-            canOrder && dispatch(sendOrderRequest(getOrderIngredients([bun, ingredients])));
+            canOrder && dispatch(sendOrderRequest(getOrderIngredientsIDs([bun, ...ingredients])));
         }
     };
 

@@ -1,0 +1,81 @@
+.page {
+    height: 924px;
+}
+.wrapper {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+.wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+.wrapper::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+.item {
+    border-radius: 40px;
+    background: #1C1C21;
+    cursor: pointer;
+}
+.top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.params {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+.param {
+    width: 64px;
+    height: 64px;
+    position: relative;
+    border: solid 2px #4D49EA;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-left: -15px;
+    background-color: #1c1c21;
+}
+.lastParamImg {
+    opacity: 0.5;
+}
+.paramImg {
+     height: 95%;
+ }
+.paramAdditionalValue {
+    position: absolute;
+}
+.param:last-child {
+    margin-left: 0;
+}
+.price {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}

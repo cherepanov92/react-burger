@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router-dom';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -8,6 +7,7 @@ import { loginUser } from '../../services/actions/User';
 import { useForm } from '../../hooks/useForm';
 import { LocationProps } from '../../utils/types';
 import SinglePageWrapper from '../SinglePageWrapper';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 
 interface LoginFormData {
     password: { value: string };
@@ -15,7 +15,7 @@ interface LoginFormData {
 }
 
 const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation() as unknown as LocationProps;
     const locationState = location.state;
 
@@ -79,8 +79,7 @@ const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
 };
 
 const LoginPageContainer = () => {
-    // @ts-ignore
-    const user = useSelector(state => state.user);
+    const user = useAppSelector(state => state.user);
     return user ? <LoginPage isAuth={!!user.data} /> : null;
 };
 

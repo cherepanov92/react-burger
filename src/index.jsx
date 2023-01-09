@@ -5,11 +5,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import './index.css';
 import App from './components/App/App';
-import createStore from './services/reducers/Root';
+import { store } from './services/reducers/Root';
 
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={createStore()}>
+        <Provider store={store}>
             <Router>
                 <App />
             </Router>

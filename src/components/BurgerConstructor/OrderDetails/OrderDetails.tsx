@@ -4,13 +4,12 @@ import classNames from 'classnames';
 import styles from './OrderDetails.module.css';
 import doneIcon from './icon/done.svg';
 import Modal from '../../Modal/Modal';
-import { useDispatch, useSelector } from 'react-redux';
 import { REMOVE_MODAL_TYPE } from '../../../services/actions/Modal';
+import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
 
 const OrderDetails: FC = () => {
-    const dispatch = useDispatch();
-    // @ts-ignore
-    const { orderRequest, orderData } = useSelector(state => state.order);
+    const dispatch = useAppDispatch();
+    const { orderRequest, orderData } = useAppSelector(state => state.order);
 
     const closeModal = () => {
         dispatch({ type: REMOVE_MODAL_TYPE });
