@@ -25,7 +25,7 @@ function request(url: string, options?: RequestInit) {
 }
 
 const saveTokens = (refreshToken: string, accessToken: string) => {
-    setCookie('accessToken',  accessToken);
+    setCookie('accessToken', accessToken);
     setCookie('refreshToken', refreshToken);
 };
 
@@ -61,17 +61,17 @@ export const fetchWithRefresh = async (url: string, options: any) => {
 
 export const sendOrder = (orderList: string[]) => {
     const accessToken = getCookie('accessToken');
-    let headers = {'Content-Type': 'application/json'}
+    let headers = { 'Content-Type': 'application/json' };
 
     if (accessToken) {
-        headers = Object.assign(headers, {'authorization': accessToken});
+        headers = Object.assign(headers, { authorization: accessToken });
     }
 
     let options = {
         method: 'POST',
-        body: JSON.stringify({ingredients: [...orderList]}),
+        body: JSON.stringify({ ingredients: [...orderList] }),
         headers: headers
-    }
+    };
     return request(API_ORDERS_URL, options);
 };
 
@@ -159,7 +159,7 @@ export const getUserApiData = () => {
     });
 };
 
-export const setUserData = (email: string, password: string, name: string) => {
+export const setUserApiData = (email: string, password: string, name: string) => {
     return fetchWithRefresh(API_USER_URL, {
         method: 'PATCH',
         body: JSON.stringify({

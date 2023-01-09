@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     column-gap: 60px;
 }
 
