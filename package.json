@@ -5,13 +5,14 @@
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.5",
         "@testing-library/jest-dom": "^5.11.10",
-        "@testing-library/react": "^13.3.0",
+        "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^12.8.3",
         "@types/jest": "^26.0.22",
         "@types/node": "^12.20.10",
         "@types/react": "^17.0.3",
         "@types/react-dom": "^17.0.3",
         "@types/react-router-dom": "^5.3.3",
+        "@types/react-test-renderer": "17.0.2",
         "@ya.praktikum/react-developer-burger-ui-components": "^1.4.2",
         "classnames": "^2.3.1",
         "react": "^17.0.2",
@@ -51,6 +52,12 @@
         ]
     },
     "devDependencies": {
-        "prettier": "2.7.1"
+        "enzyme": "^3.11.0",
+        "enzyme-adapter-react-16": "^1.15.7",
+        "fetch-mock": "^9.11.0",
+        "jest": "26.6.0",
+        "prettier": "2.7.1",
+        "react-test-renderer": "17.0.2",
+        "redux-mock-store": "^1.5.4"
     }
 }
