@@ -1,3 +1,5 @@
+import { IIngredientList, IngredientType } from './types';
+
 export const setCookie = (name: string, value: string, options: any = {}) => {
     options = { path: '/', ...options };
 
@@ -18,16 +20,57 @@ export const setCookie = (name: string, value: string, options: any = {}) => {
     document.cookie = updatedCookie;
 };
 
-export function getCookie(name: string) {
+export const getCookie = (name: string) => {
     const matches = document.cookie.match(
         /* eslint-disable */
         new RegExp('(?:^|; )' + name.replace(/([.\\+\-*:\/?!|^${}()\[\]])/g, '\\$1') + '=([^;]*)')
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+};
 
-export function deleteCookie(name: string) {
+export const getClearAccessToken = () => {
+    return getCookie('accessToken')?.split('Bearer ')[1];
+};
+
+export const deleteCookie = (name: string) => {
     setCookie(name, '', {
         'max-age': -1
     });
-}
+};
+
+export const calculateOrderCost = (ingredients: IngredientType[]) => {
+    return ingredients.reduce((sum, ingredient) => {
+        return sum + ingredient.price;
+    }, 0);
+};
+
+export const diffDates = (checkedData: Date) => {
+    const now = new Date();
+    const result = now.getTime() - checkedData.getTime();
+    return  result / (1000 * 3600 * 24);
+};
+
+export const dateParse = (createdAt: string): string => {
+    const createdDate = new Date(createdAt);
+    const daysDiff = diffDates(createdDate);
+    let dayString;
+
+    if (daysDiff < 1) {
+        dayString = `Сегодня`;
+    } else if (daysDiff < 2) {
+        dayString = `Вчера`;
+    } else {
+        dayString = `${Math.ceil(daysDiff)} дня назад`;
+    }
+
+    return `${dayString} ${createdDate.toLocaleTimeString('ru-Ru', {
+        hour: 'numeric',
+        minute: 'numeric'
+    })}`;
+};
+
+export const getOrderIngredients = (orderIngredients: IngredientType[]): IIngredientList => {
+    return orderIngredients.reduce((result, ingredientItem) => {
+        return { ...result, [ingredientItem._id]: ingredientItem };
+    }, {});
+};

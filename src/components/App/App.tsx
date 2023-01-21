@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '../AppHeader';
 import { getUserData } from '../../services/actions/User';
+import { getIngredientsData } from '../../services/actions/Ingredients';
+import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
+
 import Modal from '../Modal/Modal';
 import ConstructorPage from '../../pages/ConstructorPage/ConstructorPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
@@ -12,10 +15,10 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { getIngredientsData } from '../../services/actions/Ingredients';
-import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
 import OrderDetails from '../BurgerConstructor/OrderDetails/OrderDetails';
 import ErrorModal from '../Modal/ErrorModal/ErrorModal';
+import FeedPage from '../../pages/FeedPage/FeedPage';
+import OrderItem from '../OrderListItem/OrderItem/OrderItem';
 
 const getModal = (modalType: EnumModalType) => {
     switch (modalType) {
@@ -29,14 +32,12 @@ const getModal = (modalType: EnumModalType) => {
 };
 
 function App() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation<Location>();
     const history = useHistory();
 
-    const { modalType, ingredientList } = useSelector(state => ({
-        // @ts-ignore
+    const { modalType, ingredientList } = useAppSelector(state => ({
         modalType: state.modal.modalType,
-        // @ts-ignore
         ingredientList: state.ingredients
     }));
 
@@ -83,6 +84,12 @@ function App() {
                 <ProtectedRoute path="/profile">
                     <ProfilePage />
                 </ProtectedRoute>
+                <Route path="/feed" exact>
+                    <FeedPage />
+                </Route>
+                <Route path="/feed/:id" exact>
+                    <FeedPage isSinglePage />
+                </Route>
                 <Route path="/ingredients/:ingredientId" exact>
                     <IngredientDetails />
                 </Route>
@@ -94,12 +101,23 @@ function App() {
                 {/*</Route>*/}
             </Switch>
 
-            {background && (
+            {background?.pathname === '/' && (
                 <Route
                     path="/ingredients/:ingredientId"
                     children={
                         <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
                             <IngredientDetails />
+                        </Modal>
+                    }
+                />
+            )}
+
+            {['/feed', '/profile/orders'].includes(background?.pathname) && (
+                <Route
+                    path={`${background.pathname}/:id`}
+                    children={
+                        <Modal title={''} onClose={handleModalClose}>
+                            <OrderItem isModal />
                         </Modal>
                     }
                 />

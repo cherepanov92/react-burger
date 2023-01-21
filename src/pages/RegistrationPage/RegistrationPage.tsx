@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 import { registrationUser } from '../../services/actions/User';
 import SinglePageWrapper from '../SinglePageWrapper';
 import AdditionalLink from '../../components/AdditionalLink/AdditionalLink';
+import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 
 interface RegistrationFormData {
     email: { value: string };
@@ -15,7 +15,7 @@ interface RegistrationFormData {
 }
 
 const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { values, handleChange } = useForm({
         name: '',
         email: '',
@@ -83,8 +83,7 @@ const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
 };
 
 const RegistrationPageContainer = () => {
-    // @ts-ignore
-    const user = useSelector(state => state.user);
+    const user = useAppSelector(state => state.user);
     return user ? <RegistrationPage isAuth={!!user.data} /> : null;
 };
 

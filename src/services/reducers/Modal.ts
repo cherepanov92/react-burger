@@ -1,13 +1,19 @@
-import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE } from '../actions/Modal';
+import { APPEND_ERROR_MODAL_TYPE, APPEND_MODAL_TYPE, REMOVE_MODAL_TYPE, TModalActions } from '../actions/Modal';
 import { EnumModalType } from '../../utils/types';
 
-type ModalState = {
-    modalType?: EnumModalType;
-    status?: string;
-    message?: string;
+type TModalState = {
+    modalType: EnumModalType | null;
+    status?: string | null;
+    message: string | null;
 };
 
-export default function modalReducer(state: ModalState = {}, action: any) {
+export const InitialModalState: TModalState = {
+    modalType: null,
+    status: null,
+    message: null
+};
+
+export default function modalReducer(state: TModalState = InitialModalState, action: TModalActions) {
     switch (action.type) {
         case APPEND_MODAL_TYPE: {
             return {
@@ -19,8 +25,8 @@ export default function modalReducer(state: ModalState = {}, action: any) {
             return {
                 ...state,
                 modalType: EnumModalType.ERROR,
-                status: action.status,
-                message: action.message
+                status: action?.status ? action.status : state.status,
+                message: action?.message ? action.message : state.message
             };
         }
         case REMOVE_MODAL_TYPE: {

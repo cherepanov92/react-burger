@@ -1,4 +1,5 @@
 import { NavLinkProps } from 'react-router-dom';
+import { APPEND_ERROR_MODAL_TYPE } from '../services/actions/Modal';
 
 export type IngredientType = {
     readonly _id: string;
@@ -13,6 +14,22 @@ export type IngredientType = {
     readonly image_mobile: string;
     readonly image_large: string;
     readonly __v: number;
+};
+
+export enum EnumOrderStatusName {
+    'created' = 'Создан',
+    'pending' = 'Готовится',
+    'done' = 'Готов'
+}
+
+export type OrderType = {
+    readonly _id: string;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+    readonly status: 'created' | 'pending' | 'done';
+    readonly name: string;
+    readonly number: number;
+    readonly ingredients: string[];
 };
 
 export interface OrderedIngredient extends IngredientType {
@@ -51,3 +68,23 @@ export type LocationProps = {
 };
 
 export type NavItemProps = Pick<NavLinkProps, 'to'> & { text: string };
+
+type UserDataProps = {
+    password: string;
+    token: string;
+};
+
+export type UserAuthProps = {
+    refreshToken: string;
+    accessToken: string;
+    user?: UserDataProps;
+};
+
+export interface IError {
+    readonly type: typeof APPEND_ERROR_MODAL_TYPE;
+    message: String;
+}
+
+export interface IIngredientList {
+    [index: string]: IngredientType;
+}

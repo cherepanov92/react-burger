@@ -1,17 +1,21 @@
 import { deleteCookie } from '../../utils/helpers';
+import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER, TUserActions } from '../actions/User';
 
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-
-export const LOGOUT_USER = 'LOGOUT_USER';
-
-type UserState = {
-    data?: any;
-    accessToken?: string;
+type TUserState = {
+    data: any;
+    accessToken: string | null;
+    userRequest: boolean;
+    userFailed: boolean;
 };
 
-export default function userReducer(state: UserState = {}, action: any) {
+export const InitialUserState: TUserState = {
+    data: null,
+    accessToken: null,
+    userRequest: false,
+    userFailed: false
+};
+
+export default function userReducer(state: TUserState = InitialUserState, action: TUserActions) {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {
