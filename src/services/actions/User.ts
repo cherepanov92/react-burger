@@ -1,6 +1,6 @@
 import { getUserApiData, login, logout, setUserApiData, userRegister } from '../../utils/api';
 import { APPEND_ERROR_MODAL_TYPE } from './Modal';
-import { IError, UserAuthProps } from '../../utils/types';
+import { IError, TUserInfoData } from '../../utils/types';
 import { Dispatch } from 'react';
 
 export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
@@ -15,7 +15,7 @@ interface IGetUserRequest {
 
 interface IGetUserSuccess {
     readonly type: typeof GET_USER_SUCCESS;
-    data: UserAuthProps;
+    data: TUserInfoData;
     accessToken?: string;
 }
 
@@ -104,25 +104,25 @@ export const getUserData = () => {
 export const patchUserData = (email: string, password: string, name: string) => {
     return function (dispatch: Dispatch<IGetUserSuccess | IGetUserFailed | ILogoutUser>) {
         setUserApiData(email, password, name)
-        .then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: GET_USER_SUCCESS,
-                    data: res.user
-                });
-            } else {
-                dispatch({
-                    type: GET_USER_FAILED
-                });
-            }
-        })
-        .catch(err => {
-            if (err.message === 'You should be authorised') {
-                dispatch({
-                    type: LOGOUT_USER
-                });
-            }
-        });
+            .then(res => {
+                if (res && res.success) {
+                    dispatch({
+                        type: GET_USER_SUCCESS,
+                        data: res.user
+                    });
+                } else {
+                    dispatch({
+                        type: GET_USER_FAILED
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.message === 'You should be authorised') {
+                    dispatch({
+                        type: LOGOUT_USER
+                    });
+                }
+            });
     };
 };
 

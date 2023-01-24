@@ -74,6 +74,11 @@ type UserDataProps = {
     token: string;
 };
 
+export type TUserInfoData = {
+    email: string,
+    name: string
+}
+
 export type UserAuthProps = {
     refreshToken: string;
     accessToken: string;
