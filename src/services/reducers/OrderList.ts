@@ -13,7 +13,7 @@ type TOrderListState = {
     data: OrderType[];
 };
 
-const initialState: TOrderListState = {
+export const initialState: TOrderListState = {
     ordersRequest: false,
     ordersFailed: false,
     data: []
