@@ -14,10 +14,8 @@ import { getCookie, setCookie } from './helpers';
 const checkResponse = (response: Response) => {
     return response.ok
         ? response.json()
-        : response
-              .json()
+        : response.json()
               .then((err: Error) => Promise.reject(err))
-              .catch(() => Promise.reject({ message: 'Ошибка сервера' }));
 };
 
 function request(url: string, options?: RequestInit) {

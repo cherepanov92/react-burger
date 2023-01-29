@@ -6,6 +6,7 @@ import { Dispatch } from 'react';
 export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED: 'GET_USER_FAILED' = 'GET_USER_FAILED';
+export const SET_NEED_AUTH: 'SET_NEED_AUTH' = 'SET_NEED_AUTH';
 
 export const LOGOUT_USER: 'LOGOUT_USER' = 'LOGOUT_USER';
 
@@ -23,11 +24,15 @@ interface IGetUserFailed {
     readonly type: typeof GET_USER_FAILED;
 }
 
+interface ISetIsNeedAuth {
+    readonly type: typeof SET_NEED_AUTH;
+}
+
 interface ILogoutUser {
     readonly type: typeof LOGOUT_USER;
 }
 
-export type TUserActions = IGetUserRequest | IGetUserSuccess | IGetUserFailed | ILogoutUser;
+export type TUserActions = IGetUserRequest | IGetUserSuccess | IGetUserFailed | ILogoutUser | ISetIsNeedAuth;
 
 export const loginUser = (email: string, password: string) => {
     return function (dispatch: Dispatch<IGetUserRequest | IGetUserSuccess | IGetUserFailed | IError>) {
@@ -77,7 +82,7 @@ export const logoutUser = () => {
 };
 
 export const getUserData = () => {
-    return function (dispatch: Dispatch<IGetUserSuccess | IGetUserFailed | ILogoutUser>) {
+    return function (dispatch: Dispatch<IGetUserSuccess | IGetUserFailed | ILogoutUser | ISetIsNeedAuth>) {
         getUserApiData()
             .then(res => {
                 if (res && res.success) {
@@ -94,7 +99,7 @@ export const getUserData = () => {
             .catch(err => {
                 if (err.message === 'You should be authorised') {
                     dispatch({
-                        type: LOGOUT_USER
+                        type: SET_NEED_AUTH
                     });
                 }
             });
