@@ -33,6 +33,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                 <div className={styles.params}>
                     {orderData.ingredients
                         .map((orderIngredient, i) => (
+                            ingredientList[orderIngredient] &&
                             <>
                                 {i < 5 ? (
                                     <div className={styles.param} key={i}>

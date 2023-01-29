@@ -41,7 +41,7 @@ export const deleteCookie = (name: string) => {
 
 export const calculateOrderCost = (ingredients: IngredientType[]) => {
     return ingredients.reduce((sum, ingredient) => {
-        return sum + ingredient.price;
+        return ingredient ? sum + ingredient.price : sum;
     }, 0);
 };
 
