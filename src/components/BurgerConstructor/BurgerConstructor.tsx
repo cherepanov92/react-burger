@@ -52,7 +52,7 @@ const BurgerConstructor = () => {
     }
 
     return (
-        <section className={styles.wrapper} ref={dropTarget}>
+        <section className={styles.wrapper} data-ft-id={'constructor'} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, 'pt-25')}>
                 {!canOrder && (
                     <p className="text text_type_main-small mb-10 mt-5 ">

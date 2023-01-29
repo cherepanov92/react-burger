@@ -77,5 +77,5 @@ export const getOrderIngredients = (orderIngredients: IngredientType[]): IIngred
 
 export const getIngredientWithOrderHash = (ingredient: OrderedIngredient) => ({
     ...ingredient,
-    orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Date.now() / 1000)
+    orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Date.now() / 100)
 });

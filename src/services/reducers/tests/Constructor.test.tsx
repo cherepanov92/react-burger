@@ -95,7 +95,7 @@ describe('ConstructorReducer:', () => {
             ...basicOrder,
             ingredients: [
                 {...secondSauce,orderId: 1, orderIndex:0},
-                {...firstSauce,orderId: Math.floor(Date.now() / 1000), orderIndex:1}
+                {...firstSauce,orderId: Math.floor(Date.now() / 100), orderIndex:1}
             ],
             totalPrice: basicOrder.totalPrice
         });
