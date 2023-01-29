@@ -34,9 +34,9 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                     {orderData.ingredients
                         .map((orderIngredient, i) => (
                             ingredientList[orderIngredient] &&
-                            <>
+                            <React.Fragment key={i}>
                                 {i < 5 ? (
-                                    <div className={styles.param} key={i}>
+                                    <div className={styles.param}>
                                         <img
                                             className={styles.paramImg}
                                             src={ingredientList[orderIngredient].image_mobile}
@@ -76,7 +76,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                                         )}
                                     </div>
                                 ) : null}
-                            </>
+                            </React.Fragment>
                         ))
                         .reverse()}
                 </div>
