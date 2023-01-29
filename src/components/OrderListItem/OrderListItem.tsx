@@ -18,7 +18,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
     const ingredientList = getOrderIngredients(orderIngredients);
 
     const OpenOrderItemHandler = () => {
-        history.replace(`${path}/${orderData._id}`, { background: location });
+        history.push(`${path}/${orderData._id}`, { background: location });
     };
 
     return (
