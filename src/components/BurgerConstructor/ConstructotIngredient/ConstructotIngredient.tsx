@@ -10,7 +10,7 @@ import { useAppDispatch } from '../../../services/reducers/Root';
 
 export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ ingredient }) => {
     const dispatch = useAppDispatch();
-    const ref = useRef(null);
+    const ref = useRef<HTMLLIElement>(null);
     const onDeleteIngredient = (ingredient: OrderedIngredient) => {
         dispatch({
             type: REMOVE_INGREDIENT,
@@ -29,7 +29,7 @@ export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ i
 
     const [, drop] = useDrop({
         accept: 'movedIngredient',
-        hover(item: OrderedIngredient, monitor) {
+        hover(item: OrderedIngredient, monitor: any) {
             if (!ref.current) {
                 return;
             }
@@ -37,14 +37,12 @@ export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ i
             const hoverIndex = ingredient.orderIndex;
 
             // Determine rectangle on screen
-            // @ts-ignore
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
             // Get pixels to the top
-            // @ts-ignore
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
@@ -76,7 +74,7 @@ export const ConstructorIngredient: FC<{ ingredient: OrderedIngredient }> = ({ i
     drag(drop(ref));
 
     return (
-        <div ref={ref} className={classNames(styles.ingredient, 'mr-2')}>
+        <div ref={ref as React.MutableRefObject<null>} className={classNames(styles.ingredient, 'mr-2')}>
             <div>
                 <DragIcon type="primary" />
             </div>
