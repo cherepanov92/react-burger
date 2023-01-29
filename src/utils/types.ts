@@ -34,7 +34,7 @@ export type OrderType = {
 
 export interface OrderedIngredient extends IngredientType {
     orderIndex: number;
-    orderId: number;
+    orderId: string;
     index: number;
 }
 

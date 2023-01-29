@@ -4,10 +4,10 @@ import constructorReducer, { InitialConstructorState as initialState } from '../
 import {ADD_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT} from '../../actions/Constructor';
 import { EnumIngredientType, OrderedIngredient } from '../../../utils/types';
 import { getIngredientWithOrderHash } from '../../../utils/helpers';
+import { v4 as uuid } from 'uuid';
 
 const getIngredientItem = (
     type: EnumIngredientType = EnumIngredientType.BUN,
-    orderId: number = 1,
     orderIndex: number = 1
 ): OrderedIngredient => ({
     _id: '60d3b41abdacab0026a733c6',
@@ -23,18 +23,18 @@ const getIngredientItem = (
     image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
     __v: 0,
     orderIndex: orderIndex,
-    orderId: orderId,
+    orderId: uuid(),
     index: 123123
 });
 
 const basicBun = getIngredientItem();
 const basicSauce = getIngredientItem(EnumIngredientType.SAUCE);
-const firstSauce = getIngredientItem(EnumIngredientType.SAUCE, 0, 0);
-const secondSauce = getIngredientItem(EnumIngredientType.SAUCE, 1, 1);
+const firstItem = getIngredientItem(EnumIngredientType.SAUCE, 0);
+const secondItem = getIngredientItem(EnumIngredientType.MAIN, 1);
 
 const basicOrder = {
     bun: basicBun,
-    ingredients: [firstSauce, secondSauce],
+    ingredients: [firstItem, secondItem],
     totalPrice: 1332
 };
 
@@ -75,12 +75,12 @@ describe('ConstructorReducer:', () => {
         expect(
             constructorReducer(basicOrder, {
                 type: REMOVE_INGREDIENT,
-                ingredient: firstSauce
+                ingredient: firstItem
             })
         ).toEqual({
             ...basicOrder,
-            ingredients: [secondSauce],
-            totalPrice: basicOrder.totalPrice - firstSauce.price
+            ingredients: [secondItem],
+            totalPrice: basicOrder.totalPrice - firstItem.price
         });
     });
 
@@ -88,14 +88,14 @@ describe('ConstructorReducer:', () => {
         expect(
             constructorReducer(basicOrder, {
                 type: MOVE_INGREDIENT,
-                ingredient: firstSauce,
+                ingredient: firstItem,
                 newIndex: 1
             })
         ).toEqual({
             ...basicOrder,
             ingredients: [
-                {...secondSauce,orderId: 1, orderIndex:0},
-                {...firstSauce,orderId: Math.floor(Date.now() / 100), orderIndex:1}
+                {...secondItem, orderIndex:0},
+                {...firstItem, orderIndex:1}
             ],
             totalPrice: basicOrder.totalPrice
         });

@@ -1,4 +1,5 @@
 import {IIngredientList, IngredientType, OrderedIngredient} from './types';
+import { v4 as uuid } from 'uuid';
 
 export const setCookie = (name: string, value: string, options: any = {}) => {
     options = { path: '/', ...options };
@@ -76,6 +77,6 @@ export const getOrderIngredients = (orderIngredients: IngredientType[]): IIngred
 };
 
 export const getIngredientWithOrderHash = (ingredient: OrderedIngredient) => ({
-    ...ingredient,
-    orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Date.now() / 100)
+        ...ingredient,
+        orderId: ingredient.orderId ? ingredient.orderId : uuid()
 });
