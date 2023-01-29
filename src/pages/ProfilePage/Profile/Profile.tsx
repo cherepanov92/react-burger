@@ -50,7 +50,6 @@ const Profile = () => {
     };
 
     const changeUserHandler = () => {
-        // @ts-ignore
         dispatch(patchUserData(values.email, values.password, values.name));
     };
 

@@ -1,5 +1,20 @@
 import { NavLinkProps } from 'react-router-dom';
-import { APPEND_ERROR_MODAL_TYPE } from '../services/actions/Modal';
+import { APPEND_ERROR_MODAL_TYPE, TModalActions } from '../services/actions/Modal';
+import { TIngredientActions } from "../services/actions/Constructor";
+import { TIngredientDetailsActions } from "../services/actions/IngredientDetails";
+import { TIngredientsActions } from "../services/actions/Ingredients";
+import { TOrderActions } from "../services/actions/Order";
+import { TUserActions } from "../services/actions/User";
+import { TWSActions } from "../services/actions/WebSocket";
+import { Action, ActionCreator } from "redux";
+import { store } from "../services/reducers/Root";
+import { ThunkAction } from "redux-thunk";
+import { InitialIngredientsState } from "../services/reducers/Ingredients";
+import { InitialConstructorState } from "../services/reducers/Constructor";
+import { InitialIngredientDetailsState } from "../services/reducers/IngredientDetails";
+import { InitialOrderState } from "../services/reducers/Order";
+import { InitialModalState } from "../services/reducers/Modal";
+import { InitialUserState } from "../services/reducers/User";
 
 export type IngredientType = {
     readonly _id: string;
@@ -69,21 +84,10 @@ export type LocationProps = {
 
 export type NavItemProps = Pick<NavLinkProps, 'to'> & { text: string };
 
-type UserDataProps = {
-    password: string;
-    token: string;
-};
-
 export type TUserInfoData = {
     email: string,
     name: string
 }
-
-export type UserAuthProps = {
-    refreshToken: string;
-    accessToken: string;
-    user?: UserDataProps;
-};
 
 export interface IError {
     readonly type: typeof APPEND_ERROR_MODAL_TYPE;
@@ -93,3 +97,25 @@ export interface IError {
 export interface IIngredientList {
     [index: string]: IngredientType;
 }
+
+export type TInitialState = {
+    ingredients?: typeof InitialIngredientsState;
+    constructor: typeof InitialConstructorState;
+    ingredientDetails: typeof InitialIngredientDetailsState;
+    order: typeof InitialOrderState;
+    modal: typeof InitialModalState;
+    user: typeof InitialUserState;
+};
+
+export type TAppActions =
+    TIngredientActions
+    | TIngredientDetailsActions
+    | TIngredientsActions
+    | TModalActions
+    | TOrderActions
+    | TUserActions
+    | TWSActions;
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppThunk<ReturnType = void> = ActionCreator<ThunkAction<ReturnType, Action, RootState, TAppActions>>

@@ -31,7 +31,6 @@ const BurgerConstructor = () => {
             });
             setRedirectToAuth(true);
         } else {
-            // @ts-ignore
             canOrder && dispatch(sendOrderRequest(getOrderIngredientsIDs([bun, ...ingredients])));
         }
     };

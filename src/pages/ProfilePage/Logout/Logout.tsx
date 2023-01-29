@@ -14,7 +14,6 @@ const Logout: FC = () => {
 
     const logoutHandler = async (e: React.SyntheticEvent<Element, Event>) => {
         e.preventDefault();
-        // @ts-ignore
         await dispatch(logoutUser());
         await onLogout();
     };

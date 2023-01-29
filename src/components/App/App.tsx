@@ -48,7 +48,6 @@ function App() {
     };
 
     const init = useCallback(async () => {
-        // @ts-ignore
         await dispatch(getUserData());
     }, [dispatch]);
 
@@ -57,7 +56,6 @@ function App() {
     }, [init]);
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getIngredientsData());
     }, [dispatch]);
 
