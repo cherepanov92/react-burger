@@ -3,7 +3,7 @@ import { OrderList } from '../../../components/Feed';
 import styles from './Ordres.module.css';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../services/reducers/Root';
-import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../../services/actions/WebSocket';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../../services/actions/WebSocket';
 import { IngredientType, OrderType } from '../../../utils/types';
 import { WSS_USER_ORDERS_URL } from '../../../utils/constants';
 import OrderItem from '../../../components/OrderListItem/OrderItem/OrderItem';
@@ -42,7 +42,7 @@ const OrdersContainer: FC<{ isSinglePage?: boolean }> = ({ isSinglePage }) => {
 
         return () => {
             dispatch({
-                type: WS_CLOSE_CONNECTION
+                type: WS_CONNECTION_CLOSED
             });
         };
     }, [accessToken, dispatch]);

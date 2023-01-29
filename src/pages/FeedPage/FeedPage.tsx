@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
 import Feed from '../../components/Feed/Feed';
-import { WS_CLOSE_CONNECTION, WS_CONNECTION_START } from '../../services/actions/WebSocket';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/WebSocket';
 import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 import { WSS_ALL_ORDERS_URL } from '../../utils/constants';
 import OrderItem from '../../components/OrderListItem/OrderItem/OrderItem';
@@ -21,7 +21,7 @@ const FeedPage: FC<{ isSinglePage?: boolean }> = ({ isSinglePage }) => {
 
         return () => {
             dispatch({
-                type: WS_CLOSE_CONNECTION
+                type: WS_CONNECTION_CLOSED
             });
         };
     }, [dispatch]);

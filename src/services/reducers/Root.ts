@@ -10,6 +10,7 @@ import orderList from './OrderList';
 import thunk from 'redux-thunk';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { socketMiddleware } from '../middleware/socket';
+import { wsActions } from '../actions/WebSocket';
 
 export const rootReducer = combineReducers({
     ingredients,
@@ -29,8 +30,6 @@ declare global {
 
 export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk), applyMiddleware(socketMiddleware()));
-
 type TInitialState = {
     ingredients?: typeof InitialIngredientsState;
     constructor: typeof InitialConstructorState;
@@ -49,7 +48,11 @@ const initialState: TInitialState = {
     user: InitialUserState
 };
 
-export const store = createStore(rootReducer, initialState, enhancer);
+export const store = createStore(
+    rootReducer,
+    initialState,
+    compose(composeEnhancers(applyMiddleware(thunk), applyMiddleware(socketMiddleware(wsActions))))
+);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
