@@ -1,5 +1,6 @@
 {
     "name": "react-burger",
+    "homepage": "./",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -15,6 +16,7 @@
         "@types/react-test-renderer": "17.0.2",
         "@ya.praktikum/react-developer-burger-ui-components": "^1.4.2",
         "classnames": "^2.3.1",
+        "gh-pages": "^5.0.0",
         "react": "^17.0.2",
         "react-dnd": "^16.0.1",
         "react-dnd-html5-backend": "^16.0.1",
@@ -32,7 +34,9 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "e2e": "./node_modules/.bin/cypress open"
+        "e2e": "yarn cypress open",
+        "predeploy": "yarn run build",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": [
