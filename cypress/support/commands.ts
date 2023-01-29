@@ -1,28 +1,28 @@
-import { EnumItems, TEST_EMAIL, TEST_PASSWORD } from '../e2e.helpers';
+import { CONSTRUCTOR_WRAPPER, EnumItems, INGREDIENT_WRAPPER, TEST_EMAIL, TEST_PASSWORD } from '../e2e.helpers';
 import { login } from '../../src/utils/api';
 
 Cypress.Commands.add('addItemToConstructorWithDndAction', (item: EnumItems) => {
     cy.get(`@${EnumItems[item]}`).trigger('dragstart').trigger('dragleave');
-    cy.get('[data-ft-id="constructor"]').trigger('dragenter').trigger('dragover').trigger('drop').trigger('dragend');
+    cy.get(CONSTRUCTOR_WRAPPER).trigger('dragenter').trigger('dragover').trigger('drop').trigger('dragend');
 });
 
 Cypress.Commands.add('removeItemOnConstructor', (item: EnumItems) => {
-    cy.get('[data-ft-id="constructor"]')
+    cy.get(CONSTRUCTOR_WRAPPER)
         .contains('[class^=ConstructorIngredient_ingredient__]', new RegExp(`^${item}`))
         .find('[class^=constructor-element__action]')
         .click();
 });
 
 Cypress.Commands.add('getItemSet', () => {
-    cy.get('[class^=IngredientItem_wrapper]').contains(EnumItems.basicBun).as(EnumItems[EnumItems.basicBun]);
-    cy.get('[class^=IngredientItem_wrapper]').contains(EnumItems.secondBun).as(EnumItems[EnumItems.secondBun]);
-    cy.get('[class^=IngredientItem_wrapper]').contains(EnumItems.sauce).as(EnumItems[EnumItems.sauce]);
-    cy.get('[class^=IngredientItem_wrapper]').contains(EnumItems.ingredient).as(EnumItems[EnumItems.ingredient]);
+    cy.get(INGREDIENT_WRAPPER).contains(EnumItems.basicBun).as(EnumItems[EnumItems.basicBun]);
+    cy.get(INGREDIENT_WRAPPER).contains(EnumItems.secondBun).as(EnumItems[EnumItems.secondBun]);
+    cy.get(INGREDIENT_WRAPPER).contains(EnumItems.sauce).as(EnumItems[EnumItems.sauce]);
+    cy.get(INGREDIENT_WRAPPER).contains(EnumItems.ingredient).as(EnumItems[EnumItems.ingredient]);
 });
 
 Cypress.Commands.add('checkItemsOnConstructor', (itemsList: EnumItems[]) => {
     itemsList.forEach(item => {
-        cy.get('[data-ft-id="constructor"]').contains(new RegExp(`^${item}`));
+        cy.get(CONSTRUCTOR_WRAPPER).contains(new RegExp(`^${item}`));
     });
 });
 
