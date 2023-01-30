@@ -4,7 +4,7 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { AppHeader } from '../AppHeader';
 import { getUserData } from '../../services/actions/User';
 import { getIngredientsData } from '../../services/actions/Ingredients';
-import { EnumModalType, EnumResetPassportStepType } from '../../utils/types';
+import { EnumModalType, EnumResetPassportStepType, ILocation } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../services/reducers/Root';
 
 import Modal from '../Modal/Modal';
@@ -33,7 +33,7 @@ const getModal = (modalType: EnumModalType) => {
 
 function App() {
     const dispatch = useAppDispatch();
-    const location = useLocation<Location>();
+    const location = useLocation<ILocation>();
     const history = useHistory();
 
     const { modalType, ingredientList } = useAppSelector(state => ({
@@ -41,14 +41,12 @@ function App() {
         ingredientList: state.ingredients
     }));
 
-    // @ts-ignore
     const background = location.state && location.state.background;
     const handleModalClose = () => {
         history.goBack();
     };
 
     const init = useCallback(async () => {
-        // @ts-ignore
         await dispatch(getUserData());
     }, [dispatch]);
 
@@ -57,7 +55,6 @@ function App() {
     }, [init]);
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getIngredientsData());
     }, [dispatch]);
 

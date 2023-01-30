@@ -31,7 +31,6 @@ const BurgerConstructor = () => {
             });
             setRedirectToAuth(true);
         } else {
-            // @ts-ignore
             canOrder && dispatch(sendOrderRequest(getOrderIngredientsIDs([bun, ...ingredients])));
         }
     };
@@ -52,7 +51,7 @@ const BurgerConstructor = () => {
     }
 
     return (
-        <section className={styles.wrapper} ref={dropTarget}>
+        <section className={styles.wrapper} data-ft-id={'constructor'} ref={dropTarget}>
             <section className={classNames(styles.ingredientsBlock, 'pt-25')}>
                 {!canOrder && (
                     <p className="text text_type_main-small mb-10 mt-5 ">
@@ -79,8 +78,8 @@ const BurgerConstructor = () => {
                             {!!ingredients.length &&
                                 ingredients
                                     .sort((a: OrderedIngredient, b: OrderedIngredient) => a?.orderIndex - b?.orderIndex)
-                                    .map((ingredient: OrderedIngredient, index: number) => (
-                                        <ConstructorIngredient key={index} ingredient={ingredient} />
+                                    .map((ingredient: OrderedIngredient) => (
+                                        <ConstructorIngredient key={ingredient.orderId} ingredient={ingredient} />
                                     ))}
                         </div>
                         <div className={'mr-4'}>

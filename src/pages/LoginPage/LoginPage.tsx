@@ -31,7 +31,6 @@ const LoginPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
         });
 
         const { password, email } = e.target as typeof e.target & LoginFormData;
-        // @ts-ignore
         await dispatch(loginUser(email.value, password.value));
     };
 

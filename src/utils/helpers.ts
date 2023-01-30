@@ -1,4 +1,5 @@
-import { IIngredientList, IngredientType } from './types';
+import {IIngredientList, IngredientType, OrderedIngredient} from './types';
+import { v4 as uuid } from 'uuid';
 
 export const setCookie = (name: string, value: string, options: any = {}) => {
     options = { path: '/', ...options };
@@ -40,7 +41,7 @@ export const deleteCookie = (name: string) => {
 
 export const calculateOrderCost = (ingredients: IngredientType[]) => {
     return ingredients.reduce((sum, ingredient) => {
-        return sum + ingredient.price;
+        return ingredient ? sum + ingredient.price : sum;
     }, 0);
 };
 
@@ -74,3 +75,8 @@ export const getOrderIngredients = (orderIngredients: IngredientType[]): IIngred
         return { ...result, [ingredientItem._id]: ingredientItem };
     }, {});
 };
+
+export const getIngredientWithOrderHash = (ingredient: OrderedIngredient) => ({
+        ...ingredient,
+        orderId: ingredient.orderId ? ingredient.orderId : uuid()
+});

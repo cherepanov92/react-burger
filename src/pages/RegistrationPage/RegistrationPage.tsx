@@ -25,7 +25,6 @@ const RegistrationPage: FC<{ isAuth: boolean }> = ({ isAuth }) => {
     const registrationHandler = (e: React.FormEvent) => {
         e.preventDefault();
         const { email, password, name } = e.target as typeof e.target & RegistrationFormData;
-        // @ts-ignore
         dispatch(registrationUser(email.value, password.value, name.value));
     };
 

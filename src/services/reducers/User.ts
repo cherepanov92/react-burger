@@ -1,9 +1,17 @@
 import { deleteCookie } from '../../utils/helpers';
-import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, LOGOUT_USER, TUserActions } from '../actions/User';
+import {
+    GET_USER_FAILED,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    LOGOUT_USER,
+    SET_NEED_AUTH,
+    TUserActions
+} from '../actions/User';
 
 type TUserState = {
     data: any;
     accessToken: string | null;
+    needAuth: boolean;
     userRequest: boolean;
     userFailed: boolean;
 };
@@ -11,6 +19,7 @@ type TUserState = {
 export const InitialUserState: TUserState = {
     data: null,
     accessToken: null,
+    needAuth: false,
     userRequest: false,
     userFailed: false
 };
@@ -29,6 +38,7 @@ export default function userReducer(state: TUserState = InitialUserState, action
                 ...state,
                 data: action.data,
                 userRequest: false,
+                needAuth: false,
                 accessToken: state.accessToken
             };
 
@@ -43,6 +53,12 @@ export default function userReducer(state: TUserState = InitialUserState, action
                 ...state,
                 userFailed: true,
                 userRequest: false
+            };
+        }
+        case SET_NEED_AUTH: {
+            return {
+                ...state,
+                needAuth: true
             };
         }
         case LOGOUT_USER: {

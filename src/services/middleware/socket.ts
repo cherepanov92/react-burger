@@ -1,52 +1,42 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
-import {
-    TWSActions,
-    WS_CLOSE_CONNECTION,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_START,
-    WS_CONNECTION_SUCCESS,
-    WS_GET_MESSAGE,
-    WS_SEND_MESSAGE
-} from '../actions/WebSocket';
 import { AppDispatch, RootState } from '../reducers/Root';
 
-export const socketMiddleware = (): Middleware => {
+export const socketMiddleware = (wsActions: { [key: string]: any }): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
-        return next => (action: TWSActions) => {
-            const { dispatch } = store;
+        return next => action => {
+            const { dispatch, getState } = store;
             const { type, payload } = action;
+            const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+            const user = getState().user;
 
-            if (type === WS_CONNECTION_START) {
+            if (type === wsInit && user) {
                 socket = new WebSocket(payload.url);
-            }
-
-            if (type === WS_CLOSE_CONNECTION) {
-                socket?.close();
             }
 
             if (socket) {
                 socket.onopen = event => {
-                    dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
+                    dispatch({ type: onOpen, payload: event });
                 };
 
                 socket.onerror = event => {
-                    dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+                    dispatch({ type: onError, payload: event });
                 };
 
                 socket.onmessage = event => {
                     const { data } = event;
                     const dataObject = JSON.parse(data);
-                    dispatch({ type: WS_GET_MESSAGE, payload: dataObject?.orders });
+                    dispatch({ type: onMessage, payload: dataObject?.orders });
                 };
 
                 socket.onclose = event => {
-                    console.log('WS closed');
+                    dispatch({ type: onClose, payload: event });
                 };
 
-                if (type === WS_SEND_MESSAGE) {
-                    socket.send(JSON.stringify(payload));
+                if (type === wsSendMessage) {
+                    const message = { ...payload, token: user.accessToken };
+                    socket.send(JSON.stringify(message));
                 }
             }
 

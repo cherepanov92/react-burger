@@ -1,5 +1,6 @@
 import { ADD_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT, TIngredientActions } from '../actions/Constructor';
 import { EnumIngredientType, OrderedIngredient } from '../../utils/types';
+import {getIngredientWithOrderHash} from "../../utils/helpers";
 
 type TConstructorState = {
     bun: OrderedIngredient | null;
@@ -17,11 +18,6 @@ export default function constructorReducer(
     state: TConstructorState = InitialConstructorState,
     action: TIngredientActions
 ) {
-    const getIngredientWithOrderHash = (ingredient: OrderedIngredient) => ({
-        ...ingredient,
-        orderId: ingredient.orderId ? ingredient.orderId : Math.floor(Math.random() * 10000000)
-    });
-
     switch (action.type) {
         case ADD_INGREDIENT:
             if (action.ingredient.type === EnumIngredientType.BUN) {

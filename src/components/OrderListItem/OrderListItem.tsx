@@ -18,7 +18,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
     const ingredientList = getOrderIngredients(orderIngredients);
 
     const OpenOrderItemHandler = () => {
-        history.replace(`${path}/${orderData._id}`, { background: location });
+        history.push(`${path}/${orderData._id}`, { background: location });
     };
 
     return (
@@ -33,9 +33,10 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                 <div className={styles.params}>
                     {orderData.ingredients
                         .map((orderIngredient, i) => (
-                            <>
+                            ingredientList[orderIngredient] &&
+                            <React.Fragment key={i}>
                                 {i < 5 ? (
-                                    <div className={styles.param} key={i}>
+                                    <div className={styles.param}>
                                         <img
                                             className={styles.paramImg}
                                             src={ingredientList[orderIngredient].image_mobile}
@@ -75,7 +76,7 @@ const OrderListItem: FC<{ orderData: OrderType; orderIngredients: IngredientType
                                         )}
                                     </div>
                                 ) : null}
-                            </>
+                            </React.Fragment>
                         ))
                         .reverse()}
                 </div>
