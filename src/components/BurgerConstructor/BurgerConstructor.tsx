@@ -78,8 +78,8 @@ const BurgerConstructor = () => {
                             {!!ingredients.length &&
                                 ingredients
                                     .sort((a: OrderedIngredient, b: OrderedIngredient) => a?.orderIndex - b?.orderIndex)
-                                    .map((ingredient: OrderedIngredient, index: number) => (
-                                        <ConstructorIngredient key={index} ingredient={ingredient} />
+                                    .map((ingredient: OrderedIngredient) => (
+                                        <ConstructorIngredient key={ingredient.orderId} ingredient={ingredient} />
                                     ))}
                         </div>
                         <div className={'mr-4'}>
